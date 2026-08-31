@@ -37,10 +37,25 @@ export default function CypressStatusWidget() {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    fetch("/api/cypress-status")
-      .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then((data) => { setRun(data); setLoading(false); })
-      .catch(() => { setError(true); setLoading(false); });
+    let interval: ReturnType<typeof setInterval> | null = null;
+
+    const load = () =>
+      fetch("/api/cypress-status")
+        .then((r) => (r.ok ? r.json() : Promise.reject()))
+        .then((data: RunData) => {
+          setRun(data);
+          setLoading(false);
+          const done = data.status === "completed";
+          if (done && interval) {
+            clearInterval(interval);
+            interval = null;
+          }
+        })
+        .catch(() => { setError(true); setLoading(false); });
+
+    load();
+    interval = setInterval(load, 30_000);
+    return () => { if (interval) clearInterval(interval); };
   }, []);
 
   const pass = run?.conclusion === "success";
