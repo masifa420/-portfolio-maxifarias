@@ -118,6 +118,7 @@ function GherkinBlock({ lines }: { lines: GherkinLine[] }) {
 
       {/* Mobile: trigger button */}
       <button
+        data-testid="gherkinMobileTrigger"
         onClick={() => setOpen(true)}
         className="sm:hidden w-full flex items-center justify-between px-4 py-3 rounded-[4px] border border-border font-mono text-[0.72rem] text-petrol uppercase tracking-[0.08em] cursor-pointer transition-opacity duration-150 hover:opacity-70"
         style={{ background: "var(--surface-2)" }}
@@ -129,11 +130,13 @@ function GherkinBlock({ lines }: { lines: GherkinLine[] }) {
       {/* Mobile bottom sheet */}
       {open && (
         <div
+          data-testid="gherkinSheetOverlay"
           className="sm:hidden fixed inset-0 z-[200] flex flex-col justify-end"
           style={{ background: "rgba(0,0,0,0.55)" }}
           onClick={() => setOpen(false)}
         >
           <div
+            data-testid="gherkinSheet"
             className="rounded-[14px] border border-border flex flex-col max-h-[80vh] mx-3 mb-3"
             style={{ background: "var(--surface)", boxShadow: "0 -8px 40px rgba(0,0,0,0.25)" }}
             onClick={(e) => e.stopPropagation()}
@@ -141,6 +144,7 @@ function GherkinBlock({ lines }: { lines: GherkinLine[] }) {
             <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-border flex-shrink-0">
               <span className="font-mono text-[0.7rem] text-petrol uppercase tracking-[0.1em]">Gherkin scenario</span>
               <button
+                data-testid="gherkinSheetClose"
                 onClick={() => setOpen(false)}
                 className="font-mono text-[0.7rem] text-text-2 border border-border rounded-[3px] px-3 py-1 bg-transparent cursor-pointer"
               >
@@ -161,9 +165,10 @@ function BugReportCard({ report, defaultOpen = true }: { report: BugReportExampl
   const [open, setOpen] = useState(defaultOpen);
 
   return (
-    <div className="rounded-[6px] border border-border overflow-hidden" style={{ background: "var(--surface)" }}>
+    <div data-testid={`bugReportCard-${report.id}`} className="rounded-[6px] border border-border overflow-hidden" style={{ background: "var(--surface)" }}>
       {/* Header — siempre visible, clickeable */}
       <button
+        data-testid={`bugReportToggle-${report.id}`}
         onClick={() => setOpen(!open)}
         className="w-full text-left px-5 py-4 cursor-pointer transition-opacity duration-150 hover:opacity-80"
         style={{ background: "transparent", borderBottom: open ? "1px solid var(--border)" : "none" }}
@@ -206,7 +211,7 @@ function BugReportCard({ report, defaultOpen = true }: { report: BugReportExampl
 
       {/* Body colapsable */}
       {open && (
-        <div className="px-5 py-4">
+        <div data-testid={`bugReportBody-${report.id}`} className="px-5 py-4">
           <div className="flex flex-wrap gap-x-6 gap-y-1 mb-5">
             {[
               ["Env", report.environment],
@@ -221,7 +226,7 @@ function BugReportCard({ report, defaultOpen = true }: { report: BugReportExampl
           <GherkinBlock lines={report.gherkin} />
           <div className="mt-4 pt-4 border-t border-border flex gap-2 items-start">
             <span className="font-mono text-[0.65rem] uppercase tracking-[0.08em] text-sage mt-[1px] flex-shrink-0">Fix</span>
-            <p className="font-mono text-[0.72rem] text-text-2 leading-[1.6]">{report.fix}</p>
+            <p data-testid={`bugReportFix-${report.id}`} className="font-mono text-[0.72rem] text-text-2 leading-[1.6]">{report.fix}</p>
           </div>
         </div>
       )}
@@ -235,9 +240,10 @@ function TestCaseCard({ tc }: { tc: TestCase }) {
   const [resultOpen, setResultOpen] = useState(false);
 
   return (
-    <div className="rounded-[6px] border border-border overflow-hidden" style={{ background: "var(--surface)" }}>
+    <div data-testid={`tcCard-${tc.id}`} className="rounded-[6px] border border-border overflow-hidden" style={{ background: "var(--surface)" }}>
       {/* Header */}
       <button
+        data-testid={`tcToggle-${tc.id}`}
         onClick={() => {
           if (open) { setStepsOpen(false); setResultOpen(false); }
           setOpen(!open);
@@ -291,7 +297,7 @@ function TestCaseCard({ tc }: { tc: TestCase }) {
             <p className="font-mono text-[0.6rem] uppercase tracking-[0.1em] mb-3" style={{ color: "var(--sage)" }}>Precondición</p>
             <ul className="flex flex-col gap-2">
               {tc.preconditions.map((p, i) => (
-                <li key={i} className="font-mono text-[0.7rem] text-text-2 leading-[1.5] pl-4 relative">
+                <li key={i} data-testid={`tcPrecondition-${tc.id}-${i}`} className="font-mono text-[0.7rem] text-text-2 leading-[1.5] pl-4 relative">
                   <span className="absolute left-0" style={{ color: "var(--sage)" }}>→</span>
                   {p}
                 </li>
@@ -301,14 +307,14 @@ function TestCaseCard({ tc }: { tc: TestCase }) {
 
           {/* Steps collapsible */}
           <div className="border-b border-border">
-            <button onClick={() => setStepsOpen(!stepsOpen)} className="w-full flex items-center justify-between px-5 py-3 cursor-pointer hover:opacity-80" style={{ background: "var(--surface-2)", border: "none" }}>
+            <button data-testid={`tcStepsToggle-${tc.id}`} onClick={() => setStepsOpen(!stepsOpen)} className="w-full flex items-center justify-between px-5 py-3 cursor-pointer hover:opacity-80" style={{ background: "var(--surface-2)", border: "none" }}>
               <span className="font-mono text-[0.65rem] uppercase tracking-[0.1em] text-petrol">Pasos de reproducción</span>
               <span className="font-mono text-[0.7rem] text-text-2 transition-transform duration-200 inline-block" style={{ transform: stepsOpen ? "rotate(180deg)" : "rotate(0deg)" }}>▾</span>
             </button>
             {stepsOpen && (
-              <div className="px-5 py-4 flex flex-col gap-0">
+              <div data-testid={`tcSteps-${tc.id}`} className="px-5 py-4 flex flex-col gap-0">
                 {tc.steps.map((step, i) => (
-                  <div key={i} className="flex gap-3 items-start">
+                  <div key={i} data-testid={`tcStep-${tc.id}-${i}`} className="flex gap-3 items-start">
                     <div className="flex flex-col items-center flex-shrink-0" style={{ width: 24 }}>
                       <div className="w-6 h-6 rounded-full border flex items-center justify-center font-mono text-[0.55rem] font-bold flex-shrink-0" style={{ borderColor: "var(--petrol)", background: "var(--petrol-dim)", color: "var(--petrol)" }}>
                         {String(i + 1).padStart(2, "0")}
@@ -327,15 +333,15 @@ function TestCaseCard({ tc }: { tc: TestCase }) {
 
           {/* Expected result collapsible */}
           <div>
-            <button onClick={() => setResultOpen(!resultOpen)} className="w-full flex items-center justify-between px-5 py-3 cursor-pointer hover:opacity-80" style={{ background: "var(--surface-2)", border: "none" }}>
+            <button data-testid={`tcResultToggle-${tc.id}`} onClick={() => setResultOpen(!resultOpen)} className="w-full flex items-center justify-between px-5 py-3 cursor-pointer hover:opacity-80" style={{ background: "var(--surface-2)", border: "none" }}>
               <span className="font-mono text-[0.65rem] uppercase tracking-[0.1em]" style={{ color: "var(--pass)" }}>Resultado esperado</span>
               <span className="font-mono text-[0.7rem] text-text-2 transition-transform duration-200 inline-block" style={{ transform: resultOpen ? "rotate(180deg)" : "rotate(0deg)" }}>▾</span>
             </button>
             {resultOpen && (
-              <div className="px-5 py-4">
+              <div data-testid={`tcResult-${tc.id}`} className="px-5 py-4">
                 <ul className="flex flex-col gap-2">
                   {tc.expectedResult.map((r, i) => (
-                    <li key={i} className="font-mono text-[0.7rem] text-text-2 leading-[1.5] pl-5 relative">
+                    <li key={i} data-testid={`tcExpectedResult-${tc.id}-${i}`} className="font-mono text-[0.7rem] text-text-2 leading-[1.5] pl-5 relative">
                       <span className="absolute left-0 font-bold" style={{ color: "var(--pass)" }}>✓</span>
                       {r}
                     </li>
@@ -357,16 +363,16 @@ export default function WorkContent() {
   return (
     <>
       {/* Hero */}
-      <section className="border-b border-border">
+      <section data-testid="workHeroSection" className="border-b border-border">
         <div className="max-w-[920px] mx-auto px-5 sm:px-10 pt-12 sm:pt-20 pb-10 sm:pb-16">
           <p className="font-mono text-[0.75rem] text-petrol uppercase tracking-[0.14em] mb-6 flex items-center gap-3">
             <span className="inline-block w-7 h-px bg-petrol flex-shrink-0" />
             {t.hero.label}
           </p>
-          <h1 className="font-display text-[clamp(2.6rem,8vw,5rem)] leading-[1.02] tracking-[-0.025em] text-text-1 mb-5">
+          <h1 data-testid="workHeroHeading" className="font-display text-[clamp(2.6rem,8vw,5rem)] leading-[1.02] tracking-[-0.025em] text-text-1 mb-5">
             {t.hero.heading}
           </h1>
-          <p className="font-mono text-[0.82rem] text-text-2 max-w-[52ch] leading-[1.75] tracking-[0.02em]">
+          <p data-testid="workHeroSubtitle" className="font-mono text-[0.82rem] text-text-2 max-w-[52ch] leading-[1.75] tracking-[0.02em]">
             {t.hero.subtitle}
           </p>
         </div>
@@ -382,6 +388,7 @@ export default function WorkContent() {
           <section
             key={key}
             id={key}
+            data-testid={`workSection${key[0].toUpperCase() + key.slice(1)}`}
             className="py-14 sm:py-20 border-b border-border"
             style={{ background: bg }}
           >
@@ -390,10 +397,10 @@ export default function WorkContent() {
                 <p className="font-mono text-[0.72rem] text-petrol uppercase tracking-[0.14em] mb-2">
                   {section.label}
                 </p>
-                <h2 className="font-display text-[1.9rem] sm:text-[2.25rem] leading-[1.12] tracking-[-0.015em] text-text-1 mb-3">
+                <h2 data-testid={`workSectionHeading${key[0].toUpperCase() + key.slice(1)}`} className="font-display text-[1.9rem] sm:text-[2.25rem] leading-[1.12] tracking-[-0.015em] text-text-1 mb-3">
                   {section.heading}
                 </h2>
-                <p className="font-mono text-[0.8rem] text-text-2 mb-10 max-w-[50ch] leading-[1.7]">
+                <p data-testid={`workSectionDesc${key[0].toUpperCase() + key.slice(1)}`} className="font-mono text-[0.8rem] text-text-2 mb-10 max-w-[50ch] leading-[1.7]">
                   {section.description}
                 </p>
 

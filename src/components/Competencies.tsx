@@ -39,13 +39,13 @@ export default function Competencies({
   }, [active]);
 
   return (
-    <section id="competencies" className="py-14 sm:py-22 border-b border-border" style={{ background: "var(--ocre-dim)" }}>
+    <section id="competencies" data-testid="competenciesSection" className="py-14 sm:py-22 border-b border-border" style={{ background: "var(--ocre-dim)" }}>
       <div className="max-w-[920px] mx-auto px-5 sm:px-10">
         <RevealSection>
           <p className="font-mono text-[0.72rem] text-petrol uppercase tracking-[0.14em] mb-2">
             {label}
           </p>
-          <h2 className="font-display text-[1.9rem] sm:text-[2.25rem] leading-[1.12] tracking-[-0.015em] text-text-1 mb-8 sm:mb-11">
+          <h2 data-testid="competenciesHeading" className="font-display text-[1.9rem] sm:text-[2.25rem] leading-[1.12] tracking-[-0.015em] text-text-1 mb-8 sm:mb-11">
             {heading}
           </h2>
 
@@ -59,6 +59,7 @@ export default function Competencies({
                   onClick={() => toggle(i)}
                   aria-expanded={isActive}
                   aria-controls="competency-desc"
+                  data-testid={`competencyBtn${i}`}
                   className={[
                     "text-[0.875rem] bg-surface border rounded-full px-4 py-[6px]",
                     "cursor-pointer transition-all duration-200",
@@ -77,6 +78,7 @@ export default function Competencies({
           {/* Description panel */}
           <div
             id="competency-desc"
+            data-testid="competencyDesc"
             ref={descRef}
             style={{
               maxHeight: "0px",
@@ -88,10 +90,10 @@ export default function Competencies({
             <div className="mt-5 bg-surface border border-petrol rounded-[4px] px-6 py-5">
               {active && (
                 <>
-                  <p className="font-mono text-[0.72rem] text-petrol uppercase tracking-[0.1em] mb-3">
+                  <p data-testid="competencyActiveTitle" className="font-mono text-[0.72rem] text-petrol uppercase tracking-[0.1em] mb-3">
                     {active.name}
                   </p>
-                  <p className="text-[0.95rem] text-text-2 leading-[1.75] max-w-[60ch]">
+                  <p data-testid="competencyActiveBody" className="text-[0.95rem] text-text-2 leading-[1.75] max-w-[60ch]">
                     {active.description}
                   </p>
                 </>
@@ -104,9 +106,10 @@ export default function Competencies({
             {languagesLabel}
           </p>
           <div className="flex flex-wrap gap-[0.65rem]">
-            {languages.map(({ lang, level }) => (
+            {languages.map(({ lang, level }, i) => (
               <span
                 key={lang}
+                data-testid={`competencyLang${i}`}
                 className="text-[0.875rem] text-text-2 bg-surface border border-border rounded-full px-4 py-[6px]"
               >
                 {lang} — {level}

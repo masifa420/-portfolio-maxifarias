@@ -16,22 +16,23 @@ export default function Contact({
   linkedin,
 }: ContactProps) {
   return (
-    <section id="contact" className="py-14 sm:py-22" style={{ background: "var(--sage-dim)" }}>
+    <section id="contact" data-testid="contactSection" className="py-14 sm:py-22" style={{ background: "var(--sage-dim)" }}>
       <div className="max-w-[920px] mx-auto px-5 sm:px-10">
         <RevealSection>
           <p className="font-mono text-[0.72rem] text-petrol uppercase tracking-[0.14em] mb-2">
             {label}
           </p>
-          <h2 className="font-display text-[1.9rem] sm:text-[2.25rem] leading-[1.12] tracking-[-0.015em] text-text-1 mb-8 sm:mb-11">
+          <h2 data-testid="contactHeading" className="font-display text-[1.9rem] sm:text-[2.25rem] leading-[1.12] tracking-[-0.015em] text-text-1 mb-8 sm:mb-11">
             {heading}
           </h2>
-          <p className="text-[1.05rem] text-text-2 max-w-[56ch] leading-[1.75] mb-8">
+          <p data-testid="contactBlurb" className="text-[1.05rem] text-text-2 max-w-[56ch] leading-[1.75] mb-8">
             {blurb}
           </p>
 
           <div className="flex flex-wrap gap-[0.85rem]">
             <a
               href={`mailto:${email}`}
+              data-testid="contactEmailLink"
               className="inline-flex items-center gap-2 font-mono text-[0.82rem] text-text-1 no-underline bg-surface border border-border rounded-[4px] px-[18px] py-[10px] transition-colors duration-150 hover:border-petrol hover:text-petrol focus-visible:outline-2 focus-visible:outline-ocre focus-visible:outline-offset-2"
             >
               <MailIcon />
@@ -41,6 +42,7 @@ export default function Contact({
               href={linkedin}
               target="_blank"
               rel="noopener noreferrer"
+              data-testid="contactLinkedinLink"
               className="inline-flex items-center gap-2 font-mono text-[0.82rem] text-text-1 no-underline bg-surface border border-border rounded-[4px] px-[18px] py-[10px] transition-colors duration-150 hover:border-petrol hover:text-petrol focus-visible:outline-2 focus-visible:outline-ocre focus-visible:outline-offset-2"
             >
               <LinkedInIcon />

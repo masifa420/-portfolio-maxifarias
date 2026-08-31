@@ -14,13 +14,13 @@ const CARD_CONFIG = [
 
 export default function Philosophy({ label, heading, cards }: PhilosophyProps) {
   return (
-    <section id="philosophy" className="py-14 sm:py-22 border-b border-border" style={{ background: "var(--petrol-dim)" }}>
+    <section id="philosophy" data-testid="philosophySection" className="py-14 sm:py-22 border-b border-border" style={{ background: "var(--petrol-dim)" }}>
       <div className="max-w-[920px] mx-auto px-5 sm:px-10">
         <RevealSection>
           <p className="font-mono text-[0.72rem] text-petrol uppercase tracking-[0.14em] mb-2">
             {label}
           </p>
-          <h2 className="font-display text-[1.9rem] sm:text-[2.25rem] leading-[1.12] tracking-[-0.015em] text-text-1 mb-8 sm:mb-11">
+          <h2 data-testid="philosophyHeading" className="font-display text-[1.9rem] sm:text-[2.25rem] leading-[1.12] tracking-[-0.015em] text-text-1 mb-8 sm:mb-11">
             {heading}
           </h2>
 
@@ -30,6 +30,7 @@ export default function Philosophy({ label, heading, cards }: PhilosophyProps) {
               return (
                 <RevealSection key={card.title} delay={i * 100}>
                   <div
+                    data-testid={`philosophyCard${i}`}
                     className="bg-surface border border-border rounded-[4px] p-6 h-full flex flex-col gap-4"
                     style={{ borderLeftColor: borderColor, borderLeftWidth: 3 }}
                   >
@@ -39,10 +40,10 @@ export default function Philosophy({ label, heading, cards }: PhilosophyProps) {
                     >
                       <Icon />
                     </div>
-                    <h3 className="font-display text-[1.1rem] text-text-1 leading-[1.25] tracking-[-0.01em]">
+                    <h3 data-testid={`philosophyCardTitle${i}`} className="font-display text-[1.1rem] text-text-1 leading-[1.25] tracking-[-0.01em]">
                       {card.title}
                     </h3>
-                    <p className="text-[0.9rem] text-text-2 leading-[1.75] flex-1">
+                    <p data-testid={`philosophyCardBody${i}`} className="text-[0.9rem] text-text-2 leading-[1.75] flex-1">
                       {card.body}
                     </p>
                   </div>

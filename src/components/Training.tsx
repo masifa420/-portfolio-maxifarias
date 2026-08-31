@@ -26,26 +26,27 @@ export default function Training({
   certifications,
 }: TrainingProps) {
   return (
-    <section id="training" className="py-14 sm:py-22 border-b border-border" style={{ background: "var(--sage-dim)" }}>
+    <section id="training" data-testid="trainingSection" className="py-14 sm:py-22 border-b border-border" style={{ background: "var(--sage-dim)" }}>
       <div className="max-w-[920px] mx-auto px-5 sm:px-10">
         <RevealSection>
           <p className="font-mono text-[0.72rem] text-petrol uppercase tracking-[0.14em] mb-2">
             {label}
           </p>
-          <h2 className="font-display text-[1.9rem] sm:text-[2.25rem] leading-[1.12] tracking-[-0.015em] text-text-1 mb-8 sm:mb-11">
+          <h2 data-testid="trainingHeading" className="font-display text-[1.9rem] sm:text-[2.25rem] leading-[1.12] tracking-[-0.015em] text-text-1 mb-8 sm:mb-11">
             {heading}
           </h2>
 
           <div className="flex flex-col gap-10">
-            {certifications.map((group) => (
-              <div key={group.group}>
-                <div className="font-mono text-[0.7rem] text-text-2 uppercase tracking-[0.1em] pb-[0.6rem] mb-4 border-b border-border">
+            {certifications.map((group, i) => (
+              <div key={group.group} data-testid={`trainingGroup${i}`}>
+                <div data-testid={`trainingGroupLabel${i}`} className="font-mono text-[0.7rem] text-text-2 uppercase tracking-[0.1em] pb-[0.6rem] mb-4 border-b border-border">
                   {group.group}
                 </div>
                 <ul className="list-none flex flex-col gap-[0.65rem]">
-                  {group.items.map((cert) => (
+                  {group.items.map((cert, j) => (
                     <li
                       key={cert.name}
+                      data-testid={`trainingCert-${i}-${j}`}
                       className="flex justify-between items-baseline gap-4 text-[0.9rem]"
                     >
                       <span className="text-text-1">

@@ -21,6 +21,7 @@ const CATEGORY_COLORS = [
 ];
 
 interface AccordionItemProps {
+  index: number;
   category: string;
   items: string[];
   isOpen: boolean;
@@ -28,15 +29,17 @@ interface AccordionItemProps {
   onToggle: () => void;
 }
 
-function AccordionItem({ category, items, isOpen, color, onToggle }: AccordionItemProps) {
+function AccordionItem({ index, category, items, isOpen, color, onToggle }: AccordionItemProps) {
   const bodyRef = useRef<HTMLDivElement>(null);
 
   return (
     <div
+      data-testid={`skillCategory${index}`}
       className="bg-surface border border-border rounded-[4px] overflow-hidden transition-colors duration-200"
       style={{ borderLeftColor: color, borderLeftWidth: 3 }}
     >
       <button
+        data-testid={`skillToggle${index}`}
         onClick={onToggle}
         aria-expanded={isOpen}
         className="w-full flex items-center justify-between px-6 py-5 cursor-pointer bg-transparent border-none text-left group"
@@ -78,9 +81,10 @@ function AccordionItem({ category, items, isOpen, color, onToggle }: AccordionIt
         }}
       >
         <div className="px-6 pb-5 flex flex-wrap gap-[0.45rem]">
-          {items.map((item) => (
+          {items.map((item, j) => (
             <span
               key={item}
+              data-testid={`skillItem-${index}-${j}`}
               className="font-mono text-[0.7rem] bg-surface-2 text-text-1 border border-border rounded-[2px] px-2 py-[3px] leading-[1.4]"
             >
               {item}
@@ -100,13 +104,13 @@ export default function Skills({ label, heading, skills }: SkillsProps) {
   }
 
   return (
-    <section id="skills" className="py-14 sm:py-22 border-b border-border" style={{ background: "var(--sage-dim)" }}>
+    <section id="skills" data-testid="skillsSection" className="py-14 sm:py-22 border-b border-border" style={{ background: "var(--sage-dim)" }}>
       <div className="max-w-[920px] mx-auto px-5 sm:px-10">
         <RevealSection>
           <p className="font-mono text-[0.72rem] text-petrol uppercase tracking-[0.14em] mb-2">
             {label}
           </p>
-          <h2 className="font-display text-[1.9rem] sm:text-[2.25rem] leading-[1.12] tracking-[-0.015em] text-text-1 mb-8 sm:mb-11">
+          <h2 data-testid="skillsHeading" className="font-display text-[1.9rem] sm:text-[2.25rem] leading-[1.12] tracking-[-0.015em] text-text-1 mb-8 sm:mb-11">
             {heading}
           </h2>
 
@@ -114,6 +118,7 @@ export default function Skills({ label, heading, skills }: SkillsProps) {
             {skills.map((group, i) => (
               <AccordionItem
                 key={group.category}
+                index={i}
                 category={group.category}
                 items={group.items}
                 isOpen={openIndex === i}

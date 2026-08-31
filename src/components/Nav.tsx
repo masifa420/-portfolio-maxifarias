@@ -51,6 +51,7 @@ export default function Nav() {
 
   return (
     <nav
+      data-testid="nav"
       className="sticky top-0 z-50 border-b border-border transition-all duration-300"
       style={{
         background: scrolled
@@ -64,14 +65,18 @@ export default function Nav() {
 
       <div className="max-w-[920px] mx-auto px-5 sm:px-10 h-[54px] flex items-center justify-between">
 
-        <Link href="/" className="font-display text-[1.05rem] text-petrol no-underline transition-opacity duration-150 hover:opacity-70">
+        <Link href="/" data-testid="navLogo" className="font-display text-[1.05rem] text-petrol no-underline transition-opacity duration-150 hover:opacity-70">
           MF
         </Link>
 
-        <ul key={linksKey} className="hidden sm:flex gap-6 list-none items-center nav-links-enter">
+        <ul key={linksKey} data-testid="navLinks" className="hidden sm:flex gap-6 list-none items-center nav-links-enter">
           {navLinks.map(({ label, href }) => (
             <li key={href}>
-              <Link href={href} className={navLinkClass}>
+              <Link
+                href={href}
+                data-testid={`navLink${(href.split('#')[1] || href.replace(/\//g, '')).replace(/^(.)/, (c) => c.toUpperCase())}`}
+                className={navLinkClass}
+              >
                 {label}
               </Link>
             </li>
@@ -81,17 +86,18 @@ export default function Nav() {
         <div className="flex items-center gap-2">
           {/* Botón Work ↔ Portfolio — visible en mobile y desktop */}
           {isWork ? (
-            <Link href="/" className={pillLinkClass}>
+            <Link href="/" data-testid="navBtnPortfolio" className={pillLinkClass}>
               <span className={pillSliderClass} aria-hidden />
               <span className="relative">{tw.back}</span>
             </Link>
           ) : (
-            <Link href="/work" className={pillLinkClass}>
+            <Link href="/work" data-testid="navBtnWork" className={pillLinkClass}>
               <span className={pillSliderClass} aria-hidden />
               <span className="relative">Work →</span>
             </Link>
           )}
           <button
+            data-testid="navLangToggle"
             onClick={toggleLang}
             aria-label={lang === "en" ? "Cambiar a español" : "Switch to English"}
             className="font-mono text-[0.7rem] text-text-2 border border-border rounded-[3px] px-[10px] py-1 bg-transparent cursor-pointer tracking-[0.05em] transition-colors duration-150 hover:border-sage hover:text-sage focus-visible:outline-2 focus-visible:outline-ocre focus-visible:outline-offset-2"
