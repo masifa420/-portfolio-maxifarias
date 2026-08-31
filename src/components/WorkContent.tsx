@@ -157,61 +157,74 @@ function GherkinBlock({ lines }: { lines: GherkinLine[] }) {
   );
 }
 
-function BugReportCard({ report }: { report: BugReportExample }) {
+function BugReportCard({ report, defaultOpen = true }: { report: BugReportExample; defaultOpen?: boolean }) {
+  const [open, setOpen] = useState(defaultOpen);
+
   return (
     <div className="rounded-[6px] border border-border overflow-hidden" style={{ background: "var(--surface)" }}>
-      {/* Header */}
-      <div className="px-5 py-4 border-b border-border flex flex-col gap-2">
-        <div className="flex items-center justify-between gap-2">
-          <span className="font-mono text-[0.68rem] text-petrol tracking-[0.1em] uppercase flex-shrink-0">{report.id}</span>
-          <span
-            className="font-mono text-[0.65rem] uppercase tracking-[0.1em] px-2 py-[2px] rounded-[2px] flex-shrink-0"
-            style={{ background: "var(--sage-dim)", color: "var(--sage)" }}
-          >
-            ✓ {report.status}
-          </span>
+      {/* Header — siempre visible, clickeable */}
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full text-left px-5 py-4 cursor-pointer transition-opacity duration-150 hover:opacity-80"
+        style={{ background: "transparent", borderBottom: open ? "1px solid var(--border)" : "none" }}
+      >
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center justify-between gap-2">
+            <span className="font-mono text-[0.68rem] text-petrol tracking-[0.1em] uppercase flex-shrink-0">{report.id}</span>
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <span
+                className="font-mono text-[0.65rem] uppercase tracking-[0.1em] px-2 py-[2px] rounded-[2px]"
+                style={{ background: "var(--sage-dim)", color: "var(--sage)" }}
+              >
+                ✓ {report.status}
+              </span>
+              <span
+                className="font-mono text-[0.7rem] text-text-2 transition-transform duration-200 inline-block"
+                style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)" }}
+              >
+                ▾
+              </span>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 flex-wrap">
+            <span
+              className="font-mono text-[0.65rem] uppercase tracking-[0.08em] px-2 py-[2px] rounded-[2px]"
+              style={{ background: "var(--petrol-dim)", color: "var(--petrol)" }}
+            >
+              Severity: {report.severity}
+            </span>
+            <span
+              className="font-mono text-[0.65rem] uppercase tracking-[0.08em] px-2 py-[2px] rounded-[2px]"
+              style={{ background: "var(--petrol-dim)", color: "var(--petrol)" }}
+            >
+              Priority: {report.priority}
+            </span>
+          </div>
+          <p className="font-display text-[0.98rem] text-text-1 leading-[1.35]">{report.title}</p>
         </div>
-        <div className="flex items-center gap-2 flex-wrap">
-          <span
-            className="font-mono text-[0.65rem] uppercase tracking-[0.08em] px-2 py-[2px] rounded-[2px]"
-            style={{ background: "var(--petrol-dim)", color: "var(--petrol)" }}
-          >
-            Severity: {report.severity}
-          </span>
-          <span
-            className="font-mono text-[0.65rem] uppercase tracking-[0.08em] px-2 py-[2px] rounded-[2px]"
-            style={{ background: "var(--petrol-dim)", color: "var(--petrol)" }}
-          >
-            Priority: {report.priority}
-          </span>
+      </button>
+
+      {/* Body colapsable */}
+      {open && (
+        <div className="px-5 py-4">
+          <div className="flex flex-wrap gap-x-6 gap-y-1 mb-5">
+            {[
+              ["Env", report.environment],
+              ["Device", report.device],
+              ["Browser", report.browser],
+            ].map(([k, v]) => (
+              <p key={k} className="font-mono text-[0.68rem] text-text-2">
+                <span className="opacity-60">{k}: </span>{v}
+              </p>
+            ))}
+          </div>
+          <GherkinBlock lines={report.gherkin} />
+          <div className="mt-4 pt-4 border-t border-border flex gap-2 items-start">
+            <span className="font-mono text-[0.65rem] uppercase tracking-[0.08em] text-sage mt-[1px] flex-shrink-0">Fix</span>
+            <p className="font-mono text-[0.72rem] text-text-2 leading-[1.6]">{report.fix}</p>
+          </div>
         </div>
-      </div>
-
-      <div className="px-5 py-4">
-        <p className="font-display text-[1.05rem] text-text-1 leading-[1.35] mb-4">{report.title}</p>
-
-        {/* Metadata */}
-        <div className="flex flex-wrap gap-x-6 gap-y-1 mb-5">
-          {[
-            ["Env", report.environment],
-            ["Device", report.device],
-            ["Browser", report.browser],
-          ].map(([k, v]) => (
-            <p key={k} className="font-mono text-[0.68rem] text-text-2">
-              <span className="text-text-2 opacity-60">{k}: </span>{v}
-            </p>
-          ))}
-        </div>
-
-        {/* Gherkin */}
-        <GherkinBlock lines={report.gherkin} />
-
-        {/* Fix */}
-        <div className="mt-4 pt-4 border-t border-border flex gap-2 items-start">
-          <span className="font-mono text-[0.65rem] uppercase tracking-[0.08em] text-sage mt-[1px] flex-shrink-0">Fix</span>
-          <p className="font-mono text-[0.72rem] text-text-2 leading-[1.6]">{report.fix}</p>
-        </div>
-      </div>
+      )}
     </div>
   );
 }
@@ -264,7 +277,11 @@ export default function WorkContent() {
                 </p>
 
                 {key === "bugReports" ? (
-                  <BugReportCard report={t.bugReportExample} />
+                  <div className="flex flex-col gap-3">
+                    {t.bugReports.map((report) => (
+                      <BugReportCard key={report.id} report={report} defaultOpen={false} />
+                    ))}
+                  </div>
                 ) : (
                   <div
                     className="rounded-[6px] border-2 border-dashed flex flex-col items-center justify-center py-16 gap-4"
