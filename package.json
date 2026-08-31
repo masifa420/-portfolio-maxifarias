@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "cy:open": "cypress open",
-    "cy:run": "cypress run"
+    "cy:run": "cypress run",
+    "cy:record": "cypress run --record"
   },
   "dependencies": {
     "framer-motion": "^13.1.1",
