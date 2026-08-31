@@ -1,5 +1,20 @@
 import type { Language } from "./translations";
 
+export type GherkinLine = { keyword: "feature" | "scenario" | "step" | "blank"; text: string };
+
+export type BugReportExample = {
+  id: string;
+  title: string;
+  severity: string;
+  priority: string;
+  environment: string;
+  device: string;
+  browser: string;
+  gherkin: GherkinLine[];
+  status: string;
+  fix: string;
+};
+
 export type WorkTranslations = {
   nav: {
     back: string;
@@ -13,6 +28,7 @@ export type WorkTranslations = {
     heading: string;
     subtitle: string;
   };
+  bugReportExample: BugReportExample;
   sections: {
     bugReports: {
       label: string;
@@ -54,6 +70,27 @@ const en: WorkTranslations = {
     heading: "Real QA work.",
     subtitle: "Bug reports, test cases, automation scripts and test execution reports from real projects.",
   },
+  bugReportExample: {
+    id: "BUG-001",
+    title: '"Work →" button not visible on mobile — navigation broken',
+    severity: "High",
+    priority: "High",
+    environment: "portfolio-maxifarias.vercel.app",
+    device: "Mobile < 640px",
+    browser: "Any",
+    gherkin: [
+      { keyword: "feature", text: "Feature: Mobile page navigation" },
+      { keyword: "blank",   text: "" },
+      { keyword: "scenario", text: "  Scenario: Access the Work page from a mobile device" },
+      { keyword: "step",    text: '    Given the user opens the portfolio on a mobile device (viewport < 640px)' },
+      { keyword: "step",    text: '    When  they look at the navigation bar' },
+      { keyword: "step",    text: '    Then  the "Work →" button should be visible' },
+      { keyword: "step",    text: '    But   the button is hidden inside a "hidden sm:flex" container' },
+      { keyword: "step",    text: '    And   the user has no access to the /work page' },
+    ],
+    status: "RESOLVED",
+    fix: 'Moved the button outside the hidden <ul> — always visible on any viewport.',
+  },
   sections: {
     bugReports: {
       label: "Bug Reports",
@@ -94,6 +131,27 @@ const es: WorkTranslations = {
     label: "Trabajo real",
     heading: "QA en acción.",
     subtitle: "Bug reports, casos de prueba, scripts de automatización y reportes de ejecución de proyectos reales.",
+  },
+  bugReportExample: {
+    id: "BUG-001",
+    title: 'Botón "Work →" no visible en mobile — navegación rota',
+    severity: "Alta",
+    priority: "Alta",
+    environment: "portfolio-maxifarias.vercel.app",
+    device: "Mobile < 640px",
+    browser: "Cualquier navegador",
+    gherkin: [
+      { keyword: "feature",  text: "Feature: Navegación mobile entre páginas" },
+      { keyword: "blank",    text: "" },
+      { keyword: "scenario", text: "  Scenario: Acceder a la página Work desde un mobile" },
+      { keyword: "step",     text: "    Given el usuario abre el portfolio en un mobile (viewport < 640px)" },
+      { keyword: "step",     text: '    When  observa la barra de navegación' },
+      { keyword: "step",     text: '    Then  debería ver el botón "Work →"' },
+      { keyword: "step",     text: '    But   el botón está oculto dentro de un elemento "hidden sm:flex"' },
+      { keyword: "step",     text: "    And   el usuario no tiene ningún acceso a la página /work" },
+    ],
+    status: "RESUELTO",
+    fix: "Se movió el botón fuera del <ul> oculto — ahora siempre visible en cualquier viewport.",
   },
   sections: {
     bugReports: {

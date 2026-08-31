@@ -93,15 +93,6 @@ export default function Nav() {
         </Link>
 
         <ul key={linksKey} className="hidden sm:flex gap-6 list-none items-center nav-links-enter">
-          {isWork && (
-            <li>
-              <Link href="/" className={pillLinkClass}>
-                <span className={pillSliderClass} aria-hidden />
-                <span className="relative">{tw.back}</span>
-              </Link>
-            </li>
-          )}
-
           {navLinks.map(({ label, href }) => (
             <li key={href}>
               <Link href={href} className={navLinkClass}>
@@ -109,18 +100,21 @@ export default function Nav() {
               </Link>
             </li>
           ))}
-
-          {!isWork && (
-            <li>
-              <Link href="/work" className={pillLinkClass}>
-                <span className={pillSliderClass} aria-hidden />
-                <span className="relative">Work →</span>
-              </Link>
-            </li>
-          )}
         </ul>
 
         <div className="flex items-center gap-2">
+          {/* Botón Work ↔ Portfolio — visible en mobile y desktop */}
+          {isWork ? (
+            <Link href="/" className={pillLinkClass}>
+              <span className={pillSliderClass} aria-hidden />
+              <span className="relative">{tw.back}</span>
+            </Link>
+          ) : (
+            <Link href="/work" className={pillLinkClass}>
+              <span className={pillSliderClass} aria-hidden />
+              <span className="relative">Work →</span>
+            </Link>
+          )}
           <button
             onClick={toggleLang}
             aria-label={lang === "en" ? "Cambiar a español" : "Switch to English"}
