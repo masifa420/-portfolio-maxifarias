@@ -1,6 +1,3 @@
-"use client";
-
-import { useEffect, useRef } from "react";
 import type { Profile } from "@/types";
 
 interface HeroProps {
@@ -10,15 +7,6 @@ interface HeroProps {
 }
 
 export default function Hero({ profile, hook, stats }: HeroProps) {
-  const styleRef = useRef(false);
-
-  useEffect(() => {
-    if (styleRef.current) return;
-    styleRef.current = true;
-    const style = document.createElement("style");
-    style.textContent = `@keyframes cursor-blink{0%,100%{opacity:1}50%{opacity:0}}`;
-    document.head.appendChild(style);
-  }, []);
 
   return (
     <section id="hero" className="border-b border-border">
@@ -37,20 +25,8 @@ export default function Hero({ profile, hook, stats }: HeroProps) {
           &ldquo;{hook}&rdquo;
         </p>
 
-        <p className="font-mono text-[0.78rem] sm:text-[0.82rem] text-text-2 mb-8 sm:mb-10 flex items-center tracking-[0.04em]">
-          {profile.subtitle}
-          <span
-            aria-hidden="true"
-            style={{
-              display: "inline-block",
-              width: "2px",
-              height: "0.9em",
-              background: "var(--ocre)",
-              marginLeft: "3px",
-              verticalAlign: "middle",
-              animation: "cursor-blink 1s step-end infinite",
-            }}
-          />
+        <p className="font-mono text-[0.72rem] sm:text-[0.82rem] text-text-2 mb-8 sm:mb-10 tracking-[0.04em]">
+          <span style={{ whiteSpace: "nowrap" }}>{profile.subtitle}</span>
         </p>
 
         {/* Meta — apila verticalmente en mobile */}
@@ -78,9 +54,9 @@ export default function Hero({ profile, hook, stats }: HeroProps) {
         </div>
 
         {/* Stats bar */}
-        <div className="mt-10 sm:mt-14 pt-6 sm:pt-8 border-t border-border grid grid-cols-3 gap-4 sm:gap-6">
+        <div className="mt-10 sm:mt-14 pt-6 sm:pt-8 border-t border-border grid grid-cols-3 gap-4 sm:gap-6 justify-items-center">
           {stats.map((s) => (
-            <div key={s.label}>
+            <div key={s.label} className="text-center">
               <p className="font-display text-[1.6rem] sm:text-[2rem] leading-none tracking-[-0.02em] text-text-1">
                 {s.value}
               </p>
