@@ -134,8 +134,8 @@ function GherkinBlock({ lines }: { lines: GherkinLine[] }) {
           onClick={() => setOpen(false)}
         >
           <div
-            className="rounded-t-[12px] border-t border-border flex flex-col max-h-[80vh]"
-            style={{ background: "var(--surface)" }}
+            className="rounded-[14px] border border-border flex flex-col max-h-[80vh] mx-3 mb-3"
+            style={{ background: "var(--surface)", boxShadow: "0 -8px 40px rgba(0,0,0,0.25)" }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-border flex-shrink-0">
