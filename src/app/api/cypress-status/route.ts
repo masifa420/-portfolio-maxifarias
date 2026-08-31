@@ -8,7 +8,7 @@ export async function GET() {
         Accept: "application/vnd.github+json",
         "X-GitHub-Api-Version": "2022-11-28",
       },
-      next: { revalidate: 300 },
+      next: { revalidate: 30 },
     }
   );
 
