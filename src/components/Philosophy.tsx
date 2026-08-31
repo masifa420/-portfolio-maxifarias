@@ -30,7 +30,7 @@ export default function Philosophy({ label, heading, cards }: PhilosophyProps) {
               return (
                 <RevealSection key={card.title} delay={i * 100}>
                   <div
-                    className="bg-surface border border-border rounded-[4px] p-6 h-full flex flex-col gap-4 transition-all duration-200 hover:border-current group"
+                    className="bg-surface border border-border rounded-[4px] p-6 h-full flex flex-col gap-4"
                     style={{ borderLeftColor: borderColor, borderLeftWidth: 3 }}
                   >
                     <div

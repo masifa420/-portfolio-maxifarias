@@ -15,17 +15,9 @@ export default function Nav() {
   const t  = translations[lang].nav;
   const tw = workTranslations[lang].nav;
 
-  const [theme,    setTheme]    = useState<"light" | "dark" | "system">("system");
   const [scrolled, setScrolled] = useState(false);
   const [linksKey, setLinksKey] = useState(0);
   const prevKey = useRef(0);
-
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem("mf-theme");
-      if (saved === "light" || saved === "dark") setTheme(saved);
-    } catch {}
-  }, []);
 
   useEffect(() => {
     prevKey.current += 1;
@@ -38,23 +30,7 @@ export default function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  function toggleTheme() {
-    const isDark =
-      theme === "dark" ||
-      (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
-    const next = isDark ? "light" : "dark";
-    setTheme(next);
-    document.documentElement.setAttribute("data-theme", next);
-    try { localStorage.setItem("mf-theme", next); } catch {}
-  }
-
   function toggleLang() { setLang(lang === "en" ? "es" : "en"); }
-
-  const isDark =
-    theme === "dark" ||
-    (theme === "system" &&
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches);
 
   const portfolioLinks = [
     { label: t.experience, href: "/#experience" },
@@ -121,13 +97,6 @@ export default function Nav() {
             className="font-mono text-[0.7rem] text-text-2 border border-border rounded-[3px] px-[10px] py-1 bg-transparent cursor-pointer tracking-[0.05em] transition-colors duration-150 hover:border-sage hover:text-sage focus-visible:outline-2 focus-visible:outline-ocre focus-visible:outline-offset-2"
           >
             {t.langToggle}
-          </button>
-          <button
-            onClick={toggleTheme}
-            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-            className="font-mono text-[0.7rem] text-text-2 border border-border rounded-[3px] px-[10px] py-1 bg-transparent cursor-pointer tracking-[0.05em] transition-colors duration-150 hover:border-petrol hover:text-petrol focus-visible:outline-2 focus-visible:outline-ocre focus-visible:outline-offset-2"
-          >
-            {isDark ? "[ light ]" : "[ dark ]"}
           </button>
         </div>
 
