@@ -161,9 +161,17 @@ function BugReportCard({ report }: { report: BugReportExample }) {
   return (
     <div className="rounded-[6px] border border-border overflow-hidden" style={{ background: "var(--surface)" }}>
       {/* Header */}
-      <div className="px-5 py-4 border-b border-border flex flex-wrap items-start justify-between gap-3">
-        <div className="flex items-center gap-3 flex-wrap">
-          <span className="font-mono text-[0.68rem] text-petrol tracking-[0.1em] uppercase">{report.id}</span>
+      <div className="px-5 py-4 border-b border-border flex flex-col gap-2">
+        <div className="flex items-center justify-between gap-2">
+          <span className="font-mono text-[0.68rem] text-petrol tracking-[0.1em] uppercase flex-shrink-0">{report.id}</span>
+          <span
+            className="font-mono text-[0.65rem] uppercase tracking-[0.1em] px-2 py-[2px] rounded-[2px] flex-shrink-0"
+            style={{ background: "var(--sage-dim)", color: "var(--sage)" }}
+          >
+            ✓ {report.status}
+          </span>
+        </div>
+        <div className="flex items-center gap-2 flex-wrap">
           <span
             className="font-mono text-[0.65rem] uppercase tracking-[0.08em] px-2 py-[2px] rounded-[2px]"
             style={{ background: "var(--petrol-dim)", color: "var(--petrol)" }}
@@ -177,12 +185,6 @@ function BugReportCard({ report }: { report: BugReportExample }) {
             Priority: {report.priority}
           </span>
         </div>
-        <span
-          className="font-mono text-[0.65rem] uppercase tracking-[0.1em] px-2 py-[2px] rounded-[2px]"
-          style={{ background: "var(--sage-dim)", color: "var(--sage)" }}
-        >
-          ✓ {report.status}
-        </span>
       </div>
 
       <div className="px-5 py-4">
