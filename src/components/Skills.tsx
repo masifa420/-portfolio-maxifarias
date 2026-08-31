@@ -42,7 +42,10 @@ function AccordionItem({ category, items, isOpen, color, onToggle }: AccordionIt
         className="w-full flex items-center justify-between px-6 py-5 cursor-pointer bg-transparent border-none text-left group"
       >
         <div className="font-mono text-[0.68rem] text-petrol uppercase tracking-[0.1em] flex items-center gap-[0.45rem]">
-          <span className="text-text-2 opacity-50 text-[0.65rem]">//</span>
+          <span
+            className="inline-block w-[6px] h-[6px] rounded-[1px] flex-shrink-0"
+            style={{ background: color }}
+          />
           {category}
         </div>
         <svg
@@ -97,7 +100,7 @@ export default function Skills({ label, heading, skills }: SkillsProps) {
   }
 
   return (
-    <section id="skills" className="py-14 sm:py-22 border-b border-border">
+    <section id="skills" className="py-14 sm:py-22 border-b border-border" style={{ background: "var(--sage-dim)" }}>
       <div className="max-w-[920px] mx-auto px-5 sm:px-10">
         <RevealSection>
           <p className="font-mono text-[0.72rem] text-petrol uppercase tracking-[0.14em] mb-2">

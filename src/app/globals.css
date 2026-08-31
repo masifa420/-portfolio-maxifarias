@@ -139,6 +139,25 @@
   --font-mono:    var(--font-jetbrains);
 }
 
+/* ── Nav animations ── */
+@keyframes nav-links-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+.nav-links-enter { animation: nav-links-in 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* ── Page transitions ── */
+@keyframes page-from-right {
+  from { opacity: 0; transform: translateX(64px); }
+  to   { opacity: 1; transform: translateX(0);    }
+}
+@keyframes page-from-left {
+  from { opacity: 0; transform: translateX(-64px); }
+  to   { opacity: 1; transform: translateX(0);     }
+}
+.page-from-right { animation: page-from-right 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.page-from-left  { animation: page-from-left  0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
 /* ── Base ── */
 html { scroll-behavior: smooth; }
 

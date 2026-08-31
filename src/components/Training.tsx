@@ -26,7 +26,7 @@ export default function Training({
   certifications,
 }: TrainingProps) {
   return (
-    <section id="training" className="py-14 sm:py-22 border-b border-border" style={{ background: "var(--petrol-dim)" }}>
+    <section id="training" className="py-14 sm:py-22 border-b border-border" style={{ background: "var(--sage-dim)" }}>
       <div className="max-w-[920px] mx-auto px-5 sm:px-10">
         <RevealSection>
           <p className="font-mono text-[0.72rem] text-petrol uppercase tracking-[0.14em] mb-2">

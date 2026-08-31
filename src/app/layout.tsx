@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { DM_Serif_Display, Inter, JetBrains_Mono } from "next/font/google";
+import { LanguageProvider } from "@/context/LanguageContext";
+import Nav from "@/components/Nav";
+import PageTransition from "@/components/PageTransition";
 import "./globals.css";
 
 const dmSerifDisplay = DM_Serif_Display({
@@ -26,15 +29,7 @@ export const metadata: Metadata = {
   title: "Maximiliano Farias — QA Tester Semi-Senior",
   description:
     "Portfolio de Maximiliano Farias, QA Tester Semi-Senior especializado en testing funcional, manual y automatización. Buenos Aires, Argentina.",
-  keywords: [
-    "QA",
-    "QA Tester",
-    "Testing",
-    "Automatización",
-    "Cypress",
-    "Playwright",
-    "AWS",
-  ],
+  keywords: ["QA", "QA Tester", "Testing", "Automatización", "Cypress", "Playwright", "AWS"],
   authors: [{ name: "Maximiliano Farias" }],
   openGraph: {
     title: "Maximiliano Farias — QA Tester Semi-Senior",
@@ -44,11 +39,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"
@@ -56,14 +47,20 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        {/* Prevent FOUC: apply saved theme before hydration */}
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var t=localStorage.getItem('mf-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t)}}catch(e){}})()`,
           }}
         />
       </head>
-      <body className="font-body min-h-screen flex flex-col">{children}</body>
+      <body className="font-body min-h-screen flex flex-col">
+        <LanguageProvider>
+          <Nav />
+          <PageTransition>
+            <main className="flex-1">{children}</main>
+          </PageTransition>
+        </LanguageProvider>
+      </body>
     </html>
   );
 }

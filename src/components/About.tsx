@@ -10,7 +10,7 @@ export default function About({ label, heading, summary }: AboutProps) {
   const paragraphs = summary.split("\n\n").filter(Boolean);
 
   return (
-    <section id="about" className="py-14 sm:py-22 border-b border-border" style={{ background: "var(--sage-dim)" }}>
+    <section id="about" className="py-14 sm:py-22 border-b border-border" style={{ background: "var(--ocre-dim)" }}>
       <div className="max-w-[920px] mx-auto px-5 sm:px-10">
         <RevealSection>
           <p className="font-mono text-[0.72rem] text-petrol uppercase tracking-[0.14em] mb-2">

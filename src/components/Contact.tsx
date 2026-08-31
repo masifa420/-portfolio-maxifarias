@@ -16,7 +16,7 @@ export default function Contact({
   linkedin,
 }: ContactProps) {
   return (
-    <section id="contact" className="py-14 sm:py-22" style={{ background: "var(--ocre-dim)" }}>
+    <section id="contact" className="py-14 sm:py-22" style={{ background: "var(--sage-dim)" }}>
       <div className="max-w-[920px] mx-auto px-5 sm:px-10">
         <RevealSection>
           <p className="font-mono text-[0.72rem] text-petrol uppercase tracking-[0.14em] mb-2">
