@@ -1,26 +1,157 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ── QA Analytic Palette — Maximiliano Farias ── */
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root {
+  /* Grounds */
+  --bg: #f4ede4; /* Crema */
+  --surface: #fbf7f2;
+  --surface-2: #ece4d8;
+
+  /* Text */
+  --text-1: #1a1917; /* Carbón cálido */
+  --text-2: #5e5852;
+
+  /* Brand — full palette */
+  --petrol:   #0f5257; /* Petróleo profundo */
+  --petrol-d: #0d4549;
+  --sage:     #3e7c59; /* Verde salvia */
+  --sage-l:   #87a878; /* Verde claro */
+  --ocre:     #d2a24c; /* Ocre dorado */
+  --terra:    #c97b4a; /* Terracota cálido */
+
+  /* Tints (bg uses for icon wells, etc.) */
+  --petrol-dim: #d9eaeb;
+  --sage-dim:   #dceee4;
+  --ocre-dim:   #faefd8;
+  --terra-dim:  #faeadb;
+
+  /* Semantic */
+  --border:    #d5ccc2;
+  --badge-bg:  #d6e9dc;
+  --badge-txt: #2c6042;
+
+  /* Legacy alias kept for components that reference --accent-dim */
+  --accent-dim: var(--petrol-dim);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root:not([data-theme="light"]) {
+    --bg:       #1a1917;
+    --surface:  #242220;
+    --surface-2:#2e2b27;
+    --text-1:   #f4ede4;
+    --text-2:   #9c968d;
+
+    --petrol:   #6db8be; /* teal claro — legible sobre oscuro */
+    --petrol-d: #85cdd3;
+    --sage:     #87a878; /* verde claro */
+    --sage-l:   #a5c094;
+    --ocre:     #d2a24c;
+    --terra:    #d4915e; /* terracota más claro */
+
+    --petrol-dim: #1a2f30;
+    --sage-dim:   #1c2d20;
+    --ocre-dim:   #2a2316;
+    --terra-dim:  #2a1d14;
+
+    --border:    #302d28;
+    --badge-bg:  #1d2b1e;
+    --badge-txt: #87a878;
+    --accent-dim: var(--petrol-dim);
   }
 }
 
+[data-theme="dark"] {
+  --bg:       #1a1917;
+  --surface:  #242220;
+  --surface-2:#2e2b27;
+  --text-1:   #f4ede4;
+  --text-2:   #9c968d;
+
+  --petrol:   #6db8be;
+  --petrol-d: #85cdd3;
+  --sage:     #87a878;
+  --sage-l:   #a5c094;
+  --ocre:     #d2a24c;
+  --terra:    #d4915e;
+
+  --petrol-dim: #1a2f30;
+  --sage-dim:   #1c2d20;
+  --ocre-dim:   #2a2316;
+  --terra-dim:  #2a1d14;
+
+  --border:    #302d28;
+  --badge-bg:  #1d2b1e;
+  --badge-txt: #87a878;
+  --accent-dim: var(--petrol-dim);
+}
+
+[data-theme="light"] {
+  --bg:       #f4ede4;
+  --surface:  #fbf7f2;
+  --surface-2:#ece4d8;
+  --text-1:   #1a1917;
+  --text-2:   #5e5852;
+
+  --petrol:   #0f5257;
+  --petrol-d: #0d4549;
+  --sage:     #3e7c59;
+  --sage-l:   #87a878;
+  --ocre:     #d2a24c;
+  --terra:    #c97b4a;
+
+  --petrol-dim: #d9eaeb;
+  --sage-dim:   #dceee4;
+  --ocre-dim:   #faefd8;
+  --terra-dim:  #faeadb;
+
+  --border:    #d5ccc2;
+  --badge-bg:  #d6e9dc;
+  --badge-txt: #2c6042;
+  --accent-dim: var(--petrol-dim);
+}
+
+/* ── Tailwind v4 theme tokens ── */
+@theme inline {
+  --color-bg:         var(--bg);
+  --color-surface:    var(--surface);
+  --color-surface-2:  var(--surface-2);
+  --color-text-1:     var(--text-1);
+  --color-text-2:     var(--text-2);
+  --color-petrol:     var(--petrol);
+  --color-petrol-d:   var(--petrol-d);
+  --color-sage:       var(--sage);
+  --color-sage-l:     var(--sage-l);
+  --color-ocre:       var(--ocre);
+  --color-terra:      var(--terra);
+  --color-petrol-dim: var(--petrol-dim);
+  --color-sage-dim:   var(--sage-dim);
+  --color-ocre-dim:   var(--ocre-dim);
+  --color-terra-dim:  var(--terra-dim);
+  --color-border:     var(--border);
+  --color-badge-bg:   var(--badge-bg);
+  --color-badge-txt:  var(--badge-txt);
+  --color-accent-dim: var(--accent-dim);
+
+  --font-display: var(--font-dm-serif);
+  --font-body:    var(--font-inter);
+  --font-mono:    var(--font-jetbrains);
+}
+
+/* ── Base ── */
+html { scroll-behavior: smooth; }
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg);
+  color: var(--text-1);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
