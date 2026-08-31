@@ -224,7 +224,7 @@ const en: Translations = {
       "Open to new opportunities in QA, testing, and quality assurance. Feel free to reach out.",
   },
   footer: {
-    role: "QA Tester Semi-Senior",
+    role: "QA Tester",
   },
 };
 
@@ -383,7 +383,7 @@ const es: Translations = {
       "Abierto a nuevas oportunidades en QA, testing y aseguramiento de calidad. No dudes en contactarme.",
   },
   footer: {
-    role: "QA Tester Semi-Senior",
+    role: "QA Tester",
   },
 };
 

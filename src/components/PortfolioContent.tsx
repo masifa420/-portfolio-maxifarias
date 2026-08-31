@@ -93,7 +93,6 @@ export default function PortfolioContent() {
       <Footer
         name={profile.name}
         role={t.footer.role}
-        location={profile.location}
       />
     </>
   );

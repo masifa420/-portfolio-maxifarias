@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
-import { workTranslations, type BugReportExample, type GherkinLine } from "@/data/workTranslations";
+import { workTranslations, type BugReportExample, type GherkinLine, type TestCase } from "@/data/workTranslations";
 import RevealSection from "./RevealSection";
 
 const SECTION_COLORS: Record<string, { bg: string; border: string }> = {
@@ -174,7 +174,7 @@ function BugReportCard({ report, defaultOpen = true }: { report: BugReportExampl
             <div className="flex items-center gap-2 flex-shrink-0">
               <span
                 className="font-mono text-[0.65rem] uppercase tracking-[0.1em] px-2 py-[2px] rounded-[2px]"
-                style={{ background: "var(--sage-dim)", color: "var(--sage)" }}
+                style={{ background: "var(--pass-dim)", color: "var(--pass)" }}
               >
                 ✓ {report.status}
               </span>
@@ -222,6 +222,127 @@ function BugReportCard({ report, defaultOpen = true }: { report: BugReportExampl
           <div className="mt-4 pt-4 border-t border-border flex gap-2 items-start">
             <span className="font-mono text-[0.65rem] uppercase tracking-[0.08em] text-sage mt-[1px] flex-shrink-0">Fix</span>
             <p className="font-mono text-[0.72rem] text-text-2 leading-[1.6]">{report.fix}</p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function TestCaseCard({ tc }: { tc: TestCase }) {
+  const [open, setOpen] = useState(false);
+  const [stepsOpen, setStepsOpen] = useState(false);
+  const [resultOpen, setResultOpen] = useState(false);
+
+  return (
+    <div className="rounded-[6px] border border-border overflow-hidden" style={{ background: "var(--surface)" }}>
+      {/* Header */}
+      <button
+        onClick={() => {
+          if (open) { setStepsOpen(false); setResultOpen(false); }
+          setOpen(!open);
+        }}
+        className="w-full text-left px-5 py-4 cursor-pointer transition-opacity duration-150 hover:opacity-80"
+        style={{ background: "transparent", borderBottom: open ? "1px solid var(--border)" : "none" }}
+      >
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 flex-shrink-0 flex-wrap">
+              <span className="font-mono text-[0.68rem] text-petrol tracking-[0.1em] uppercase">{tc.id}</span>
+              <span className="font-mono text-[0.65rem] px-2 py-[2px] rounded-[2px]" style={{ background: "var(--sage-dim)", color: "var(--sage)" }}>
+                Bug: {tc.bugId}
+              </span>
+            </div>
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <span className="font-mono text-[0.65rem] px-2 py-[2px] rounded-[2px]" style={{ background: "var(--pass-dim)", color: "var(--pass)" }}>
+                ✓ {tc.status}
+              </span>
+              <span className="font-mono text-[0.7rem] text-text-2 transition-transform duration-200 inline-block" style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)" }}>▾</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="font-mono text-[0.65rem] px-2 py-[2px] rounded-[2px]" style={{ background: "var(--petrol-dim)", color: "var(--petrol)" }}>Env: {tc.environment}</span>
+            <span className="font-mono text-[0.65rem] px-2 py-[2px] rounded-[2px]" style={{ background: "var(--petrol-dim)", color: "var(--petrol)" }}>{tc.device}</span>
+            <span className="font-mono text-[0.65rem] px-2 py-[2px] rounded-[2px]" style={{ background: "var(--petrol-dim)", color: "var(--petrol)" }}>Browser: {tc.browser}</span>
+          </div>
+          <p className="font-display text-[0.98rem] text-text-1 leading-[1.35]">{tc.title}</p>
+        </div>
+      </button>
+
+      {open && (
+        <div className="flex flex-col">
+          {/* Metadata grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 border-b border-border" style={{ background: "var(--surface-2)" }}>
+            {[
+              ["Descubridor", tc.discoverer],
+              ["Datos de prueba", tc.testData],
+              ["Fix commit", tc.fixCommit],
+              ["Browser", tc.browser],
+            ].map(([label, val]) => (
+              <div key={label} className="px-4 py-3 flex flex-col gap-1 border-r border-border last:border-r-0">
+                <span className="font-mono text-[0.58rem] uppercase tracking-[0.1em] opacity-60" style={{ color: "var(--text-2)" }}>{label}</span>
+                <span className="font-mono text-[0.7rem] text-text-1">{val}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Preconditions */}
+          <div className="px-5 py-4 border-b border-border">
+            <p className="font-mono text-[0.6rem] uppercase tracking-[0.1em] mb-3" style={{ color: "var(--sage)" }}>Precondición</p>
+            <ul className="flex flex-col gap-2">
+              {tc.preconditions.map((p, i) => (
+                <li key={i} className="font-mono text-[0.7rem] text-text-2 leading-[1.5] pl-4 relative">
+                  <span className="absolute left-0" style={{ color: "var(--sage)" }}>→</span>
+                  {p}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Steps collapsible */}
+          <div className="border-b border-border">
+            <button onClick={() => setStepsOpen(!stepsOpen)} className="w-full flex items-center justify-between px-5 py-3 cursor-pointer hover:opacity-80" style={{ background: "var(--surface-2)", border: "none" }}>
+              <span className="font-mono text-[0.65rem] uppercase tracking-[0.1em] text-petrol">Pasos de reproducción</span>
+              <span className="font-mono text-[0.7rem] text-text-2 transition-transform duration-200 inline-block" style={{ transform: stepsOpen ? "rotate(180deg)" : "rotate(0deg)" }}>▾</span>
+            </button>
+            {stepsOpen && (
+              <div className="px-5 py-4 flex flex-col gap-0">
+                {tc.steps.map((step, i) => (
+                  <div key={i} className="flex gap-3 items-start">
+                    <div className="flex flex-col items-center flex-shrink-0" style={{ width: 24 }}>
+                      <div className="w-6 h-6 rounded-full border flex items-center justify-center font-mono text-[0.55rem] font-bold flex-shrink-0" style={{ borderColor: "var(--petrol)", background: "var(--petrol-dim)", color: "var(--petrol)" }}>
+                        {String(i + 1).padStart(2, "0")}
+                      </div>
+                      {i < tc.steps.length - 1 && <div className="w-px flex-1 min-h-[20px]" style={{ background: "var(--border)" }} />}
+                    </div>
+                    <div className="pb-4 flex-1">
+                      <p className="font-mono text-[0.72rem] text-text-1 leading-[1.4]">{step.action}</p>
+                      <p className="font-mono text-[0.62rem] text-text-2 leading-[1.5] mt-1">{step.detail}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Expected result collapsible */}
+          <div>
+            <button onClick={() => setResultOpen(!resultOpen)} className="w-full flex items-center justify-between px-5 py-3 cursor-pointer hover:opacity-80" style={{ background: "var(--surface-2)", border: "none" }}>
+              <span className="font-mono text-[0.65rem] uppercase tracking-[0.1em]" style={{ color: "var(--pass)" }}>Resultado esperado</span>
+              <span className="font-mono text-[0.7rem] text-text-2 transition-transform duration-200 inline-block" style={{ transform: resultOpen ? "rotate(180deg)" : "rotate(0deg)" }}>▾</span>
+            </button>
+            {resultOpen && (
+              <div className="px-5 py-4">
+                <ul className="flex flex-col gap-2">
+                  {tc.expectedResult.map((r, i) => (
+                    <li key={i} className="font-mono text-[0.7rem] text-text-2 leading-[1.5] pl-5 relative">
+                      <span className="absolute left-0 font-bold" style={{ color: "var(--pass)" }}>✓</span>
+                      {r}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -280,6 +401,12 @@ export default function WorkContent() {
                   <div className="flex flex-col gap-3">
                     {t.bugReports.map((report) => (
                       <BugReportCard key={report.id} report={report} defaultOpen={false} />
+                    ))}
+                  </div>
+                ) : key === "testCases" ? (
+                  <div className="flex flex-col gap-3">
+                    {t.testCases.map((tc) => (
+                      <TestCaseCard key={tc.id} tc={tc} />
                     ))}
                   </div>
                 ) : (

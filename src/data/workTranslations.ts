@@ -15,6 +15,22 @@ export type BugReportExample = {
   fix: string;
 };
 
+export type TestCase = {
+  id: string;
+  title: string;
+  bugId: string;
+  environment: string;
+  device: string;
+  browser: string;
+  discoverer: string;
+  testData: string;
+  fixCommit: string;
+  status: string;
+  preconditions: string[];
+  steps: { action: string; detail: string }[];
+  expectedResult: string[];
+};
+
 export type WorkTranslations = {
   nav: {
     back: string;
@@ -29,6 +45,7 @@ export type WorkTranslations = {
     subtitle: string;
   };
   bugReports: BugReportExample[];
+  testCases: TestCase[];
   sections: {
     bugReports: {
       label: string;
@@ -76,7 +93,7 @@ const en: WorkTranslations = {
       title: '"Work →" button not visible on mobile — navigation broken',
       severity: "High",
       priority: "High",
-      environment: "portfolio-maxifarias.vercel.app",
+      environment: "Main",
       device: "Mobile < 640px",
       browser: "Any",
       gherkin: [
@@ -91,6 +108,37 @@ const en: WorkTranslations = {
       ],
       status: "RESOLVED",
       fix: 'Moved the button outside the hidden <ul> — always visible on any viewport.',
+    },
+  ],
+  testCases: [
+    {
+      id: "TC-001",
+      title: '"Work →" button visibility on mobile',
+      bugId: "BUG-001",
+      environment: "Main",
+      device: "Mobile < 640px",
+      browser: "Any",
+      discoverer: "Maximiliano Farias",
+      testData: "390 × 844px · Chrome",
+      fixCommit: "a4e4f7e",
+      status: "PASS",
+      preconditions: [
+        "Portfolio deployed and accessible on Vercel (Main)",
+        "Viewport set to < 640px (real device or DevTools)",
+      ],
+      steps: [
+        { action: 'Open the portfolio on mobile', detail: 'URL: portfolio-maxifarias.vercel.app · Viewport: 390px' },
+        { action: 'Observe the top navigation bar', detail: 'Identify visible elements in the nav bar' },
+        { action: 'Look for the "Work →" button', detail: 'Verify if the button is present and visible' },
+        { action: 'Tap the "Work →" button', detail: 'Touch interaction on real device or click in emulator' },
+        { action: 'Verify URL changes to /work', detail: 'Work page loads correctly on mobile viewport' },
+      ],
+      expectedResult: [
+        '"Work →" button is visible in the nav on any viewport',
+        'Tapping it navigates correctly to /work',
+        'Page transition animation fires (left ← right)',
+        '/work content loads without errors on mobile',
+      ],
     },
   ],
   sections: {
@@ -140,7 +188,7 @@ const es: WorkTranslations = {
       title: 'Botón "Work →" no visible en mobile — navegación rota',
       severity: "Alta",
       priority: "Alta",
-      environment: "portfolio-maxifarias.vercel.app",
+      environment: "Main",
       device: "Mobile < 640px",
       browser: "Cualquier navegador",
       gherkin: [
@@ -155,6 +203,37 @@ const es: WorkTranslations = {
       ],
       status: "RESUELTO",
       fix: "Se movió el botón fuera del <ul> oculto — ahora siempre visible en cualquier viewport.",
+    },
+  ],
+  testCases: [
+    {
+      id: "TC-001",
+      title: 'Visibilidad del botón "Work →" en mobile',
+      bugId: "BUG-001",
+      environment: "Main",
+      device: "Mobile < 640px",
+      browser: "Cualquier navegador",
+      discoverer: "Maximiliano Farias",
+      testData: "390 × 844px · Chrome",
+      fixCommit: "a4e4f7e",
+      status: "PASS",
+      preconditions: [
+        "Portfolio deployado y accesible en Vercel (Main)",
+        "Viewport configurado en < 640px (dispositivo real o DevTools)",
+      ],
+      steps: [
+        { action: "Abrir el portfolio en mobile", detail: "URL: portfolio-maxifarias.vercel.app · Viewport: 390px" },
+        { action: "Observar la barra de navegación superior", detail: "Identificar los elementos visibles en la nav bar" },
+        { action: 'Buscar el botón "Work →" en la nav', detail: "Verificar si el botón está presente y visible" },
+        { action: 'Hacer tap en el botón "Work →"', detail: "Interacción táctil en dispositivo real o click en emulador" },
+        { action: "Verificar que la URL cambia a /work", detail: "La página Work carga correctamente en viewport mobile" },
+      ],
+      expectedResult: [
+        'El botón "Work →" es visible en la nav en cualquier viewport',
+        "Al hacer tap navega correctamente a /work",
+        "La transición de página se ejecuta (animación left ← right)",
+        "El contenido de /work carga sin errores en mobile",
+      ],
     },
   ],
   sections: {
