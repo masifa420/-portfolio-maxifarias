@@ -77,7 +77,8 @@ export async function GET() {
     cache = { data: result, ts: Date.now() };
     return NextResponse.json(result);
   } catch (err) {
-    console.error(err);
-    return NextResponse.json({ error: "Failed to fetch Jira sprints" }, { status: 500 });
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("[jira-sprints]", msg);
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }
