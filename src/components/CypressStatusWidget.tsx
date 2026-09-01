@@ -40,7 +40,7 @@ export default function CypressStatusWidget() {
     let interval: ReturnType<typeof setInterval> | null = null;
 
     const load = () =>
-      fetch("/api/cypress-status")
+      fetch("/api/cypress-status", { cache: "no-store" })
         .then((r) => (r.ok ? r.json() : Promise.reject()))
         .then((data: RunData) => {
           setRun(data);

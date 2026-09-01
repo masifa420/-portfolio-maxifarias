@@ -1,6 +1,16 @@
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
+type CacheEntry = { data: unknown; ts: number };
+let cache: CacheEntry | null = null;
+const TTL = 30_000;
+
 export async function GET() {
+  if (cache && Date.now() - cache.ts < TTL) {
+    return NextResponse.json(cache.data);
+  }
+
   const res = await fetch(
     "https://api.github.com/repos/masifa420/-portfolio-maxifarias/actions/workflows/cypress.yml/runs?per_page=1",
     {
@@ -8,7 +18,7 @@ export async function GET() {
         Accept: "application/vnd.github+json",
         "X-GitHub-Api-Version": "2022-11-28",
       },
-      next: { revalidate: 30 },
+      cache: "no-store",
     }
   );
 
@@ -28,7 +38,7 @@ export async function GET() {
       ? new Date(run.updated_at).getTime() - new Date(run.run_started_at).getTime()
       : null;
 
-  return NextResponse.json({
+  const result = {
     status: run.status as string,
     conclusion: run.conclusion as string | null,
     runNumber: run.run_number as number,
@@ -38,5 +48,8 @@ export async function GET() {
     htmlUrl: run.html_url as string,
     headCommit: (run.head_commit?.message as string | undefined)?.split("\n")[0] ?? "",
     branch: run.head_branch as string,
-  });
+  };
+
+  cache = { data: result, ts: Date.now() };
+  return NextResponse.json(result);
 }
