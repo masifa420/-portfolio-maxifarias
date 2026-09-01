@@ -20,6 +20,7 @@ type JiraIssue = {
   summary: string;
   status: string;
   statusCategory: string;
+  url: string;
 };
 
 type Sprint = {
@@ -155,10 +156,15 @@ function SprintCard({ sprint, runs, tc, defaultOpen }: {
                   const isInProg = issue.statusCategory === "indeterminate";
                   return (
                     <div key={issue.key} className="flex items-center gap-3 py-[8px] border-b border-border last:border-0">
-                      <span className="font-mono text-[0.62rem] text-petrol flex-shrink-0 w-[72px]">{issue.key}</span>
-                      <span className="font-mono text-[0.68rem] text-text-1 flex-1 min-w-0 truncate" title={issue.summary}>
+                      <a href={issue.url} target="_blank" rel="noopener noreferrer"
+                        className="font-mono text-[0.62rem] text-petrol flex-shrink-0 w-[72px] hover:opacity-70 transition-opacity">
+                        {issue.key} ↗
+                      </a>
+                      <a href={issue.url} target="_blank" rel="noopener noreferrer"
+                        className="font-mono text-[0.68rem] text-text-1 flex-1 min-w-0 truncate hover:opacity-70 transition-opacity"
+                        title={issue.summary}>
                         {issue.summary}
-                      </span>
+                      </a>
                       <span
                         className="font-mono text-[0.58rem] uppercase tracking-[0.08em] px-[6px] py-[2px] rounded-[2px] flex-shrink-0"
                         style={{

@@ -52,11 +52,13 @@ export async function GET() {
             const fields = issue.fields as Record<string, unknown>;
             const statusObj = fields.status as Record<string, unknown>;
             const statusCat = (statusObj.statusCategory as Record<string, unknown>)?.key as string ?? "";
+            const key = issue.key as string;
             return {
-              key: issue.key as string,
+              key,
               summary: fields.summary as string,
               status: statusObj.name as string,
               statusCategory: statusCat,
+              url: `${BASE}/browse/${key}`,
             };
           });
         } catch { /* skip if issues fail */ }
