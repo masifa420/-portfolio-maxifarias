@@ -43,43 +43,6 @@ function formatDuration(ms: number | null) {
   return `${Math.floor(s / 60)}m ${s % 60}s`;
 }
 
-function computeStats(runs: RunData[]) {
-  const completed = runs.filter((r) => r.status === "completed");
-  const passed = completed.filter((r) => r.conclusion === "success");
-  const successRate = completed.length > 0 ? Math.round((passed.length / completed.length) * 100) : null;
-
-  const durations = completed.map((r) => r.durationMs).filter((d): d is number => d !== null);
-  const avgDuration = durations.length > 0
-    ? Math.round(durations.reduce((a, b) => a + b, 0) / durations.length)
-    : null;
-
-  let streak = 0;
-  for (const r of runs) {
-    if (r.status === "completed" && r.conclusion === "success") streak++;
-    else if (r.status === "completed") break;
-  }
-
-  return { successRate, avgDuration, streak, total: completed.length };
-}
-
-function StatCard({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
-  return (
-    <div
-      className="flex flex-col gap-1 px-4 py-3 rounded-[4px] border border-border flex-1 min-w-0"
-      style={{ background: "var(--surface)" }}
-    >
-      <span
-        className="font-mono text-[0.7rem] font-semibold leading-none truncate"
-        style={{ color: accent ? "var(--pass)" : "var(--text-1)" }}
-      >
-        {value}
-      </span>
-      <span className="font-mono text-[0.6rem] text-text-2 uppercase tracking-[0.1em] truncate">
-        {label}
-      </span>
-    </div>
-  );
-}
 
 function RunRow({ run, isLatest }: { run: RunData; isLatest: boolean }) {
   const pass = run.conclusion === "success";
@@ -153,10 +116,9 @@ export default function CypressStatusWidget() {
   }, []);
 
   const runs = data?.runs ?? [];
-  const tc = data?.tcCoverage ?? null;
-  const stats = runs.length > 0 ? computeStats(runs) : null;
   const latest = runs[0];
   const latestRunning = latest?.status !== "completed";
+  const total = runs.filter((r) => r.status === "completed").length;
 
   return (
     <div className="rounded-[6px] border border-border overflow-hidden w-full" style={{ background: "var(--surface)" }}>
@@ -174,41 +136,10 @@ export default function CypressStatusWidget() {
             CI · Cypress E2E
           </span>
         </div>
-        {stats && (
-          <span className="font-mono text-[0.63rem] text-text-2">last {stats.total} runs</span>
+        {total > 0 && (
+          <span className="font-mono text-[0.63rem] text-text-2">last {total} runs</span>
         )}
       </div>
-
-      {/* Stats */}
-      {(stats || tc) && (
-        <div className="flex gap-2 px-5 pt-4 pb-2 flex-wrap">
-          {stats && (
-            <>
-              <StatCard
-                label="success rate"
-                value={stats.successRate !== null ? `${stats.successRate}%` : "—"}
-                accent={stats.successRate === 100}
-              />
-              <StatCard
-                label="avg duration"
-                value={formatDuration(stats.avgDuration) ?? "—"}
-              />
-              <StatCard
-                label="pass streak"
-                value={stats.streak > 0 ? `${stats.streak} runs` : "—"}
-                accent={stats.streak >= 3}
-              />
-            </>
-          )}
-          {tc && (
-            <StatCard
-              label="TCs automated"
-              value={`${tc.automated}/${tc.total} · ${tc.coverage}%`}
-              accent={tc.coverage === 100}
-            />
-          )}
-        </div>
-      )}
 
       {/* Run list */}
       <div className="px-5">

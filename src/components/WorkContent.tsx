@@ -5,6 +5,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { workTranslations, type BugReportExample, type GherkinLine, type TestCase } from "@/data/workTranslations";
 import RevealSection from "./RevealSection";
 import CypressStatusWidget from "./CypressStatusWidget";
+import ExecutionSummaryReport from "./ExecutionSummaryReport";
 
 const SECTION_COLORS: Record<string, { bg: string; border: string }> = {
   bugReports:  { bg: "var(--petrol-dim)", border: "var(--petrol)" },
@@ -419,6 +420,8 @@ export default function WorkContent() {
                   </div>
                 ) : key === "automation" ? (
                   <CypressStatusWidget />
+                ) : key === "reports" ? (
+                  <ExecutionSummaryReport />
                 ) : (
                   <div
                     className="rounded-[6px] border-2 border-dashed flex flex-col items-center justify-center py-16 gap-4"
