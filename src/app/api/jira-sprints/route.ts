@@ -4,7 +4,7 @@ export const dynamic = "force-dynamic";
 
 type CacheEntry = { data: unknown; ts: number };
 let cache: CacheEntry | null = null;
-const TTL = 60_000;
+const TTL = 15_000;
 
 const BASE  = process.env.JIRA_BASE_URL!;
 const EMAIL = process.env.JIRA_EMAIL!;
@@ -35,21 +35,43 @@ export async function GET() {
   try {
     const data = await jiraFetch(`/board/${BOARD}/sprint?maxResults=10&state=active,closed,future`);
 
-    const sprints = (data.values as Record<string, unknown>[])
+    const rawSprints = (data.values as Record<string, unknown>[])
       .filter((s) => s.state !== "future")
       .sort((a, b) => {
         const da = new Date((a.startDate as string) ?? 0).getTime();
         const db = new Date((b.startDate as string) ?? 0).getTime();
         return db - da;
+      });
+
+    const sprints = await Promise.all(
+      rawSprints.map(async (s) => {
+        let issues: { key: string; summary: string; status: string; statusCategory: string }[] = [];
+        try {
+          const issueData = await jiraFetch(`/sprint/${s.id}/issue?maxResults=50&fields=summary,status`);
+          issues = (issueData.issues as Record<string, unknown>[]).map((issue) => {
+            const fields = issue.fields as Record<string, unknown>;
+            const statusObj = fields.status as Record<string, unknown>;
+            const statusCat = (statusObj.statusCategory as Record<string, unknown>)?.key as string ?? "";
+            return {
+              key: issue.key as string,
+              summary: fields.summary as string,
+              status: statusObj.name as string,
+              statusCategory: statusCat,
+            };
+          });
+        } catch { /* skip if issues fail */ }
+
+        return {
+          id:           s.id,
+          name:         s.name,
+          state:        s.state,
+          startDate:    s.startDate ?? null,
+          endDate:      s.endDate ?? null,
+          completeDate: s.completeDate ?? null,
+          issues,
+        };
       })
-      .map((s) => ({
-        id:        s.id,
-        name:      s.name,
-        state:     s.state,
-        startDate: s.startDate ?? null,
-        endDate:   s.endDate ?? null,
-        completeDate: s.completeDate ?? null,
-      }));
+    );
 
     const result = { sprints };
     cache = { data: result, ts: Date.now() };

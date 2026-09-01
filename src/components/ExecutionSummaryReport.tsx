@@ -15,6 +15,13 @@ type RunData = {
 
 type TcCoverage = { total: number; automated: number; coverage: number };
 
+type JiraIssue = {
+  key: string;
+  summary: string;
+  status: string;
+  statusCategory: string;
+};
+
 type Sprint = {
   id: number;
   name: string;
@@ -22,6 +29,7 @@ type Sprint = {
   startDate: string | null;
   endDate: string | null;
   completeDate: string | null;
+  issues: JiraIssue[];
 };
 
 function formatDuration(ms: number | null) {
@@ -68,6 +76,11 @@ function SprintCard({ sprint, runs, tc, defaultOpen }: {
   defaultOpen: boolean;
 }) {
   const [open, setOpen] = useState(defaultOpen);
+  const [issuesOpen, setIssuesOpen] = useState(true);
+
+  useEffect(() => {
+    if (!open) setIssuesOpen(false);
+  }, [open]);
 
   const completed   = runs.filter((r) => r.status === "completed");
   const passed      = completed.filter((r) => r.conclusion === "success");
@@ -81,7 +94,7 @@ function SprintCard({ sprint, runs, tc, defaultOpen }: {
   const bugs     = workTranslations.en.bugReports;
   const tcPass   = tcs.filter((t) => t.status === "PASS").length;
   const tcFail   = tcs.filter((t) => t.status !== "PASS").length;
-  const bugsFixed = bugs.filter((b) => b.status === "Fixed").length;
+  const bugsFixed = bugs.filter((b) => ["Fixed", "FIXED", "RESOLVED", "Resolved", "DONE", "Done", "Closed"].includes(b.status)).length;
   const bugsOpen  = bugs.length - bugsFixed;
 
   const isActive = sprint.state === "active";
@@ -121,32 +134,51 @@ function SprintCard({ sprint, runs, tc, defaultOpen }: {
       {/* Sprint body */}
       {open && (
         <div>
-          {/* Meta bar */}
-          <div className="flex items-center gap-5 px-5 py-[10px] border-b border-border flex-wrap" style={{ background: "var(--surface-2)" }}>
-            {[
-              { label: "ci runs",    value: `${completed.length} completed` },
-              { label: "ci rate",    value: successRate !== null ? `${successRate}% (${passed.length}/${completed.length})` : "—", accent: successRate === 100 },
-              { label: "avg ci dur", value: formatDuration(avgDuration) },
-              ...(latestRun ? [{ label: "last run", value: `#${latestRun.runNumber}`, link: latestRun.htmlUrl }] : []),
-            ].map(({ label, value, accent, link }) => (
-              <div key={label} className="flex items-center gap-[6px]">
-                <span className="font-mono text-[0.57rem] text-text-2 uppercase tracking-[0.1em]">{label}</span>
-                {link ? (
-                  <a href={link} target="_blank" rel="noopener noreferrer"
-                    className="font-mono text-[0.65rem] text-petrol underline underline-offset-2 decoration-dotted hover:opacity-70">
-                    {value} ↗
-                  </a>
-                ) : (
-                  <span className="font-mono text-[0.65rem]" style={{ color: accent ? "var(--pass)" : "var(--text-2)" }}>{value}</span>
-                )}
-              </div>
-            ))}
-          </div>
 
-          {/* Stats grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-3" style={{ borderBottom: "1px solid var(--border)" }}>
+          {/* 1 — Sprint Issues (trabajo del sprint) */}
+          {sprint.issues.length > 0 && (
+            <div className="border-b border-border">
+              <button
+                onClick={() => setIssuesOpen(!issuesOpen)}
+                className="w-full flex items-center justify-between px-5 py-3 cursor-pointer hover:opacity-80 transition-opacity"
+                style={{ background: "transparent" }}
+              >
+                <span className="font-mono text-[0.58rem] text-text-2 uppercase tracking-[0.12em]">
+                  Sprint Issues · {sprint.issues.length}
+                </span>
+                <span className="font-mono text-[0.65rem] text-text-2 transition-transform duration-200"
+                  style={{ transform: issuesOpen ? "rotate(180deg)" : "rotate(0deg)" }}>↓</span>
+              </button>
+              {issuesOpen && <div className="px-5 pb-3 flex flex-col">
+                {sprint.issues.map((issue) => {
+                  const isDone   = issue.statusCategory === "done";
+                  const isInProg = issue.statusCategory === "indeterminate";
+                  return (
+                    <div key={issue.key} className="flex items-center gap-3 py-[8px] border-b border-border last:border-0">
+                      <span className="font-mono text-[0.62rem] text-petrol flex-shrink-0 w-[72px]">{issue.key}</span>
+                      <span className="font-mono text-[0.68rem] text-text-1 flex-1 min-w-0 truncate" title={issue.summary}>
+                        {issue.summary}
+                      </span>
+                      <span
+                        className="font-mono text-[0.58rem] uppercase tracking-[0.08em] px-[6px] py-[2px] rounded-[2px] flex-shrink-0"
+                        style={{
+                          background: isDone ? "var(--pass-dim)" : isInProg ? "var(--ocre-dim)" : "var(--surface-2)",
+                          color:      isDone ? "var(--pass)"     : isInProg ? "var(--ocre)"     : "var(--text-2)",
+                        }}
+                      >
+                        {issue.status}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>}
+            </div>
+          )}
 
-            <div className="flex flex-col gap-2 p-5 border-r border-border sm:border-b-0 border-b">
+          {/* 2 — Stats grid (resultados del sprint) */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 border-b border-border">
+
+            <div className="flex flex-col gap-2 p-5 border-r border-border border-b sm:border-b-0">
               <span className="font-mono text-[0.58rem] text-text-2 uppercase tracking-[0.12em]">Test Cases</span>
               <div className="flex items-baseline gap-2">
                 <span className="font-mono text-[1.5rem] font-semibold leading-none text-text-1" style={{ fontVariantNumeric: "tabular-nums" }}>{tcs.length}</span>
@@ -158,7 +190,7 @@ function SprintCard({ sprint, runs, tc, defaultOpen }: {
               </div>
             </div>
 
-            <div className="flex flex-col gap-2 p-5 border-r border-border sm:border-b-0 border-b">
+            <div className="flex flex-col gap-2 p-5 border-r border-border border-b sm:border-b-0">
               <span className="font-mono text-[0.58rem] text-text-2 uppercase tracking-[0.12em]">Bugs Tracked</span>
               <div className="flex items-baseline gap-2">
                 <span className="font-mono text-[1.5rem] font-semibold leading-none text-text-1" style={{ fontVariantNumeric: "tabular-nums" }}>{bugs.length}</span>
@@ -191,18 +223,26 @@ function SprintCard({ sprint, runs, tc, defaultOpen }: {
 
           </div>
 
-          {/* Details */}
-          <div className="flex items-center gap-6 px-5 py-3 border-b border-border flex-wrap">
+          {/* 3 — CI + env details */}
+          <div className="flex items-center gap-5 px-5 py-3 flex-wrap" style={{ background: "var(--surface-2)" }}>
             {[
-              { label: "browser",   value: "Chrome" },
-              { label: "viewport",  value: "390 × 844 · mobile" },
-              { label: "env",       value: "Production · Vercel" },
-            ].map(({ label, value }) => (
+              { label: "ci rate",  value: successRate !== null ? `${successRate}% (${passed.length}/${completed.length})` : "—", accent: successRate === 100 },
+              { label: "avg dur",  value: formatDuration(avgDuration) },
+              { label: "browser",  value: "Chrome" },
+              { label: "viewport", value: "390 × 844" },
+              { label: "env",      value: "Production · Vercel" },
+            ].map(({ label, value, accent }) => (
               <div key={label} className="flex items-center gap-[6px]">
                 <span className="font-mono text-[0.57rem] text-text-2 uppercase tracking-[0.1em]">{label}</span>
-                <span className="font-mono text-[0.65rem] text-text-2">{value}</span>
+                <span className="font-mono text-[0.65rem]" style={{ color: accent ? "var(--pass)" : "var(--text-2)" }}>{value}</span>
               </div>
             ))}
+            {latestRun && (
+              <a href={latestRun.htmlUrl} target="_blank" rel="noopener noreferrer"
+                className="font-mono text-[0.65rem] text-petrol underline underline-offset-2 decoration-dotted hover:opacity-70 ml-auto">
+                CI run #{latestRun.runNumber} ↗
+              </a>
+            )}
           </div>
 
         </div>
@@ -218,17 +258,50 @@ export default function ExecutionSummaryReport() {
   const [loading, setLoading]   = useState(true);
 
   useEffect(() => {
-    Promise.all([
-      fetch("/api/jira-sprints",    { cache: "no-store" }).then((r) => r.ok ? r.json() : Promise.reject()),
-      fetch("/api/cypress-status",  { cache: "no-store" }).then((r) => r.ok ? r.json() : Promise.reject()),
-    ])
-      .then(([jira, ci]) => {
-        setSprints(jira.sprints ?? []);
-        setRuns(ci.runs ?? []);
-        setTc(ci.tcCoverage ?? null);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+    let jiraInterval: ReturnType<typeof setInterval> | null = null;
+
+    const loadJira = () =>
+      fetch("/api/jira-sprints", { cache: "no-store" })
+        .then((r) => r.ok ? r.json() : Promise.reject())
+        .then((jira) => {
+          const incoming = jira.sprints ?? [] as Sprint[];
+          setSprints((prev) => {
+            // skip re-render if data is identical
+            if (JSON.stringify(prev) === JSON.stringify(incoming)) return prev;
+            return incoming;
+          });
+          // stop polling when no active sprint (closed sprints don't change)
+          const hasActive = incoming.some((s: Sprint) => s.state === "active");
+          if (!hasActive && jiraInterval) { clearInterval(jiraInterval); jiraInterval = null; }
+        })
+        .catch(() => {});
+
+    const loadCi = () =>
+      fetch("/api/cypress-status", { cache: "no-store" })
+        .then((r) => r.ok ? r.json() : Promise.reject())
+        .then((ci) => { setRuns(ci.runs ?? []); setTc(ci.tcCoverage ?? null); })
+        .catch(() => {});
+
+    Promise.all([loadJira(), loadCi()]).finally(() => setLoading(false));
+
+    // Jira: poll every 60s while there's an active sprint, then stop
+    jiraInterval = setInterval(loadJira, 60_000);
+
+    // CI: poll every 30s while runs are in progress, then stop
+    let ciInterval: ReturnType<typeof setInterval> | null = setInterval(() => {
+      loadCi().then(() => {
+        setRuns((prev) => {
+          const allDone = prev.every((r) => r.status === "completed");
+          if (allDone && ciInterval) { clearInterval(ciInterval); ciInterval = null; }
+          return prev;
+        });
+      });
+    }, 30_000);
+
+    return () => {
+      if (jiraInterval) clearInterval(jiraInterval);
+      if (ciInterval) clearInterval(ciInterval);
+    };
   }, []);
 
   if (loading) {
