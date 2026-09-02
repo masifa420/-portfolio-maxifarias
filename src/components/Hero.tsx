@@ -22,13 +22,11 @@ export default function Hero({ profile, hook }: HeroProps) {
       style={{ height: "100svh", overflow: "hidden" }}
     >
       {/* ── Left panel — dark teal ── */}
-      {/* Mobile: horizontal bar (~80px). Desktop: full-height side panel */}
       <div
         className="flex-shrink-0 flex flex-col items-center justify-center gap-2 sm:gap-6
                    h-[80px] w-full sm:h-full sm:w-[clamp(160px,30%,300px)]"
         style={{ background: "#1B4242", padding: "1rem 1.5rem" }}
       >
-        {/* Logo: small on mobile, full size on desktop */}
         <div className="hidden sm:block">
           <LogoMark size={96} />
         </div>
@@ -52,7 +50,6 @@ export default function Hero({ profile, hook }: HeroProps) {
       </div>
 
       {/* ── Right panel — warm cream ── */}
-      {/* Mobile: flex-1 with overflow-y scroll so content always accessible */}
       <div
         className="flex-1 flex flex-col justify-center overflow-y-auto"
         style={{
@@ -60,7 +57,6 @@ export default function Hero({ profile, hook }: HeroProps) {
           padding: "clamp(1.8rem,6vw,5rem) clamp(1.5rem,5vw,4.5rem)",
         }}
       >
-        {/* Name + role */}
         <p
           style={{
             fontFamily: "var(--font-mono, monospace)",
@@ -86,7 +82,6 @@ export default function Hero({ profile, hook }: HeroProps) {
           {profile.title}
         </p>
 
-        {/* Headline */}
         <h1
           data-testid="heroName"
           style={{
@@ -103,7 +98,6 @@ export default function Hero({ profile, hook }: HeroProps) {
           {hook}
         </h1>
 
-        {/* Orange rule */}
         <div
           style={{
             width: "3rem",
@@ -114,7 +108,6 @@ export default function Hero({ profile, hook }: HeroProps) {
           }}
         />
 
-        {/* Subtitle */}
         <p
           data-testid="heroHook"
           style={{
@@ -129,7 +122,6 @@ export default function Hero({ profile, hook }: HeroProps) {
           {profile.subtitle}
         </p>
 
-        {/* Pillars */}
         <div
           style={{
             display: "flex",
@@ -165,15 +157,7 @@ export default function Hero({ profile, hook }: HeroProps) {
           ))}
         </div>
 
-        {/* Contact links */}
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "1rem",
-            alignItems: "center",
-          }}
-        >
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem", alignItems: "center" }}>
           <a
             href={`mailto:${profile.email}`}
             data-testid="heroEmailLink"
@@ -233,20 +217,125 @@ export default function Hero({ profile, hook }: HeroProps) {
 function LogoMark({ size = 96 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 96 96" fill="none" aria-hidden>
-      <circle cx="48" cy="48" r="44" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
-      <circle cx="48" cy="48" r="34" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
-      <circle cx="48" cy="48" r="24" fill="#C96A2A" opacity="0.9" />
-      <polyline
+      <style>{`
+        @keyframes lm-draw  { to { stroke-dashoffset: 0; } }
+        @keyframes lm-fade  { to { opacity: 1; } }
+        @keyframes lm-check { to { stroke-dashoffset: 0; } }
+        @keyframes lm-state {
+          0%   { opacity: 0; }
+          15%  { opacity: 1; }
+          80%  { opacity: 1; }
+          100% { opacity: 0; }
+        }
+        @keyframes lm-center-color {
+          0%   { fill: #6B1A1A; }
+          35%  { fill: #6B1A1A; }
+          42%  { fill: #5C3610; }
+          70%  { fill: #5C3610; }
+          77%  { fill: #64731e; }
+          100% { fill: #64731e; }
+        }
+        @keyframes lm-spin-cw  { to { transform: rotate(360deg);  } }
+        @keyframes lm-spin-ccw { to { transform: rotate(-360deg); } }
+
+        .lm-orbit-group-outer,
+        .lm-orbit-group-inner {
+          transform-box: fill-box;
+          transform-origin: center;
+        }
+        /* Giran durante el X+pause (1.2s → 2.5s = 1.3s), luego quedan estáticas */
+        .lm-orbit-group-outer {
+          animation: lm-spin-cw  1.05s cubic-bezier(0.4,0,0.05,1) 0.96s forwards;
+        }
+        .lm-orbit-group-inner {
+          animation: lm-spin-ccw 1.05s cubic-bezier(0.4,0,0.05,1) 0.96s forwards;
+        }
+
+        .lm-orbit-outer {
+          stroke-dasharray: 1; stroke-dashoffset: 1;
+          animation: lm-draw 0.53s cubic-bezier(0.4,0,0.2,1) 0.09s forwards;
+        }
+        .lm-orbit-inner {
+          stroke-dasharray: 1; stroke-dashoffset: 1;
+          animation: lm-draw 0.44s cubic-bezier(0.4,0,0.2,1) 0.48s forwards;
+        }
+
+        .lm-center {
+          opacity: 0;
+          animation:
+            lm-fade         0.24s ease-out    0.89s forwards,
+            lm-center-color 1.61s ease-in-out 0.89s forwards;
+        }
+
+        .lm-dot { opacity: 0; }
+        .lm-dot-1 { animation: lm-fade 0.15s ease-out 0.28s forwards; }
+        .lm-dot-2 { animation: lm-fade 0.15s ease-out 0.60s forwards; }
+        .lm-dot-3 { animation: lm-fade 0.15s ease-out 0.76s forwards; }
+        .lm-dot-4 { animation: lm-fade 0.15s ease-out 0.84s forwards; }
+
+        .lm-symbol-x {
+          opacity: 0;
+          animation: lm-state 0.60s ease-in-out 0.96s forwards;
+        }
+        .lm-symbol-pause {
+          opacity: 0;
+          animation: lm-state 0.56s ease-in-out 1.45s forwards;
+        }
+        .lm-check {
+          stroke-dasharray: 1; stroke-dashoffset: 1;
+          animation: lm-check 0.49s cubic-bezier(0.22,1,0.36,1) 2.01s forwards;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .lm-orbit-outer, .lm-orbit-inner, .lm-check {
+            stroke-dashoffset: 0 !important; animation: none;
+          }
+          .lm-orbit-group-outer, .lm-orbit-group-inner { animation: none; }
+          .lm-center {
+            opacity: 1 !important; fill: #64731e !important; animation: none;
+          }
+          .lm-dot { opacity: 1 !important; animation: none; }
+          .lm-symbol-x, .lm-symbol-pause { display: none; }
+        }
+      `}</style>
+
+      {/* Órbita exterior + sus 4 puntos — gira horario */}
+      <g className="lm-orbit-group-outer">
+        <circle className="lm-orbit-outer" cx="48" cy="48" r="44"
+          stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" pathLength="1" />
+        <circle className="lm-dot lm-dot-1" cx="48" cy="4"  r="3" fill="rgba(255,255,255,0.5)" />
+        <circle className="lm-dot lm-dot-2" cx="92" cy="48" r="3" fill="rgba(255,255,255,0.3)" />
+        <circle className="lm-dot lm-dot-3" cx="48" cy="92" r="2" fill="rgba(255,255,255,0.2)" />
+        <circle className="lm-dot lm-dot-4" cx="4"  cy="48" r="2" fill="rgba(255,255,255,0.2)" />
+      </g>
+
+      {/* Órbita interior — gira anti-horario */}
+      <g className="lm-orbit-group-inner">
+        <circle className="lm-orbit-inner" cx="48" cy="48" r="34"
+          stroke="rgba(255,255,255,0.1)" strokeWidth="1" pathLength="1" />
+      </g>
+
+      {/* Centro — color anima con cada estado QA */}
+      <circle className="lm-center" cx="48" cy="48" r="24" fill="#6B1A1A" />
+
+      {/* ✗ FAIL — coral sobre bordeaux */}
+      <g className="lm-symbol-x">
+        <line x1="40" y1="40" x2="56" y2="56" stroke="#FF7070" strokeWidth="3" strokeLinecap="round" />
+        <line x1="56" y1="40" x2="40" y2="56" stroke="#FF7070" strokeWidth="3" strokeLinecap="round" />
+      </g>
+
+      {/* ‖ EN PROCESO — ámbar sobre marrón oscuro */}
+      <g className="lm-symbol-pause">
+        <line x1="43" y1="39" x2="43" y2="57" stroke="#FFC060" strokeWidth="3.5" strokeLinecap="round" />
+        <line x1="53" y1="39" x2="53" y2="57" stroke="#FFC060" strokeWidth="3.5" strokeLinecap="round" />
+      </g>
+
+      {/* ✓ PASS — oliva claro sobre verde oliva */}
+      <polyline className="lm-check"
         points="38,48 45,55 58,40"
-        stroke="white"
-        strokeWidth="3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <circle cx="48" cy="4" r="3" fill="rgba(255,255,255,0.5)" />
-      <circle cx="92" cy="48" r="3" fill="rgba(255,255,255,0.3)" />
-      <circle cx="48" cy="92" r="2" fill="rgba(255,255,255,0.2)" />
-      <circle cx="4"  cy="48" r="2" fill="rgba(255,255,255,0.2)" />
+        stroke="#C4D96E" strokeWidth="3"
+        strokeLinecap="round" strokeLinejoin="round"
+        pathLength="1" />
     </svg>
   );
 }
