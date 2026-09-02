@@ -1,6 +1,5 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
 import RevealSection from "./RevealSection";
 
 interface CompetencyItem {
@@ -23,98 +22,70 @@ export default function Competencies({
   competencies,
   languages,
 }: CompetenciesProps) {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const descRef = useRef<HTMLDivElement>(null);
-
-  function toggle(i: number) {
-    setActiveIndex((prev) => (prev === i ? null : i));
-  }
-
-  const active = activeIndex !== null ? competencies[activeIndex] : null;
-
-  useLayoutEffect(() => {
-    const el = descRef.current;
-    if (!el) return;
-    el.style.maxHeight = active ? `${el.scrollHeight}px` : "0px";
-  }, [active]);
-
   return (
-    <section id="competencies" data-testid="competenciesSection" className="py-14 sm:py-22 border-b border-border" style={{ background: "var(--ocre-dim)" }}>
-      <div className="max-w-[920px] mx-auto px-5 sm:px-10">
+    <section id="competencies" data-testid="competenciesSection" className="border-b border-border" style={{ background: "var(--ocre-dim)" }}>
+      <div className="max-w-[1100px] mx-auto px-5 sm:px-10 py-14 sm:py-20">
         <RevealSection>
-          <p className="font-mono text-[0.72rem] text-petrol uppercase tracking-[0.14em] mb-2">
-            {label}
-          </p>
-          <h2 data-testid="competenciesHeading" className="font-display text-[1.9rem] sm:text-[2.25rem] leading-[1.12] tracking-[-0.015em] text-text-1 mb-8 sm:mb-11">
-            {heading}
-          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-[260px_1px_1fr]">
 
-          {/* Pills */}
-          <div className="flex flex-wrap gap-[0.65rem]">
-            {competencies.map((c, i) => {
-              const isActive = activeIndex === i;
-              return (
-                <button
-                  key={c.name}
-                  onClick={() => toggle(i)}
-                  aria-expanded={isActive}
-                  aria-controls="competency-desc"
-                  data-testid={`competencyBtn${i}`}
-                  className={[
-                    "text-[0.875rem] bg-surface border rounded-full px-4 py-[6px]",
-                    "cursor-pointer transition-all duration-200",
-                    "focus-visible:outline-2 focus-visible:outline-ocre focus-visible:outline-offset-2",
-                    isActive
-                      ? "border-petrol text-petrol bg-accent-dim"
-                      : "border-border text-text-2 hover:border-sage-l hover:text-text-1",
-                  ].join(" ")}
-                >
-                  {c.name}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Description panel */}
-          <div
-            id="competency-desc"
-            data-testid="competencyDesc"
-            ref={descRef}
-            style={{
-              maxHeight: "0px",
-              overflow: "hidden",
-              transition: "max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-            }}
-            aria-live="polite"
-          >
-            <div className="mt-5 bg-surface border border-petrol rounded-[4px] px-6 py-5">
-              {active && (
-                <>
-                  <p data-testid="competencyActiveTitle" className="font-mono text-[0.72rem] text-petrol uppercase tracking-[0.1em] mb-3">
-                    {active.name}
-                  </p>
-                  <p data-testid="competencyActiveBody" className="text-[0.95rem] text-text-2 leading-[1.75] max-w-[60ch]">
-                    {active.description}
-                  </p>
-                </>
-              )}
-            </div>
-          </div>
-
-          {/* Languages */}
-          <p className="font-mono text-[0.7rem] text-text-2 uppercase tracking-[0.1em] mt-9 mb-4">
-            {languagesLabel}
-          </p>
-          <div className="flex flex-wrap gap-[0.65rem]">
-            {languages.map(({ lang, level }, i) => (
-              <span
-                key={lang}
-                data-testid={`competencyLang${i}`}
-                className="text-[0.875rem] text-text-2 bg-surface border border-border rounded-full px-4 py-[6px]"
+            {/* Left — label + heading */}
+            <div className="pb-6 sm:pb-0 sm:pr-10 flex flex-col gap-3">
+              <p className="font-mono text-[0.63rem] text-ocre uppercase tracking-[0.18em]">
+                {label}
+              </p>
+              <h2
+                data-testid="competenciesHeading"
+                className="font-display text-[1.7rem] sm:text-[1.75rem] leading-[1.08] tracking-[-0.02em] text-text-1"
+                style={{ textWrap: "balance", wordBreak: "break-word" } as React.CSSProperties}
               >
-                {lang} — {level}
-              </span>
-            ))}
+                {heading}
+              </h2>
+            </div>
+
+            {/* Divider */}
+            <div className="hidden sm:block" style={{ background: "var(--border)" }} />
+
+            {/* Right — cards + languages */}
+            <div className="sm:pl-10 flex flex-col gap-8">
+
+              {/* Competency cards grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {competencies.map((c, i) => (
+                  <div
+                    key={c.name}
+                    data-testid={`competencyBtn${i}`}
+                    className="bg-surface border border-border rounded-[4px] p-5 flex flex-col gap-2"
+                    style={{ borderLeftColor: "var(--petrol)", borderLeftWidth: 3 }}
+                  >
+                    <p className="font-mono text-[0.67rem] text-petrol uppercase tracking-[0.1em]">
+                      {c.name}
+                    </p>
+                    <p className="text-[0.9rem] text-text-2 leading-[1.75]">
+                      {c.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Languages */}
+              <div>
+                <p className="font-mono text-[0.63rem] text-text-2 uppercase tracking-[0.14em] mb-3">
+                  {languagesLabel}
+                </p>
+                <div className="flex flex-wrap gap-[0.6rem]">
+                  {languages.map(({ lang, level }, i) => (
+                    <span
+                      key={lang}
+                      data-testid={`competencyLang${i}`}
+                      className="text-[0.9rem] text-text-2 bg-surface border border-border rounded-full px-4 py-[7px]"
+                    >
+                      {lang} — {level}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+            </div>
           </div>
         </RevealSection>
       </div>

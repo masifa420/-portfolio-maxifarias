@@ -1,37 +1,37 @@
 @import "tailwindcss";
 
-/* ── Blue Steel Palette — Maximiliano Farias ── */
+/* ── Teal & Terra Palette — Maximiliano Farias ── */
 
 :root {
-  /* Grounds — cool off-white */
-  --bg:       #eef3f8;
-  --surface:  #f6fafc;
-  --surface-2:#e0eaf2;
+  /* Grounds — warm cream */
+  --bg:       #FAF5EE;
+  --surface:  #FFFFFF;
+  --surface-2:#F0EAE0;
 
   /* Text */
-  --text-1:   #141c24;
-  --text-2:   #506070;
+  --text-1:   #1A1A1A;
+  --text-2:   #5A6A60;
 
-  /* Brand — blue family */
-  --petrol:   #0e506a; /* azul profundo */
-  --petrol-d: #0b3f55;
-  --sage:     #3a7a9c; /* azul acero medio */
-  --sage-l:   #6aaec4;
-  --ocre:     #6b9db5; /* celeste grisáceo */
-  --terra:    #9bbdd0; /* celeste claro */
+  /* Brand — teal + terracotta */
+  --petrol:   #1B4242; /* teal profundo */
+  --petrol-d: #163535;
+  --sage:     #2D6868; /* teal medio */
+  --sage-l:   #4A8E8E;
+  --ocre:     #C96A2A; /* terracota — acento principal */
+  --terra:    #E8966A; /* terracota claro */
 
   /* Tints */
-  --petrol-dim: #cce2ed;
-  --sage-dim:   #ccdded;
-  --ocre-dim:   #d8ecf4;
-  --terra-dim:  #e4f1f8;
+  --petrol-dim: #C8DDD8;
+  --sage-dim:   #D0E4E4;
+  --ocre-dim:   #F4E0D0;
+  --terra-dim:  #F8EDDE;
 
   /* Semantic */
-  --border:    #c0d4e4;
-  --badge-bg:  #cce0ed;
-  --badge-txt: #0e506a;
+  --border:    #DDD4C8;
+  --badge-bg:  #C8DDD8;
+  --badge-txt: #1B4242;
 
-  /* QA status — muted para light */
+  /* QA status */
   --pass:        #1a7a4a;
   --pass-dim:    #d4ece2;
   --fail:        #b83030;
@@ -39,34 +39,33 @@
   --pending:     #8a6a10;
   --pending-dim: #faf0d0;
 
-  --accent-dim: var(--petrol-dim);
+  --accent-dim: var(--ocre-dim);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg:       #0f1620;
-    --surface:  #18222e;
-    --surface-2:#1e2c3a;
-    --text-1:   #e8f2f8;
-    --text-2:   #7090a8;
+    --bg:       #0D1A1A;
+    --surface:  #142424;
+    --surface-2:#1B3030;
+    --text-1:   #F0EDE6;
+    --text-2:   #8A9688;
 
-    --petrol:   #6ab8cc;
-    --petrol-d: #84cce0;
-    --sage:     #7ab2c8;
-    --sage-l:   #98ccd8;
-    --ocre:     #8fc4d4;
-    --terra:    #a8d0de;
+    --petrol:   #4DBDAA;
+    --petrol-d: #62D4BF;
+    --sage:     #3A9A88;
+    --sage-l:   #60B8A4;
+    --ocre:     #E07830;
+    --terra:    #F09060;
 
-    --petrol-dim: #0c2a38;
-    --sage-dim:   #0c2535;
-    --ocre-dim:   #102030;
-    --terra-dim:  #121e2c;
+    --petrol-dim: #0D2828;
+    --sage-dim:   #0D2424;
+    --ocre-dim:   #1E2C2C;
+    --terra-dim:  #1A2828;
 
-    --border:    #243548;
-    --badge-bg:  #0c2a38;
-    --badge-txt: #6ab8cc;
+    --border:    #243838;
+    --badge-bg:  #0D2828;
+    --badge-txt: #5AC0B0;
 
-    /* QA status — muted para dark */
     --pass:        #4db885;
     --pass-dim:    #0a2218;
     --fail:        #e06060;
@@ -74,32 +73,32 @@
     --pending:     #c9a84c;
     --pending-dim: #241a08;
 
-    --accent-dim: var(--petrol-dim);
+    --accent-dim: var(--ocre-dim);
   }
 }
 
 [data-theme="dark"] {
-  --bg:       #0f1620;
-  --surface:  #18222e;
-  --surface-2:#1e2c3a;
-  --text-1:   #e8f2f8;
-  --text-2:   #7090a8;
+  --bg:       #0D1A1A;
+  --surface:  #142424;
+  --surface-2:#1B3030;
+  --text-1:   #F0EDE6;
+  --text-2:   #8A9688;
 
-  --petrol:   #6ab8cc;
-  --petrol-d: #84cce0;
-  --sage:     #7ab2c8;
-  --sage-l:   #98ccd8;
-  --ocre:     #8fc4d4;
-  --terra:    #a8d0de;
+  --petrol:   #4DBDAA;
+  --petrol-d: #62D4BF;
+  --sage:     #3A9A88;
+  --sage-l:   #60B8A4;
+  --ocre:     #E07830;
+  --terra:    #F09060;
 
-  --petrol-dim: #0c2a38;
-  --sage-dim:   #0c2535;
-  --ocre-dim:   #102030;
-  --terra-dim:  #121e2c;
+  --petrol-dim: #0D2828;
+  --sage-dim:   #0D2424;
+  --ocre-dim:   #1E2C2C;
+  --terra-dim:  #1A2828;
 
-  --border:    #243548;
-  --badge-bg:  #0c2a38;
-  --badge-txt: #6ab8cc;
+  --border:    #243838;
+  --badge-bg:  #0D2828;
+  --badge-txt: #5AC0B0;
 
   --pass:        #4db885;
   --pass-dim:    #0a2218;
@@ -108,31 +107,31 @@
   --pending:     #c9a84c;
   --pending-dim: #241a08;
 
-  --accent-dim: var(--petrol-dim);
+  --accent-dim: var(--ocre-dim);
 }
 
 [data-theme="light"] {
-  --bg:       #eef3f8;
-  --surface:  #f6fafc;
-  --surface-2:#e0eaf2;
-  --text-1:   #141c24;
-  --text-2:   #506070;
+  --bg:       #FAF5EE;
+  --surface:  #FFFFFF;
+  --surface-2:#F0EAE0;
+  --text-1:   #1A1A1A;
+  --text-2:   #5A6A60;
 
-  --petrol:   #0e506a;
-  --petrol-d: #0b3f55;
-  --sage:     #3a7a9c;
-  --sage-l:   #6aaec4;
-  --ocre:     #6b9db5;
-  --terra:    #9bbdd0;
+  --petrol:   #1B4242;
+  --petrol-d: #163535;
+  --sage:     #2D6868;
+  --sage-l:   #4A8E8E;
+  --ocre:     #C96A2A;
+  --terra:    #E8966A;
 
-  --petrol-dim: #cce2ed;
-  --sage-dim:   #ccdded;
-  --ocre-dim:   #d8ecf4;
-  --terra-dim:  #e4f1f8;
+  --petrol-dim: #C8DDD8;
+  --sage-dim:   #D0E4E4;
+  --ocre-dim:   #F4E0D0;
+  --terra-dim:  #F8EDDE;
 
-  --border:    #c0d4e4;
-  --badge-bg:  #cce0ed;
-  --badge-txt: #0e506a;
+  --border:    #DDD4C8;
+  --badge-bg:  #C8DDD8;
+  --badge-txt: #1B4242;
 
   --pass:        #1a7a4a;
   --pass-dim:    #d4ece2;
@@ -141,7 +140,7 @@
   --pending:     #8a6a10;
   --pending-dim: #faf0d0;
 
-  --accent-dim: var(--petrol-dim);
+  --accent-dim: var(--ocre-dim);
 }
 
 /* ── Tailwind v4 theme tokens ── */

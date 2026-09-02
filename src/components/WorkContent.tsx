@@ -193,7 +193,7 @@ function BugReportCard({ report, defaultOpen = true }: { report: BugReportExampl
               </span>
             </div>
           </div>
-          <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex items-center gap-2 flex-wrap justify-end">
             <span
               className="font-mono text-[0.65rem] uppercase tracking-[0.08em] px-2 py-[2px] rounded-[2px]"
               style={{ background: "var(--petrol-dim)", color: "var(--petrol)" }}
@@ -226,8 +226,8 @@ function BugReportCard({ report, defaultOpen = true }: { report: BugReportExampl
             ))}
           </div>
           <GherkinBlock lines={report.gherkin} />
-          <div className="mt-4 pt-4 border-t border-border flex gap-2 items-start">
-            <span className="font-mono text-[0.65rem] uppercase tracking-[0.08em] text-sage mt-[1px] flex-shrink-0">Fix</span>
+          <div className="mt-4 pt-4 border-t border-border flex gap-2 items-baseline">
+            <span className="font-mono text-[0.65rem] uppercase tracking-[0.08em] text-sage flex-shrink-0">Fix</span>
             <p data-testid={`bugReportFix-${report.id}`} className="font-mono text-[0.72rem] text-text-2 leading-[1.6]">{report.fix}</p>
           </div>
         </div>
@@ -255,7 +255,7 @@ function TestCaseCard({ tc }: { tc: TestCase }) {
       >
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2 flex-shrink-0 flex-wrap">
+            <div className="flex items-baseline gap-2 flex-shrink-0 flex-wrap">
               <span className="font-mono text-[0.68rem] text-petrol tracking-[0.1em] uppercase">{tc.id}</span>
               <span className="font-mono text-[0.65rem] px-2 py-[2px] rounded-[2px]" style={{ background: "var(--sage-dim)", color: "var(--sage)" }}>
                 Bug: {tc.bugId}
@@ -268,7 +268,7 @@ function TestCaseCard({ tc }: { tc: TestCase }) {
               <span className="font-mono text-[0.7rem] text-text-2 transition-transform duration-200 inline-block" style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)" }}>▾</span>
             </div>
           </div>
-          <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex items-center gap-2 flex-wrap justify-end">
             <span className="font-mono text-[0.65rem] px-2 py-[2px] rounded-[2px]" style={{ background: "var(--petrol-dim)", color: "var(--petrol)" }}>Env: {tc.environment}</span>
             <span className="font-mono text-[0.65rem] px-2 py-[2px] rounded-[2px]" style={{ background: "var(--petrol-dim)", color: "var(--petrol)" }}>{tc.device}</span>
             <span className="font-mono text-[0.65rem] px-2 py-[2px] rounded-[2px]" style={{ background: "var(--petrol-dim)", color: "var(--petrol)" }}>Browser: {tc.browser}</span>

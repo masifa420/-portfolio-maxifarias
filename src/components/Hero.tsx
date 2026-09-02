@@ -6,97 +6,247 @@ interface HeroProps {
   stats: { value: string; label: string }[];
 }
 
-export default function Hero({ profile, hook, stats }: HeroProps) {
+const PILLARS = [
+  { n: "01", label: "Calidad" },
+  { n: "02", label: "Metodología" },
+  { n: "03", label: "Excelencia" },
+  { n: "04", label: "IA aplicada" },
+];
 
+export default function Hero({ profile, hook }: HeroProps) {
   return (
-    <section id="hero" data-testid="heroSection" className="border-b border-border">
-      <div className="max-w-[920px] mx-auto px-5 sm:px-10 pt-12 sm:pt-20 pb-10 sm:pb-16">
+    <section
+      id="hero"
+      data-testid="heroSection"
+      className="flex flex-col sm:flex-row"
+      style={{ height: "100svh", overflow: "hidden" }}
+    >
+      {/* ── Left panel — dark teal ── */}
+      {/* Mobile: horizontal bar (~80px). Desktop: full-height side panel */}
+      <div
+        className="flex-shrink-0 flex flex-col items-center justify-center gap-2 sm:gap-6
+                   h-[80px] w-full sm:h-full sm:w-[clamp(160px,30%,300px)]"
+        style={{ background: "#1B4242", padding: "1rem 1.5rem" }}
+      >
+        {/* Logo: small on mobile, full size on desktop */}
+        <div className="hidden sm:block">
+          <LogoMark size={96} />
+        </div>
+        <div className="sm:hidden">
+          <LogoMark size={40} />
+        </div>
 
-        <p className="font-mono text-[0.75rem] text-petrol uppercase tracking-[0.14em] mb-6 sm:mb-7 flex items-center gap-3">
-          <span className="inline-block w-7 h-px bg-petrol flex-shrink-0" />
+        <p
+          className="hidden sm:block"
+          style={{
+            fontFamily: "var(--font-mono, monospace)",
+            fontSize: "0.6rem",
+            letterSpacing: "0.2em",
+            textTransform: "uppercase",
+            color: "rgba(255,255,255,0.45)",
+            textAlign: "center",
+          }}
+        >
+          QA · ANALYTIC
+        </p>
+      </div>
+
+      {/* ── Right panel — warm cream ── */}
+      {/* Mobile: flex-1 with overflow-y scroll so content always accessible */}
+      <div
+        className="flex-1 flex flex-col justify-center overflow-y-auto"
+        style={{
+          background: "#FAF5EE",
+          padding: "clamp(1.8rem,6vw,5rem) clamp(1.5rem,5vw,4.5rem)",
+        }}
+      >
+        {/* Name + role */}
+        <p
+          style={{
+            fontFamily: "var(--font-mono, monospace)",
+            fontSize: "0.72rem",
+            letterSpacing: "0.18em",
+            textTransform: "uppercase",
+            color: "#C96A2A",
+            marginBottom: "0.25rem",
+          }}
+        >
+          {profile.name}
+        </p>
+        <p
+          style={{
+            fontFamily: "var(--font-mono, monospace)",
+            fontSize: "0.65rem",
+            letterSpacing: "0.18em",
+            textTransform: "uppercase",
+            color: "#C96A2A",
+            marginBottom: "1.4rem",
+          }}
+        >
           {profile.title}
         </p>
 
-        <h1 data-testid="heroName" className="font-display text-[clamp(2.6rem,8vw,5.5rem)] leading-[1.02] tracking-[-0.025em] text-text-1 mb-4 sm:mb-5">
-          {profile.name}
+        {/* Headline */}
+        <h1
+          data-testid="heroName"
+          style={{
+            fontFamily: "var(--font-display, serif)",
+            fontSize: "clamp(1.7rem, 4.5vw, 3.8rem)",
+            fontWeight: 700,
+            lineHeight: 1.08,
+            color: "#1A1A1A",
+            letterSpacing: "-0.02em",
+            marginBottom: "1.2rem",
+            maxWidth: "18ch",
+          }}
+        >
+          {hook}
         </h1>
 
-        <p data-testid="heroHook" className="font-display italic text-[1rem] sm:text-[1.1rem] text-text-2 leading-[1.5] mb-5 sm:mb-6 max-w-[40ch]">
-          &ldquo;{hook}&rdquo;
+        {/* Orange rule */}
+        <div
+          style={{
+            width: "3rem",
+            height: "3px",
+            background: "#C96A2A",
+            borderRadius: "2px",
+            marginBottom: "1.2rem",
+          }}
+        />
+
+        {/* Subtitle */}
+        <p
+          data-testid="heroHook"
+          style={{
+            fontFamily: "var(--font-body, sans-serif)",
+            fontSize: "clamp(0.9rem, 1.4vw, 1rem)",
+            lineHeight: 1.65,
+            color: "#4A5A50",
+            maxWidth: "46ch",
+            marginBottom: "2rem",
+          }}
+        >
+          {profile.subtitle}
         </p>
 
-        <p data-testid="heroSubtitle" className="font-mono text-[0.72rem] sm:text-[0.82rem] text-text-2 mb-8 sm:mb-10 tracking-[0.04em]">
-          <span style={{ whiteSpace: "nowrap" }}>{profile.subtitle}</span>
-        </p>
+        {/* Pillars */}
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "0.5rem 1.8rem",
+            marginBottom: "2rem",
+          }}
+        >
+          {PILLARS.map(({ n, label }) => (
+            <div key={n} style={{ display: "flex", flexDirection: "column", gap: "0.15rem" }}>
+              <span
+                style={{
+                  fontFamily: "var(--font-mono, monospace)",
+                  fontSize: "0.65rem",
+                  color: "#C96A2A",
+                  letterSpacing: "0.05em",
+                }}
+              >
+                {n}
+              </span>
+              <span
+                style={{
+                  fontFamily: "var(--font-body, sans-serif)",
+                  fontSize: "0.82rem",
+                  fontWeight: 600,
+                  color: "#1A1A1A",
+                  letterSpacing: "0.01em",
+                }}
+              >
+                {label}
+              </span>
+            </div>
+          ))}
+        </div>
 
-        {/* Meta — apila verticalmente en mobile */}
-        <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-5 items-start sm:items-center">
-          <span data-testid="heroLocation" className="flex items-center gap-[0.45rem] text-[0.85rem] text-text-2">
-            <LocationIcon />
-            {profile.location}
-          </span>
+        {/* Contact links */}
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "1rem",
+            alignItems: "center",
+          }}
+        >
           <a
             href={`mailto:${profile.email}`}
             data-testid="heroEmailLink"
-            className="flex items-center gap-[0.45rem] text-[0.85rem] text-text-2 no-underline transition-colors duration-150 hover:text-petrol break-all"
+            style={{
+              fontFamily: "var(--font-mono, monospace)",
+              fontSize: "0.72rem",
+              color: "#1B4242",
+              textDecoration: "none",
+              letterSpacing: "0.04em",
+              opacity: 0.8,
+              transition: "opacity 0.15s",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
+            onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.8")}
           >
-            <MailIcon />
             {profile.email}
           </a>
+          <span style={{ color: "#C96A2A", fontSize: "0.6rem" }}>·</span>
           <a
             href={profile.linkedin}
             target="_blank"
             rel="noopener noreferrer"
             data-testid="heroLinkedinLink"
-            className="flex items-center gap-[0.45rem] text-[0.85rem] text-text-2 no-underline transition-colors duration-150 hover:text-petrol"
+            style={{
+              fontFamily: "var(--font-mono, monospace)",
+              fontSize: "0.72rem",
+              color: "#1B4242",
+              textDecoration: "none",
+              letterSpacing: "0.04em",
+              opacity: 0.8,
+              transition: "opacity 0.15s",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
+            onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.8")}
           >
-            <LinkedInIcon />
-            LinkedIn
+            LinkedIn ↗
           </a>
-        </div>
-
-        {/* Stats bar */}
-        <div data-testid="heroStats" className="mt-10 sm:mt-14 pt-6 sm:pt-8 border-t border-border grid grid-cols-3 gap-4 sm:gap-6 justify-items-center">
-          {stats.map((s, i) => (
-            <div key={s.label} data-testid={`heroStat${i}`} className="text-center">
-              <p className="font-display text-[1.6rem] sm:text-[2rem] leading-none tracking-[-0.02em] text-text-1">
-                {s.value}
-              </p>
-              <p className="font-mono text-[0.65rem] sm:text-[0.72rem] text-text-2 uppercase tracking-[0.08em] sm:tracking-[0.1em] mt-[5px]">
-                {s.label}
-              </p>
-            </div>
-          ))}
+          <span style={{ color: "#C96A2A", fontSize: "0.6rem" }}>·</span>
+          <span
+            data-testid="heroLocation"
+            style={{
+              fontFamily: "var(--font-mono, monospace)",
+              fontSize: "0.72rem",
+              color: "#1B4242",
+              opacity: 0.6,
+              letterSpacing: "0.04em",
+            }}
+          >
+            {profile.location}
+          </span>
         </div>
       </div>
     </section>
   );
 }
 
-function LocationIcon() {
+function LogoMark({ size = 96 }: { size?: number }) {
   return (
-    <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.6, flexShrink: 0 }} aria-hidden>
-      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
-      <circle cx={12} cy={9} r={2.5} />
-    </svg>
-  );
-}
-
-function MailIcon() {
-  return (
-    <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.6, flexShrink: 0 }} aria-hidden>
-      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-      <polyline points="22,6 12,13 2,6" />
-    </svg>
-  );
-}
-
-function LinkedInIcon() {
-  return (
-    <svg width={14} height={14} viewBox="0 0 24 24" fill="currentColor" style={{ opacity: 0.6, flexShrink: 0 }} aria-hidden>
-      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-      <rect x={2} y={9} width={4} height={12} />
-      <circle cx={4} cy={4} r={2} />
+    <svg width={size} height={size} viewBox="0 0 96 96" fill="none" aria-hidden>
+      <circle cx="48" cy="48" r="44" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
+      <circle cx="48" cy="48" r="34" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
+      <circle cx="48" cy="48" r="24" fill="#C96A2A" opacity="0.9" />
+      <polyline
+        points="38,48 45,55 58,40"
+        stroke="white"
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle cx="48" cy="4" r="3" fill="rgba(255,255,255,0.5)" />
+      <circle cx="92" cy="48" r="3" fill="rgba(255,255,255,0.3)" />
+      <circle cx="48" cy="92" r="2" fill="rgba(255,255,255,0.2)" />
+      <circle cx="4"  cy="48" r="2" fill="rgba(255,255,255,0.2)" />
     </svg>
   );
 }

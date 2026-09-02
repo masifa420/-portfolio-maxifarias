@@ -155,7 +155,7 @@ function SprintCard({ sprint, runs, tc, defaultOpen }: {
                   const isDone   = issue.statusCategory === "done";
                   const isInProg = issue.statusCategory === "indeterminate";
                   return (
-                    <div key={issue.key} className="flex items-center gap-3 py-[8px] border-b border-border last:border-0">
+                    <div key={issue.key} className="flex items-baseline gap-3 py-[8px] border-b border-border last:border-0">
                       <a href={issue.url} target="_blank" rel="noopener noreferrer"
                         className="font-mono text-[0.62rem] text-petrol flex-shrink-0 w-[72px] hover:opacity-70 transition-opacity">
                         {issue.key} ↗
@@ -230,7 +230,7 @@ function SprintCard({ sprint, runs, tc, defaultOpen }: {
           </div>
 
           {/* 3 — CI + env details */}
-          <div className="flex items-center gap-5 px-5 py-3 flex-wrap" style={{ background: "var(--surface-2)" }}>
+          <div className="flex items-baseline gap-5 px-5 py-3 flex-wrap" style={{ background: "var(--surface-2)" }}>
             {[
               { label: "ci rate",  value: successRate !== null ? `${successRate}% (${passed.length}/${completed.length})` : "—", accent: successRate === 100 },
               { label: "avg dur",  value: formatDuration(avgDuration) },
@@ -238,7 +238,7 @@ function SprintCard({ sprint, runs, tc, defaultOpen }: {
               { label: "viewport", value: "390 × 844" },
               { label: "env",      value: "Production · Vercel" },
             ].map(({ label, value, accent }) => (
-              <div key={label} className="flex items-center gap-[6px]">
+              <div key={label} className="flex items-baseline gap-[5px]">
                 <span className="font-mono text-[0.57rem] text-text-2 uppercase tracking-[0.1em]">{label}</span>
                 <span className="font-mono text-[0.65rem]" style={{ color: accent ? "var(--pass)" : "var(--text-2)" }}>{value}</span>
               </div>

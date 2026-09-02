@@ -44,31 +44,31 @@ export default function PortfolioContent() {
         hook={t.hero.hook}
         stats={t.hero.stats}
       />
-      <Experience
-        label={t.experience.label}
-        heading={t.experience.heading}
-        company={profile.experience[0].company}
-        experience={experience}
-      />
-      <Skills
-        label={t.skills.label}
-        heading={t.skills.heading}
-        skills={skills}
-      />
-      <About
-        label={t.about.label}
-        heading={t.about.heading}
-        summary={t.about.summary}
+      <Philosophy
+        label={t.philosophy.label}
+        heading={t.philosophy.heading}
+        cards={t.philosophy.cards}
       />
       <Human
         label={t.human.label}
         heading={t.human.heading}
         body={t.human.body}
       />
-      <Philosophy
-        label={t.philosophy.label}
-        heading={t.philosophy.heading}
-        cards={t.philosophy.cards}
+      <About
+        label={t.about.label}
+        heading={t.about.heading}
+        summary={t.about.summary}
+      />
+      <Skills
+        label={t.skills.label}
+        heading={t.skills.heading}
+        skills={skills}
+      />
+      <Experience
+        label={t.experience.label}
+        heading={t.experience.heading}
+        company={profile.experience[0].company}
+        experience={experience}
       />
       <Training
         label={t.training.label}
