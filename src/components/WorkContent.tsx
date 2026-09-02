@@ -364,19 +364,98 @@ export default function WorkContent() {
 
   return (
     <>
-      {/* Hero */}
-      <section data-testid="workHeroSection" className="border-b border-border">
-        <div className="max-w-[920px] mx-auto px-5 sm:px-10 pt-12 sm:pt-20 pb-10 sm:pb-16">
-          <p className="font-mono text-[0.75rem] text-petrol uppercase tracking-[0.14em] mb-6 flex items-center gap-3">
-            <span className="inline-block w-7 h-px bg-petrol flex-shrink-0" />
-            {t.hero.label}
+      {/* Hero — fullscreen, mismo layout que portfolio */}
+      <section
+        data-testid="workHeroSection"
+        className="flex flex-col sm:flex-row border-b border-border"
+        style={{ height: "100svh", overflow: "hidden" }}
+      >
+        {/* Panel izquierdo — petrol */}
+        <div
+          className="flex-shrink-0 flex flex-col items-center justify-center gap-2 sm:gap-6
+                     h-[80px] w-full sm:h-full sm:w-[clamp(160px,30%,300px)]"
+          style={{ background: "#1B4242", padding: "1rem 1.5rem" }}
+        >
+          <div className="hidden sm:block"><WorkMark size={88} /></div>
+          <div className="sm:hidden"><WorkMark size={38} /></div>
+          <p className="hidden sm:block font-mono text-[0.6rem] uppercase tracking-[0.2em] text-center"
+             style={{ color: "rgba(255,255,255,0.45)" }}>
+            QA · WORK
           </p>
-          <h1 data-testid="workHeroHeading" className="font-display text-[clamp(2.6rem,8vw,5rem)] leading-[1.02] tracking-[-0.025em] text-text-1 mb-5">
-            {t.hero.heading}
-          </h1>
-          <p data-testid="workHeroSubtitle" className="font-mono text-[0.82rem] text-text-2 max-w-[52ch] leading-[1.75] tracking-[0.02em]">
-            {t.hero.subtitle}
-          </p>
+        </div>
+
+        {/* Panel derecho — crema */}
+        <div
+          className="flex-1 flex flex-col justify-between overflow-y-auto"
+          style={{
+            background: "#FAF5EE",
+            padding: "clamp(1.8rem,6vw,4.5rem) clamp(1.5rem,5vw,4.5rem)",
+          }}
+        >
+          <div className="flex flex-col justify-center flex-1">
+            {/* Label + heading */}
+            <p className="font-mono text-[0.72rem] uppercase tracking-[0.18em] mb-3"
+               style={{ color: "#C96A2A" }}>
+              {t.hero.label}
+            </p>
+            <h1
+              data-testid="workHeroHeading"
+              className="font-display leading-[1.08] tracking-[-0.02em] mb-4"
+              style={{ fontSize: "clamp(2rem,5vw,3.8rem)", color: "#1A1A1A", maxWidth: "16ch" }}
+            >
+              {t.hero.heading}
+            </h1>
+
+            {/* Regla naranja */}
+            <div style={{ width: "3rem", height: "3px", background: "#C96A2A", borderRadius: "2px", marginBottom: "1.2rem" }} />
+
+            {/* Subtítulo */}
+            <p
+              data-testid="workHeroSubtitle"
+              className="font-mono leading-[1.75] tracking-[0.01em] mb-8"
+              style={{ fontSize: "clamp(0.8rem,1.2vw,0.88rem)", color: "#4A5A50", maxWidth: "48ch" }}
+            >
+              {t.hero.subtitle}
+            </p>
+
+            {/* Cards preview de las 4 secciones */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-[0.6rem] max-w-[560px]">
+              {SECTION_KEYS.map((key) => {
+                const section = t.sections[key];
+                const { border } = SECTION_COLORS[key];
+                const icon = SECTION_ICONS[key];
+                return (
+                  <a
+                    key={key}
+                    href={`#${key}`}
+                    className="flex items-start gap-3 p-4 rounded-[4px] border border-border no-underline transition-colors duration-150 hover:border-petrol group"
+                    style={{ background: "rgba(27,66,66,0.04)", borderLeftColor: border, borderLeftWidth: 3 }}
+                  >
+                    <div className="flex-shrink-0 mt-[2px]">{icon}</div>
+                    <div className="flex flex-col gap-[0.2rem]">
+                      <p className="font-mono text-[0.63rem] uppercase tracking-[0.12em]"
+                         style={{ color: "#1B4242" }}>
+                        {section.label}
+                      </p>
+                      <p className="font-mono text-[0.67rem] leading-[1.55]"
+                         style={{ color: "#4A5A50" }}>
+                        {section.description}
+                      </p>
+                    </div>
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Scroll cue */}
+          <div className="flex items-center gap-2 pt-4">
+            <span className="font-mono text-[0.62rem] uppercase tracking-[0.15em]"
+                  style={{ color: "#C96A2A", opacity: 0.65 }}>
+              Scroll to explore
+            </span>
+            <span style={{ color: "#C96A2A", opacity: 0.65, fontSize: "0.8rem" }}>↓</span>
+          </div>
         </div>
       </section>
 
@@ -444,5 +523,134 @@ export default function WorkContent() {
         );
       })}
     </>
+  );
+}
+
+function WorkMark({ size = 88 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 88 88" fill="none" aria-hidden>
+      <style>{`
+        @keyframes wm-draw  { to { stroke-dashoffset: 0; } }
+        @keyframes wm-fade  { to { opacity: 1; } }
+        @keyframes wm-state {
+          0%   { opacity: 0; }
+          15%  { opacity: 1; }
+          80%  { opacity: 1; }
+          100% { opacity: 0; }
+        }
+        @keyframes wm-center-color {
+          0%   { fill: #C96A2A; }
+          35%  { fill: #C96A2A; }
+          42%  { fill: #6B1A1A; }
+          70%  { fill: #6B1A1A; }
+          77%  { fill: #64731e; }
+          100% { fill: #64731e; }
+        }
+        @keyframes wm-spin-cw  { to { transform: rotate(360deg);  } }
+        @keyframes wm-spin-ccw { to { transform: rotate(-360deg); } }
+
+        .wm-group-outer, .wm-group-inner {
+          transform-box: fill-box;
+          transform-origin: center;
+        }
+        .wm-group-outer { animation: wm-spin-cw  1.05s cubic-bezier(0.4,0,0.05,1) 0.96s forwards; }
+        .wm-group-inner { animation: wm-spin-ccw 1.05s cubic-bezier(0.4,0,0.05,1) 0.96s forwards; }
+
+        .wm-orbit-outer {
+          stroke-dasharray: 1; stroke-dashoffset: 1;
+          animation: wm-draw 0.53s cubic-bezier(0.4,0,0.2,1) 0.09s forwards;
+        }
+        .wm-orbit-inner {
+          stroke-dasharray: 1; stroke-dashoffset: 1;
+          animation: wm-draw 0.44s cubic-bezier(0.4,0,0.2,1) 0.48s forwards;
+        }
+        .wm-center {
+          opacity: 0;
+          animation:
+            wm-fade         0.24s ease-out    0.89s forwards,
+            wm-center-color 1.61s ease-in-out 0.89s forwards;
+        }
+        .wm-dot { opacity: 0; }
+        .wm-dot-1 { animation: wm-fade 0.15s ease-out 0.28s forwards; }
+        .wm-dot-2 { animation: wm-fade 0.15s ease-out 0.60s forwards; }
+        .wm-dot-3 { animation: wm-fade 0.15s ease-out 0.76s forwards; }
+        .wm-dot-4 { animation: wm-fade 0.15s ease-out 0.84s forwards; }
+
+        /* 🔍 Lupa — buscando */
+        .wm-lupa { opacity: 0; animation: wm-state 0.60s ease-in-out 0.96s forwards; }
+        /* 🐛 Bug — encontrado */
+        .wm-bug  { opacity: 0; animation: wm-state 0.56s ease-in-out 1.45s forwards; }
+        /* 🏅 Éxito — resuelto */
+        .wm-win  {
+          opacity: 0;
+          animation: wm-fade 0.49s cubic-bezier(0.22,1,0.36,1) 2.01s forwards;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .wm-orbit-outer, .wm-orbit-inner { stroke-dashoffset: 0 !important; animation: none; }
+          .wm-group-outer, .wm-group-inner { animation: none; }
+          .wm-center { opacity: 1 !important; fill: #64731e !important; animation: none; }
+          .wm-dot { opacity: 1 !important; animation: none; }
+          .wm-lupa, .wm-bug { display: none; }
+          .wm-win { opacity: 1 !important; animation: none; }
+        }
+      `}</style>
+
+      {/* Órbita exterior + puntos — gira horario */}
+      <g className="wm-group-outer">
+        <circle className="wm-orbit-outer" cx="44" cy="44" r="40"
+          stroke="rgba(255,255,255,0.12)" strokeWidth="1.5" pathLength="1" />
+        <circle className="wm-dot wm-dot-1" cx="44" cy="4"  r="2.5" fill="rgba(255,255,255,0.4)" />
+        <circle className="wm-dot wm-dot-2" cx="84" cy="44" r="2"   fill="rgba(255,255,255,0.25)" />
+        <circle className="wm-dot wm-dot-3" cx="44" cy="84" r="2"   fill="rgba(255,255,255,0.2)" />
+        <circle className="wm-dot wm-dot-4" cx="4"  cy="44" r="2"   fill="rgba(255,255,255,0.2)" />
+      </g>
+
+      {/* Órbita interior — gira anti-horario */}
+      <g className="wm-group-inner">
+        <circle className="wm-orbit-inner" cx="44" cy="44" r="30"
+          stroke="rgba(255,255,255,0.08)" strokeWidth="1" pathLength="1" />
+      </g>
+
+      {/* Centro — naranja → bordeaux → verde oliva */}
+      <circle className="wm-center" cx="44" cy="44" r="22" fill="#C96A2A" />
+
+      {/* 🔍 LUPA — buscando el bug */}
+      <g className="wm-lupa">
+        <circle cx="41" cy="41" r="7" stroke="white" strokeWidth="2" />
+        <line x1="46.5" y1="46.5" x2="53" y2="53" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+      </g>
+
+      {/* 🐛 BUG — encontrado */}
+      <g className="wm-bug">
+        {/* Cabeza */}
+        <circle cx="44" cy="37" r="4" stroke="#FF9090" strokeWidth="1.75" />
+        {/* Cuerpo */}
+        <ellipse cx="44" cy="48" rx="6" ry="7" stroke="#FF9090" strokeWidth="1.75" />
+        {/* Antenas */}
+        <line x1="41" y1="33" x2="38" y2="29" stroke="#FF9090" strokeWidth="1.5" strokeLinecap="round" />
+        <line x1="47" y1="33" x2="50" y2="29" stroke="#FF9090" strokeWidth="1.5" strokeLinecap="round" />
+        {/* Patas izquierda */}
+        <line x1="38" y1="44" x2="33" y2="42" stroke="#FF9090" strokeWidth="1.25" strokeLinecap="round" />
+        <line x1="38" y1="48" x2="33" y2="49" stroke="#FF9090" strokeWidth="1.25" strokeLinecap="round" />
+        <line x1="38" y1="52" x2="33" y2="54" stroke="#FF9090" strokeWidth="1.25" strokeLinecap="round" />
+        {/* Patas derecha */}
+        <line x1="50" y1="44" x2="55" y2="42" stroke="#FF9090" strokeWidth="1.25" strokeLinecap="round" />
+        <line x1="50" y1="48" x2="55" y2="49" stroke="#FF9090" strokeWidth="1.25" strokeLinecap="round" />
+        <line x1="50" y1="52" x2="55" y2="54" stroke="#FF9090" strokeWidth="1.25" strokeLinecap="round" />
+      </g>
+
+      {/* 🏅 ÉXITO — medalla/badge */}
+      <g className="wm-win">
+        {/* Círculo de medalla */}
+        <circle cx="44" cy="41" r="8" stroke="#C4D96E" strokeWidth="1.75" />
+        {/* Cinta izquierda */}
+        <line x1="39" y1="48" x2="35" y2="56" stroke="#C4D96E" strokeWidth="2" strokeLinecap="round" />
+        {/* Cinta derecha */}
+        <line x1="49" y1="48" x2="53" y2="56" stroke="#C4D96E" strokeWidth="2" strokeLinecap="round" />
+        {/* Check dentro */}
+        <polyline points="40,41 43,44 50,36" stroke="#C4D96E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      </g>
+    </svg>
   );
 }
