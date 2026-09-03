@@ -13,12 +13,12 @@
   --text-2:   #5A6A60;
 
   /* Brand — teal + terracotta */
-  --petrol:   #1B4242; /* teal profundo */
+  --petrol:   #1B4242; /* deep teal */
   --petrol-d: #163535;
-  --sage:     #2D6868; /* teal medio */
+  --sage:     #2D6868; /* medium teal */
   --sage-l:   #4A8E8E;
-  --ocre:     #C96A2A; /* terracota — acento principal */
-  --terra:    #E8966A; /* terracota claro */
+  --ocre:     #C96A2A; /* terracotta — main accent */
+  --terra:    #E8966A; /* light terracotta */
 
   /* Tints */
   --petrol-dim: #C8DDD8;

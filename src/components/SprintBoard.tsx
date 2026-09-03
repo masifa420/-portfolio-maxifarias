@@ -38,7 +38,7 @@ function SprintRow({ sprint, defaultOpen }: { sprint: Sprint; defaultOpen: boole
   const isActive = sprint.state === "active";
 
   return (
-    <div className="rounded-[6px] border border-border overflow-hidden" style={{ background: "var(--surface)" }}>
+    <div data-testid={`sprintRow-${sprint.id}`} className="rounded-[6px] border border-border overflow-hidden" style={{ background: "var(--surface)" }}>
       <button
         onClick={() => setOpen(!open)}
         className="w-full flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 px-5 py-4 cursor-pointer transition-opacity hover:opacity-80 text-left"
@@ -108,6 +108,7 @@ function SprintRow({ sprint, defaultOpen }: { sprint: Sprint; defaultOpen: boole
               return (
                 <div
                   key={issue.key}
+                  data-testid={`sprintIssue-${issue.key}`}
                   className="flex items-center gap-3 px-5 py-[10px] border-b border-border last:border-0"
                   style={{ background: i % 2 === 0 ? "transparent" : "var(--surface-2)" }}
                 >
@@ -171,7 +172,7 @@ export default function SprintBoard() {
   }
 
   return (
-    <div className="flex flex-col gap-3">
+    <div data-testid="sprintBoard" className="flex flex-col gap-3">
       {sprints.map((s, i) => (
         <SprintRow key={s.id} sprint={s} defaultOpen={i === 0} />
       ))}

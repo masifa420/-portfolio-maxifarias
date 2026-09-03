@@ -243,7 +243,7 @@ function LogoMark({ size = 96 }: { size?: number }) {
           transform-box: fill-box;
           transform-origin: center;
         }
-        /* Giran durante el X+pause (1.2s → 2.5s = 1.3s), luego quedan estáticas */
+        /* Rotate during X+pause (1.2s → 2.5s = 1.3s), then remain static */
         .lm-orbit-group-outer {
           animation: lm-spin-cw  1.05s cubic-bezier(0.4,0,0.05,1) 0.96s forwards;
         }
@@ -299,7 +299,7 @@ function LogoMark({ size = 96 }: { size?: number }) {
         }
       `}</style>
 
-      {/* Órbita exterior + sus 4 puntos — gira horario */}
+      {/* Outer orbit + 4 dots — clockwise */}
       <g className="lm-orbit-group-outer">
         <circle className="lm-orbit-outer" cx="48" cy="48" r="44"
           stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" pathLength="1" />
@@ -309,28 +309,28 @@ function LogoMark({ size = 96 }: { size?: number }) {
         <circle className="lm-dot lm-dot-4" cx="4"  cy="48" r="2" fill="rgba(255,255,255,0.2)" />
       </g>
 
-      {/* Órbita interior — gira anti-horario */}
+      {/* Inner orbit — counter-clockwise */}
       <g className="lm-orbit-group-inner">
         <circle className="lm-orbit-inner" cx="48" cy="48" r="34"
           stroke="rgba(255,255,255,0.1)" strokeWidth="1" pathLength="1" />
       </g>
 
-      {/* Centro — color anima con cada estado QA */}
+      {/* Center — color animates with each QA state */}
       <circle className="lm-center" cx="48" cy="48" r="24" fill="#6B1A1A" />
 
-      {/* ✗ FAIL — coral sobre bordeaux */}
+      {/* FAIL — coral on bordeaux */}
       <g className="lm-symbol-x">
         <line x1="40" y1="40" x2="56" y2="56" stroke="#FF7070" strokeWidth="3" strokeLinecap="round" />
         <line x1="56" y1="40" x2="40" y2="56" stroke="#FF7070" strokeWidth="3" strokeLinecap="round" />
       </g>
 
-      {/* ‖ EN PROCESO — ámbar sobre marrón oscuro */}
+      {/* IN PROGRESS — amber on dark brown */}
       <g className="lm-symbol-pause">
         <line x1="43" y1="39" x2="43" y2="57" stroke="#FFC060" strokeWidth="3.5" strokeLinecap="round" />
         <line x1="53" y1="39" x2="53" y2="57" stroke="#FFC060" strokeWidth="3.5" strokeLinecap="round" />
       </g>
 
-      {/* ✓ PASS — oliva claro sobre verde oliva */}
+      {/* PASS — light olive on olive green */}
       <polyline className="lm-check"
         points="38,48 45,55 58,40"
         stroke="#C4D96E" strokeWidth="3"

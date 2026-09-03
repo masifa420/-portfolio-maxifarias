@@ -124,7 +124,7 @@ function GherkinBlock({ lines }: { lines: GherkinLine[] }) {
   return (
     <>
       {/* Desktop: inline */}
-      <pre className="hidden sm:block font-mono text-[0.75rem] leading-[1.9] overflow-x-auto p-4 rounded-[4px] border border-border" style={{ background: "var(--surface-2)" }}>
+      <pre data-testid="gherkinBlock" className="hidden sm:block font-mono text-[0.75rem] leading-[1.9] overflow-x-auto p-4 rounded-[4px] border border-border" style={{ background: "var(--surface-2)" }}>
         <GherkinLines lines={lines} />
       </pre>
 
@@ -135,7 +135,7 @@ function GherkinBlock({ lines }: { lines: GherkinLine[] }) {
         className="sm:hidden w-full flex items-center justify-between px-4 py-3 rounded-[4px] border border-border font-mono text-[0.72rem] text-petrol uppercase tracking-[0.08em] cursor-pointer transition-opacity duration-150 hover:opacity-70"
         style={{ background: "var(--surface-2)" }}
       >
-        <span>Ver escenario Gherkin</span>
+        <span>View Gherkin scenario</span>
         <span>↗</span>
       </button>
 
@@ -160,7 +160,7 @@ function GherkinBlock({ lines }: { lines: GherkinLine[] }) {
                 onClick={() => setOpen(false)}
                 className="font-mono text-[0.7rem] text-text-2 border border-border rounded-[3px] px-3 py-1 bg-transparent cursor-pointer"
               >
-                cerrar ×
+                close ×
               </button>
             </div>
             <div className="overflow-y-auto px-5 py-4">
@@ -178,7 +178,7 @@ function BugReportCard({ report, defaultOpen = true }: { report: BugReportExampl
 
   return (
     <div data-testid={`bugReportCard-${report.id}`} className="rounded-[6px] border border-border overflow-hidden" style={{ background: "var(--surface)" }}>
-      {/* Header — siempre visible, clickeable */}
+      {/* Header — always visible, clickable */}
       <button
         data-testid={`bugReportToggle-${report.id}`}
         onClick={() => setOpen(!open)}
@@ -221,7 +221,7 @@ function BugReportCard({ report, defaultOpen = true }: { report: BugReportExampl
         </div>
       </button>
 
-      {/* Body colapsable */}
+      {/* Collapsible body */}
       {open && (
         <div data-testid={`bugReportBody-${report.id}`} className="px-5 py-4">
           <div className="flex flex-wrap gap-x-6 gap-y-1 mb-5">
@@ -337,8 +337,8 @@ function TestCaseCard({ tc }: { tc: TestCase }) {
           {/* Metadata grid */}
           <div className="grid grid-cols-2 sm:grid-cols-4 border-b border-border" style={{ background: "var(--surface-2)" }}>
             {[
-              ["Descubridor", tc.discoverer],
-              ["Datos de prueba", tc.testData],
+              ["Discoverer", tc.discoverer],
+              ["Test data", tc.testData],
               ["Fix commit", tc.fixCommit],
               ["Browser", tc.browser],
             ].map(([label, val]) => (
@@ -351,7 +351,7 @@ function TestCaseCard({ tc }: { tc: TestCase }) {
 
           {/* Preconditions */}
           <div className="px-5 py-4 border-b border-border">
-            <p className="font-mono text-[0.6rem] uppercase tracking-[0.1em] mb-3" style={{ color: "var(--sage)" }}>Precondición</p>
+            <p className="font-mono text-[0.6rem] uppercase tracking-[0.1em] mb-3" style={{ color: "var(--sage)" }}>Precondition</p>
             <ul className="flex flex-col gap-2">
               {tc.preconditions.map((p, i) => (
                 <li key={i} data-testid={`tcPrecondition-${tc.id}-${i}`} className="font-mono text-[0.7rem] text-text-2 leading-[1.5] pl-4 relative">
@@ -365,7 +365,7 @@ function TestCaseCard({ tc }: { tc: TestCase }) {
           {/* Steps collapsible */}
           <div className="border-b border-border">
             <button data-testid={`tcStepsToggle-${tc.id}`} onClick={() => setStepsOpen(!stepsOpen)} className="w-full flex items-center justify-between px-5 py-3 cursor-pointer hover:opacity-80" style={{ background: "var(--surface-2)", border: "none" }}>
-              <span className="font-mono text-[0.65rem] uppercase tracking-[0.1em] text-petrol">Pasos de reproducción</span>
+              <span className="font-mono text-[0.65rem] uppercase tracking-[0.1em] text-petrol">Steps to Reproduce</span>
               <span className="font-mono text-[0.7rem] text-text-2 transition-transform duration-200 inline-block" style={{ transform: stepsOpen ? "rotate(180deg)" : "rotate(0deg)" }}>▾</span>
             </button>
             {stepsOpen && (
@@ -391,7 +391,7 @@ function TestCaseCard({ tc }: { tc: TestCase }) {
           {/* Expected result collapsible */}
           <div>
             <button data-testid={`tcResultToggle-${tc.id}`} onClick={() => setResultOpen(!resultOpen)} className="w-full flex items-center justify-between px-5 py-3 cursor-pointer hover:opacity-80" style={{ background: "var(--surface-2)", border: "none" }}>
-              <span className="font-mono text-[0.65rem] uppercase tracking-[0.1em]" style={{ color: "var(--pass)" }}>Resultado esperado</span>
+              <span className="font-mono text-[0.65rem] uppercase tracking-[0.1em]" style={{ color: "var(--pass)" }}>Expected Result</span>
               <span className="font-mono text-[0.7rem] text-text-2 transition-transform duration-200 inline-block" style={{ transform: resultOpen ? "rotate(180deg)" : "rotate(0deg)" }}>▾</span>
             </button>
             {resultOpen && (
@@ -419,13 +419,13 @@ export default function WorkContent() {
 
   return (
     <>
-      {/* Hero — fullscreen, mismo layout que portfolio */}
+      {/* Hero — fullscreen */}
       <section
         data-testid="workHeroSection"
         className="flex flex-col sm:flex-row border-b border-border"
         style={{ height: "100svh", overflow: "hidden" }}
       >
-        {/* Panel izquierdo — petrol */}
+        {/* Left panel — teal */}
         <div
           className="flex-shrink-0 flex flex-col items-center justify-center gap-2 sm:gap-6
                      h-[80px] w-full sm:h-full sm:w-[clamp(160px,30%,300px)]"
@@ -439,7 +439,7 @@ export default function WorkContent() {
           </p>
         </div>
 
-        {/* Panel derecho — crema */}
+        {/* Right panel — cream */}
         <div
           className="flex-1 flex flex-col justify-between overflow-hidden"
           style={{
@@ -461,10 +461,10 @@ export default function WorkContent() {
               {t.hero.heading}
             </h1>
 
-            {/* Regla naranja */}
+            {/* Orange rule */}
             <div style={{ width: "3rem", height: "3px", background: "#C96A2A", borderRadius: "2px", marginBottom: "1.2rem" }} />
 
-            {/* Subtítulo */}
+            {/* Subtitle */}
             <p
               data-testid="workHeroSubtitle"
               className="font-mono leading-[1.75] tracking-[0.01em] mb-8"
@@ -473,7 +473,7 @@ export default function WorkContent() {
               {t.hero.subtitle}
             </p>
 
-            {/* Cards preview de las 5 secciones — solo desktop */}
+            {/* Section preview cards — desktop only */}
             <div className="hidden sm:grid sm:grid-cols-3 gap-[0.6rem] max-w-[640px]">
               {SECTION_KEYS.map((key) => {
                 const section = t.sections[key];
@@ -483,6 +483,7 @@ export default function WorkContent() {
                   <a
                     key={key}
                     href={`#${key}`}
+                    data-testid={`workHeroCard-${key}`}
                     className="flex items-start gap-3 p-4 rounded-[4px] border border-border no-underline transition-colors duration-150 hover:border-petrol group"
                     style={{ background: "rgba(27,66,66,0.04)", borderLeftColor: border, borderLeftWidth: 3 }}
                   >
@@ -503,7 +504,7 @@ export default function WorkContent() {
             </div>
           </div>
 
-          {/* Scroll cue — solo desktop */}
+          {/* Scroll cue — desktop only */}
           <div className="hidden sm:flex items-center gap-2 pt-4">
             <span className="font-mono text-[0.62rem] uppercase tracking-[0.15em]"
                   style={{ color: "#C96A2A", opacity: 0.65 }}>
@@ -633,11 +634,11 @@ function WorkMark({ size = 88 }: { size?: number }) {
         .wm-dot-3 { animation: wm-fade 0.15s ease-out 0.76s forwards; }
         .wm-dot-4 { animation: wm-fade 0.15s ease-out 0.84s forwards; }
 
-        /* 🔍 Lupa — buscando */
+        /* Magnifier — searching */
         .wm-lupa { opacity: 0; animation: wm-state 0.60s ease-in-out 0.96s forwards; }
-        /* 🐛 Bug — encontrado */
+        /* Bug — found */
         .wm-bug  { opacity: 0; animation: wm-state 0.56s ease-in-out 1.45s forwards; }
-        /* 🏅 Éxito — resuelto */
+        /* Success — resolved */
         .wm-win  {
           opacity: 0;
           animation: wm-fade 0.49s cubic-bezier(0.22,1,0.36,1) 2.01s forwards;
@@ -653,7 +654,7 @@ function WorkMark({ size = 88 }: { size?: number }) {
         }
       `}</style>
 
-      {/* Órbita exterior + puntos — gira horario */}
+      {/* Outer orbit + dots — clockwise */}
       <g className="wm-group-outer">
         <circle className="wm-orbit-outer" cx="44" cy="44" r="40"
           stroke="rgba(255,255,255,0.12)" strokeWidth="1.5" pathLength="1" />
@@ -663,16 +664,16 @@ function WorkMark({ size = 88 }: { size?: number }) {
         <circle className="wm-dot wm-dot-4" cx="4"  cy="44" r="2"   fill="rgba(255,255,255,0.2)" />
       </g>
 
-      {/* Órbita interior — gira anti-horario */}
+      {/* Inner orbit — counter-clockwise */}
       <g className="wm-group-inner">
         <circle className="wm-orbit-inner" cx="44" cy="44" r="30"
           stroke="rgba(255,255,255,0.08)" strokeWidth="1" pathLength="1" />
       </g>
 
-      {/* Centro — naranja → bordeaux → verde oliva */}
+      {/* Center — orange → bordeaux → olive green */}
       <circle className="wm-center" cx="44" cy="44" r="22" fill="#C96A2A" />
 
-      {/* 🔍 LUPA — buscando el bug */}
+      {/* Magnifier — searching for bug */}
       <g className="wm-lupa">
         <circle cx="41" cy="41" r="7" stroke="white" strokeWidth="2" />
         <line x1="46.5" y1="46.5" x2="53" y2="53" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
@@ -680,32 +681,32 @@ function WorkMark({ size = 88 }: { size?: number }) {
 
       {/* 🐛 BUG — encontrado */}
       <g className="wm-bug">
-        {/* Cabeza */}
+        {/* Head */}
         <circle cx="44" cy="37" r="4" stroke="#FF9090" strokeWidth="1.75" />
-        {/* Cuerpo */}
+        {/* Body */}
         <ellipse cx="44" cy="48" rx="6" ry="7" stroke="#FF9090" strokeWidth="1.75" />
-        {/* Antenas */}
+        {/* Antennae */}
         <line x1="41" y1="33" x2="38" y2="29" stroke="#FF9090" strokeWidth="1.5" strokeLinecap="round" />
         <line x1="47" y1="33" x2="50" y2="29" stroke="#FF9090" strokeWidth="1.5" strokeLinecap="round" />
-        {/* Patas izquierda */}
+        {/* Left legs */}
         <line x1="38" y1="44" x2="33" y2="42" stroke="#FF9090" strokeWidth="1.25" strokeLinecap="round" />
         <line x1="38" y1="48" x2="33" y2="49" stroke="#FF9090" strokeWidth="1.25" strokeLinecap="round" />
         <line x1="38" y1="52" x2="33" y2="54" stroke="#FF9090" strokeWidth="1.25" strokeLinecap="round" />
-        {/* Patas derecha */}
+        {/* Right legs */}
         <line x1="50" y1="44" x2="55" y2="42" stroke="#FF9090" strokeWidth="1.25" strokeLinecap="round" />
         <line x1="50" y1="48" x2="55" y2="49" stroke="#FF9090" strokeWidth="1.25" strokeLinecap="round" />
         <line x1="50" y1="52" x2="55" y2="54" stroke="#FF9090" strokeWidth="1.25" strokeLinecap="round" />
       </g>
 
-      {/* 🏅 ÉXITO — medalla/badge */}
+      {/* Success — medal/badge */}
       <g className="wm-win">
         {/* Círculo de medalla */}
         <circle cx="44" cy="41" r="8" stroke="#C4D96E" strokeWidth="1.75" />
-        {/* Cinta izquierda */}
+        {/* Left ribbon */}
         <line x1="39" y1="48" x2="35" y2="56" stroke="#C4D96E" strokeWidth="2" strokeLinecap="round" />
-        {/* Cinta derecha */}
+        {/* Right ribbon */}
         <line x1="49" y1="48" x2="53" y2="56" stroke="#C4D96E" strokeWidth="2" strokeLinecap="round" />
-        {/* Check dentro */}
+        {/* Inner check */}
         <polyline points="40,41 43,44 50,36" stroke="#C4D96E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
       </g>
     </svg>

@@ -66,7 +66,7 @@ function BugPopup({ onClose, lang }: { onClose: () => void; lang: "en" | "es" })
         <button
           onClick={(e) => { e.stopPropagation(); setVisible(false); setTimeout(onClose, 300); }}
           className="font-mono text-[0.65rem] text-text-2 hover:text-text-1 transition-colors flex-shrink-0 cursor-pointer"
-          aria-label="Cerrar"
+          aria-label="Close"
         >
           ×
         </button>
