@@ -139,18 +139,18 @@ function GherkinBlock({ lines }: { lines: GherkinLine[] }) {
         <span>↗</span>
       </button>
 
-      {/* Mobile bottom sheet */}
+      {/* Mobile modal — centrado */}
       {open && (
         <div
           data-testid="gherkinSheetOverlay"
-          className="sm:hidden fixed inset-0 z-[200] flex flex-col justify-end"
+          className="sm:hidden fixed inset-0 z-[200] flex items-center justify-center px-4"
           style={{ background: "rgba(0,0,0,0.55)" }}
           onClick={() => setOpen(false)}
         >
           <div
             data-testid="gherkinSheet"
-            className="rounded-[14px] border border-border flex flex-col max-h-[80vh] mx-3 mb-3"
-            style={{ background: "var(--surface)", boxShadow: "0 -8px 40px rgba(0,0,0,0.25)" }}
+            className="rounded-[14px] border border-border flex flex-col max-h-[80vh] w-full"
+            style={{ background: "var(--surface)", boxShadow: "0 8px 40px rgba(0,0,0,0.25)" }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-border flex-shrink-0">
@@ -441,7 +441,7 @@ export default function WorkContent() {
 
         {/* Panel derecho — crema */}
         <div
-          className="flex-1 flex flex-col justify-between overflow-y-auto"
+          className="flex-1 flex flex-col justify-between overflow-hidden"
           style={{
             background: "#FAF5EE",
             padding: "clamp(1.8rem,6vw,4.5rem) clamp(1.5rem,5vw,4.5rem)",
@@ -473,8 +473,8 @@ export default function WorkContent() {
               {t.hero.subtitle}
             </p>
 
-            {/* Cards preview de las 5 secciones */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-[0.6rem] max-w-[640px]">
+            {/* Cards preview de las 5 secciones — solo desktop */}
+            <div className="hidden sm:grid sm:grid-cols-3 gap-[0.6rem] max-w-[640px]">
               {SECTION_KEYS.map((key) => {
                 const section = t.sections[key];
                 const { border } = SECTION_COLORS[key];
@@ -503,8 +503,8 @@ export default function WorkContent() {
             </div>
           </div>
 
-          {/* Scroll cue */}
-          <div className="flex items-center gap-2 pt-4">
+          {/* Scroll cue — solo desktop */}
+          <div className="hidden sm:flex items-center gap-2 pt-4">
             <span className="font-mono text-[0.62rem] uppercase tracking-[0.15em]"
                   style={{ color: "#C96A2A", opacity: 0.65 }}>
               Scroll to explore
