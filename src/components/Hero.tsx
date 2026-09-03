@@ -51,7 +51,7 @@ export default function Hero({ profile, hook }: HeroProps) {
 
       {/* ── Right panel — warm cream ── */}
       <div
-        className="flex-1 flex flex-col justify-center overflow-y-auto"
+        className="flex-1 flex flex-col justify-center overflow-hidden"
         style={{
           background: "#FAF5EE",
           padding: "clamp(1.8rem,6vw,5rem) clamp(1.5rem,5vw,4.5rem)",

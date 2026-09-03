@@ -66,7 +66,14 @@ export default function Training({
                         className="flex justify-between items-baseline gap-4 text-[0.95rem]"
                       >
                         <span className="text-text-1">
-                          {cert.name}
+                          {cert.inProgress && cert.name.includes(" – ") ? (
+                            <>
+                              {cert.name.split(" – ")[0]}
+                              <span className="hidden sm:inline"> – {cert.name.split(" – ").slice(1).join(" – ")}</span>
+                            </>
+                          ) : (
+                            cert.name
+                          )}
                           {cert.inProgress && (
                             <span className="inline-flex items-center font-mono text-[0.66rem] text-badge-txt bg-badge-bg rounded-[2px] px-[7px] py-[2px] ml-2 tracking-[0.04em]">
                               {badgeInProgress}
