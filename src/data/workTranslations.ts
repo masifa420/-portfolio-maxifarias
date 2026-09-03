@@ -38,6 +38,7 @@ export type WorkTranslations = {
     testCases: string;
     automation: string;
     reports: string;
+    analytics: string;
   };
   hero: {
     label: string;
@@ -80,7 +81,8 @@ const en: WorkTranslations = {
     bugReports: "Bug Reports",
     testCases: "Test Cases",
     automation: "Automation",
-    reports: "Reports",
+    reports: "Sprint Board",
+    analytics: "Analytics",
   },
   hero: {
     label: "Work samples",
@@ -175,7 +177,8 @@ const es: WorkTranslations = {
     bugReports: "Bug Reports",
     testCases: "Casos de prueba",
     automation: "Automatización",
-    reports: "Reportes",
+    reports: "Sprint Board",
+    analytics: "Analítica",
   },
   hero: {
     label: "Trabajo real",

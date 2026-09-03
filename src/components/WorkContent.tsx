@@ -5,7 +5,8 @@ import { useLanguage } from "@/context/LanguageContext";
 import { workTranslations, type BugReportExample, type GherkinLine, type TestCase } from "@/data/workTranslations";
 import RevealSection from "./RevealSection";
 import CypressStatusWidget from "./CypressStatusWidget";
-import ExecutionSummaryReport from "./ExecutionSummaryReport";
+import SprintBoard from "./SprintBoard";
+import QAAnalytics from "./QAAnalytics";
 
 const SECTION_COLORS: Record<string, { bg: string; border: string }> = {
   bugReports:  { bg: "var(--petrol-dim)", border: "var(--petrol)" },
@@ -500,7 +501,37 @@ export default function WorkContent() {
                 ) : key === "automation" ? (
                   <CypressStatusWidget />
                 ) : key === "reports" ? (
-                  <ExecutionSummaryReport />
+                  <div className="flex flex-col gap-16">
+                    {/* Sprint & Ticket Structure */}
+                    <div className="flex flex-col gap-6">
+                      <div>
+                        <p className="font-mono text-[0.6rem] text-petrol uppercase tracking-[0.14em] mb-1">Sprint Board</p>
+                        <h3 className="font-display text-[1.5rem] text-text-1 leading-[1.15] tracking-[-0.01em] mb-2">
+                          Ticket Structure
+                        </h3>
+                        <p className="font-mono text-[0.72rem] text-text-2 leading-[1.7] max-w-[46ch]">
+                          Active and completed Jira sprints — tickets organized by status with direct links.
+                        </p>
+                      </div>
+                      <SprintBoard />
+                    </div>
+
+                    <div className="border-t border-border" />
+
+                    {/* QA Analytics */}
+                    <div id="analytics" className="flex flex-col gap-6">
+                      <div>
+                        <p className="font-mono text-[0.6rem] text-petrol uppercase tracking-[0.14em] mb-1">Data Analysis</p>
+                        <h3 className="font-display text-[1.5rem] text-text-1 leading-[1.15] tracking-[-0.01em] mb-2">
+                          QA Analytics
+                        </h3>
+                        <p className="font-mono text-[0.72rem] text-text-2 leading-[1.7] max-w-[46ch]">
+                          Pass rates, bug resolution, automation coverage and CI run history.
+                        </p>
+                      </div>
+                      <QAAnalytics />
+                    </div>
+                  </div>
                 ) : (
                   <div
                     className="rounded-[6px] border-2 border-dashed flex flex-col items-center justify-center py-16 gap-4"

@@ -33,9 +33,9 @@ export default function Nav() {
   function toggleLang() { setLang(lang === "en" ? "es" : "en"); }
 
   const portfolioLinks = [
-    { label: t.experience, href: "/#experience" },
-    { label: t.skills,     href: "/#skills"     },
     { label: t.about,      href: "/#about"      },
+    { label: t.skills,     href: "/#skills"     },
+    { label: t.experience, href: "/#experience" },
     { label: t.training,   href: "/#training"   },
     { label: t.contact,    href: "/#contact"    },
   ];
@@ -45,6 +45,7 @@ export default function Nav() {
     { label: tw.testCases,  href: "/work#testCases"  },
     { label: tw.automation, href: "/work#automation"  },
     { label: tw.reports,    href: "/work#reports"     },
+    { label: tw.analytics,  href: "/work#analytics"   },
   ];
 
   const navLinks = isWork ? workLinks : portfolioLinks;
