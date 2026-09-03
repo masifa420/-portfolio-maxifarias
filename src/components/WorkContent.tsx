@@ -9,18 +9,20 @@ import SprintBoard from "./SprintBoard";
 import QAAnalytics from "./QAAnalytics";
 
 const SECTION_COLORS: Record<string, { bg: string; border: string }> = {
-  bugReports:  { bg: "var(--petrol-dim)", border: "var(--petrol)" },
+  sprintBoard: { bg: "var(--petrol-dim)", border: "var(--petrol)" },
   testCases:   { bg: "var(--sage-dim)",   border: "var(--sage)"   },
-  automation:  { bg: "var(--ocre-dim)",   border: "var(--ocre)"   },
-  reports:     { bg: "var(--petrol-dim)", border: "var(--petrol)" },
+  bugReports:  { bg: "var(--ocre-dim)",   border: "var(--ocre)"   },
+  automation:  { bg: "var(--petrol-dim)", border: "var(--petrol)" },
+  analytics:   { bg: "var(--sage-dim)",   border: "var(--sage)"   },
 };
 
 const SECTION_ICONS: Record<string, React.ReactNode> = {
-  bugReports: (
+  sprintBoard: (
     <svg width={22} height={22} viewBox="0 0 24 24" fill="none" stroke="var(--petrol)" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <circle cx={12} cy={12} r={10} />
-      <line x1="12" y1="8" x2="12" y2="12" />
-      <line x1="12" y1="16" x2="12.01" y2="16" />
+      <rect x="3" y="3" width="7" height="7" rx="1" />
+      <rect x="14" y="3" width="7" height="7" rx="1" />
+      <rect x="3" y="14" width="7" height="7" rx="1" />
+      <rect x="14" y="14" width="7" height="7" rx="1" />
     </svg>
   ),
   testCases: (
@@ -29,14 +31,21 @@ const SECTION_ICONS: Record<string, React.ReactNode> = {
       <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
     </svg>
   ),
-  automation: (
+  bugReports: (
     <svg width={22} height={22} viewBox="0 0 24 24" fill="none" stroke="var(--ocre)" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <circle cx={12} cy={12} r={10} />
+      <line x1="12" y1="8" x2="12" y2="12" />
+      <line x1="12" y1="16" x2="12.01" y2="16" />
+    </svg>
+  ),
+  automation: (
+    <svg width={22} height={22} viewBox="0 0 24 24" fill="none" stroke="var(--petrol)" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
       <polyline points="16 18 22 12 16 6" />
       <polyline points="8 6 2 12 8 18" />
     </svg>
   ),
-  reports: (
-    <svg width={22} height={22} viewBox="0 0 24 24" fill="none" stroke="var(--petrol)" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+  analytics: (
+    <svg width={22} height={22} viewBox="0 0 24 24" fill="none" stroke="var(--sage)" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
       <line x1="18" y1="20" x2="18" y2="10" />
       <line x1="12" y1="20" x2="12" y2="4" />
       <line x1="6" y1="20" x2="6" y2="14" />
@@ -44,7 +53,7 @@ const SECTION_ICONS: Record<string, React.ReactNode> = {
   ),
 };
 
-const SECTION_KEYS = ["bugReports", "testCases", "automation", "reports"] as const;
+const SECTION_KEYS = ["sprintBoard", "testCases", "bugReports", "automation", "analytics"] as const;
 
 function GherkinLines({ lines }: { lines: GherkinLine[] }) {
   return (
@@ -227,6 +236,51 @@ function BugReportCard({ report, defaultOpen = true }: { report: BugReportExampl
             ))}
           </div>
           <GherkinBlock lines={report.gherkin} />
+
+          {/* Steps to reproduce */}
+          {report.stepsToReproduce && report.stepsToReproduce.length > 0 && (
+            <div className="mt-4 pt-4 border-t border-border flex flex-col gap-3">
+              <span className="font-mono text-[0.6rem] uppercase tracking-[0.1em] text-petrol">Steps to Reproduce</span>
+              <div className="flex flex-col gap-0">
+                {report.stepsToReproduce.map((step, i) => (
+                  <div key={i} className="flex gap-3 items-start">
+                    <div className="flex flex-col items-center flex-shrink-0" style={{ width: 24 }}>
+                      <div className="w-6 h-6 rounded-full border flex items-center justify-center font-mono text-[0.55rem] font-bold flex-shrink-0"
+                        style={{ borderColor: "var(--petrol)", background: "var(--petrol-dim)", color: "var(--petrol)" }}>
+                        {String(i + 1).padStart(2, "0")}
+                      </div>
+                      {i < report.stepsToReproduce!.length - 1 && (
+                        <div className="w-px flex-1 min-h-[16px]" style={{ background: "var(--border)" }} />
+                      )}
+                    </div>
+                    <div className="pb-3 flex-1">
+                      <p className="font-mono text-[0.72rem] text-text-1 leading-[1.4]">{step.action}</p>
+                      {step.detail && <p className="font-mono text-[0.62rem] text-text-2 leading-[1.5] mt-[2px]">{step.detail}</p>}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Actual + Expected result */}
+          {(report.actualResult || report.expectedResult) && (
+            <div className="mt-2 pt-4 border-t border-border grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {report.actualResult && (
+                <div className="flex flex-col gap-2">
+                  <span className="font-mono text-[0.6rem] uppercase tracking-[0.1em]" style={{ color: "var(--fail)" }}>Actual Result</span>
+                  <p className="font-mono text-[0.7rem] text-text-2 leading-[1.6]">{report.actualResult}</p>
+                </div>
+              )}
+              {report.expectedResult && (
+                <div className="flex flex-col gap-2">
+                  <span className="font-mono text-[0.6rem] uppercase tracking-[0.1em]" style={{ color: "var(--pass)" }}>Expected Result</span>
+                  <p className="font-mono text-[0.7rem] text-text-2 leading-[1.6]">{report.expectedResult}</p>
+                </div>
+              )}
+            </div>
+          )}
+
           <div className="mt-4 pt-4 border-t border-border flex gap-2 items-baseline">
             <span className="font-mono text-[0.65rem] uppercase tracking-[0.08em] text-sage flex-shrink-0">Fix</span>
             <p data-testid={`bugReportFix-${report.id}`} className="font-mono text-[0.72rem] text-text-2 leading-[1.6]">{report.fix}</p>
@@ -419,8 +473,8 @@ export default function WorkContent() {
               {t.hero.subtitle}
             </p>
 
-            {/* Cards preview de las 4 secciones */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-[0.6rem] max-w-[560px]">
+            {/* Cards preview de las 5 secciones */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-[0.6rem] max-w-[640px]">
               {SECTION_KEYS.map((key) => {
                 const section = t.sections[key];
                 const { border } = SECTION_COLORS[key];
@@ -486,52 +540,24 @@ export default function WorkContent() {
                   {section.description}
                 </p>
 
-                {key === "bugReports" ? (
-                  <div className="flex flex-col gap-3">
-                    {t.bugReports.map((report) => (
-                      <BugReportCard key={report.id} report={report} defaultOpen={false} />
-                    ))}
-                  </div>
+                {key === "sprintBoard" ? (
+                  <SprintBoard />
                 ) : key === "testCases" ? (
                   <div className="flex flex-col gap-3">
                     {t.testCases.map((tc) => (
                       <TestCaseCard key={tc.id} tc={tc} />
                     ))}
                   </div>
+                ) : key === "bugReports" ? (
+                  <div className="flex flex-col gap-3">
+                    {t.bugReports.map((report) => (
+                      <BugReportCard key={report.id} report={report} defaultOpen={false} />
+                    ))}
+                  </div>
                 ) : key === "automation" ? (
                   <CypressStatusWidget />
-                ) : key === "reports" ? (
-                  <div className="flex flex-col gap-16">
-                    {/* Sprint & Ticket Structure */}
-                    <div className="flex flex-col gap-6">
-                      <div>
-                        <p className="font-mono text-[0.6rem] text-petrol uppercase tracking-[0.14em] mb-1">Sprint Board</p>
-                        <h3 className="font-display text-[1.5rem] text-text-1 leading-[1.15] tracking-[-0.01em] mb-2">
-                          Ticket Structure
-                        </h3>
-                        <p className="font-mono text-[0.72rem] text-text-2 leading-[1.7] max-w-[46ch]">
-                          Active and completed Jira sprints — tickets organized by status with direct links.
-                        </p>
-                      </div>
-                      <SprintBoard />
-                    </div>
-
-                    <div className="border-t border-border" />
-
-                    {/* QA Analytics */}
-                    <div id="analytics" className="flex flex-col gap-6">
-                      <div>
-                        <p className="font-mono text-[0.6rem] text-petrol uppercase tracking-[0.14em] mb-1">Data Analysis</p>
-                        <h3 className="font-display text-[1.5rem] text-text-1 leading-[1.15] tracking-[-0.01em] mb-2">
-                          QA Analytics
-                        </h3>
-                        <p className="font-mono text-[0.72rem] text-text-2 leading-[1.7] max-w-[46ch]">
-                          Pass rates, bug resolution, automation coverage and CI run history.
-                        </p>
-                      </div>
-                      <QAAnalytics />
-                    </div>
-                  </div>
+                ) : key === "analytics" ? (
+                  <QAAnalytics />
                 ) : (
                   <div
                     className="rounded-[6px] border-2 border-dashed flex flex-col items-center justify-center py-16 gap-4"

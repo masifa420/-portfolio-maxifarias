@@ -41,11 +41,11 @@ export default function Nav() {
   ];
 
   const workLinks = [
-    { label: tw.bugReports, href: "/work#bugReports" },
-    { label: tw.testCases,  href: "/work#testCases"  },
-    { label: tw.automation, href: "/work#automation"  },
-    { label: tw.reports,    href: "/work#reports"     },
-    { label: tw.analytics,  href: "/work#analytics"   },
+    { label: tw.sprintBoard, href: "/work#sprintBoard" },
+    { label: tw.testCases,   href: "/work#testCases"   },
+    { label: tw.bugReports,  href: "/work#bugReports"  },
+    { label: tw.automation,  href: "/work#automation"  },
+    { label: tw.analytics,   href: "/work#analytics"   },
   ];
 
   const navLinks = isWork ? workLinks : portfolioLinks;

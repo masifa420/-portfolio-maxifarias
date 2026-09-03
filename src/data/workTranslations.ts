@@ -11,6 +11,9 @@ export type BugReportExample = {
   device: string;
   browser: string;
   gherkin: GherkinLine[];
+  stepsToReproduce?: { action: string; detail?: string }[];
+  actualResult?: string;
+  expectedResult?: string;
   status: string;
   fix: string;
 };
@@ -34,10 +37,10 @@ export type TestCase = {
 export type WorkTranslations = {
   nav: {
     back: string;
-    bugReports: string;
+    sprintBoard: string;
     testCases: string;
+    bugReports: string;
     automation: string;
-    reports: string;
     analytics: string;
   };
   hero: {
@@ -48,7 +51,7 @@ export type WorkTranslations = {
   bugReports: BugReportExample[];
   testCases: TestCase[];
   sections: {
-    bugReports: {
+    sprintBoard: {
       label: string;
       heading: string;
       description: string;
@@ -60,13 +63,19 @@ export type WorkTranslations = {
       description: string;
       empty: string;
     };
+    bugReports: {
+      label: string;
+      heading: string;
+      description: string;
+      empty: string;
+    };
     automation: {
       label: string;
       heading: string;
       description: string;
       empty: string;
     };
-    reports: {
+    analytics: {
       label: string;
       heading: string;
       description: string;
@@ -78,10 +87,10 @@ export type WorkTranslations = {
 const en: WorkTranslations = {
   nav: {
     back: "← Portfolio",
-    bugReports: "Bug Reports",
+    sprintBoard: "Sprint Board",
     testCases: "Test Cases",
+    bugReports: "Bug Reports",
     automation: "Automation",
-    reports: "Sprint Board",
     analytics: "Analytics",
   },
   hero: {
@@ -108,6 +117,15 @@ const en: WorkTranslations = {
         { keyword: "step",    text: '    But   the button is hidden inside a "hidden sm:flex" container' },
         { keyword: "step",    text: '    And   the user has no access to the /work page' },
       ],
+      stepsToReproduce: [
+        { action: "Open the portfolio on a mobile device.", detail: "Navigate to the portfolio URL on a real device or set DevTools viewport to 390 × 844px." },
+        { action: "Set the viewport to 390 × 844px.", detail: "Confirm the viewport is within the mobile range (< 640px)." },
+        { action: "Observe the top navigation bar.", detail: "Identify which elements are visible in the nav." },
+        { action: 'Look for the "Work →" access.', detail: "Verify if the navigation item to /work is present and visible." },
+        { action: "Verify that the access is not available.", detail: "Confirm there is no visible link or button to navigate to /work." },
+      ],
+      actualResult: 'The "Work →" button remains hidden on mobile viewports, preventing direct access to /work from the navigation.',
+      expectedResult: "The user should be able to see and use the Work access regardless of the viewport.",
       status: "RESOLVED",
       fix: 'Moved the button outside the hidden <ul> — always visible on any viewport.',
     },
@@ -144,28 +162,34 @@ const en: WorkTranslations = {
     },
   ],
   sections: {
-    bugReports: {
-      label: "Bug Reports",
-      heading: "How I document defects",
-      description: "Clear, reproducible, actionable. Every bug report tells a story.",
+    sprintBoard: {
+      label: "Sprint Board",
+      heading: "What we're building.",
+      description: "Active and completed sprints — tickets organized by status to show what's in scope, in progress, and done.",
       empty: "Examples coming soon.",
     },
     testCases: {
       label: "Test Cases",
-      heading: "How I design coverage",
+      heading: "How we decided to validate it.",
       description: "Structured test cases that cover happy paths, edge cases and risk areas.",
+      empty: "Examples coming soon.",
+    },
+    bugReports: {
+      label: "Bug Reports",
+      heading: "What we found.",
+      description: "Clear, reproducible, actionable. Every bug report tells a story.",
       empty: "Examples coming soon.",
     },
     automation: {
       label: "Automation",
-      heading: "Scripts & frameworks",
-      description: "Cypress and Playwright scripts written for real feature coverage.",
+      heading: "What we automated to protect it.",
+      description: "Cypress and Playwright scripts written for real feature coverage — wired to CI.",
       empty: "Examples coming soon.",
     },
-    reports: {
-      label: "Test Reports",
-      heading: "Execution summaries",
-      description: "Run results, coverage metrics and observations from real test cycles.",
+    analytics: {
+      label: "Analytics",
+      heading: "These were the results.",
+      description: "Pass rates, bug resolution, automation coverage and CI run history.",
       empty: "Examples coming soon.",
     },
   },
@@ -174,10 +198,10 @@ const en: WorkTranslations = {
 const es: WorkTranslations = {
   nav: {
     back: "← Portfolio",
-    bugReports: "Bug Reports",
+    sprintBoard: "Sprint Board",
     testCases: "Casos de prueba",
+    bugReports: "Bug Reports",
     automation: "Automatización",
-    reports: "Sprint Board",
     analytics: "Analítica",
   },
   hero: {
@@ -204,6 +228,15 @@ const es: WorkTranslations = {
         { keyword: "step",     text: '    But   el botón está oculto dentro de un elemento "hidden sm:flex"' },
         { keyword: "step",     text: "    And   el usuario no tiene ningún acceso a la página /work" },
       ],
+      stepsToReproduce: [
+        { action: "Abrir el portfolio desde un dispositivo mobile.", detail: "Acceder a la URL del portfolio desde un dispositivo real o simular con DevTools a 390 × 844px." },
+        { action: "Configurar viewport de 390 × 844 px.", detail: "Confirmar que el viewport está dentro del rango mobile (< 640px)." },
+        { action: "Observar la barra de navegación superior.", detail: "Identificar qué elementos son visibles en la nav." },
+        { action: 'Buscar el acceso "Work →".', detail: "Verificar si el ítem de navegación hacia /work está presente y visible." },
+        { action: "Verificar que el acceso no está disponible.", detail: "Confirmar que no existe ningún link o botón visible para navegar a /work." },
+      ],
+      actualResult: 'El botón "Work →" permanece oculto en viewport mobile, impidiendo acceder directamente a /work desde la navegación.',
+      expectedResult: "El usuario debería poder visualizar y utilizar el acceso a Work independientemente del viewport.",
       status: "RESUELTO",
       fix: "Se movió el botón fuera del <ul> oculto — ahora siempre visible en cualquier viewport.",
     },
@@ -240,28 +273,34 @@ const es: WorkTranslations = {
     },
   ],
   sections: {
-    bugReports: {
-      label: "Bug Reports",
-      heading: "Cómo documento defectos",
-      description: "Claro, reproducible y accionable. Cada bug report cuenta una historia.",
+    sprintBoard: {
+      label: "Sprint Board",
+      heading: "Esto es lo que tenemos que construir.",
+      description: "Sprints activos y completados — tickets organizados por estado para ver qué está en alcance, en progreso y terminado.",
       empty: "Ejemplos próximamente.",
     },
     testCases: {
       label: "Casos de prueba",
-      heading: "Cómo diseño cobertura",
+      heading: "Así decidimos cómo validarlo.",
       description: "Casos estructurados que cubren caminos felices, bordes y áreas de riesgo.",
+      empty: "Ejemplos próximamente.",
+    },
+    bugReports: {
+      label: "Bug Reports",
+      heading: "Esto fue lo que encontramos.",
+      description: "Claro, reproducible y accionable. Cada bug report cuenta una historia.",
       empty: "Ejemplos próximamente.",
     },
     automation: {
       label: "Automatización",
-      heading: "Scripts y frameworks",
-      description: "Scripts de Cypress y Playwright escritos para cobertura de features reales.",
+      heading: "Esto automatizamos para poder repetirlo y protegerlo.",
+      description: "Scripts de Cypress y Playwright escritos para cobertura real — integrados a CI.",
       empty: "Ejemplos próximamente.",
     },
-    reports: {
-      label: "Reportes de ejecución",
-      heading: "Resúmenes de ciclos de testing",
-      description: "Resultados de ejecución, métricas de cobertura y observaciones de ciclos reales.",
+    analytics: {
+      label: "Analítica",
+      heading: "Estos fueron los resultados.",
+      description: "Tasas de pase, resolución de bugs, cobertura de automatización e historial de CI.",
       empty: "Ejemplos próximamente.",
     },
   },
