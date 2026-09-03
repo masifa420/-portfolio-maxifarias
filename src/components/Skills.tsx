@@ -85,7 +85,7 @@ function SkillCard({ index, category, items, color }: {
   const isQA = category.toLowerCase().includes("testing") || category.toLowerCase().includes("qa");
   const [showEgg, setShowEgg] = useState(false);
 
-  const hoverTitle = lang === "es" ? "🔍 Inspeccioná con cuidado..." : "🔍 Inspect carefully...";
+  const hoverTitle = lang === "es" ? "🔍 Hay algo para descubrir..." : "🔍 There's something to discover...";
 
   return (
     <div
@@ -129,6 +129,7 @@ function SkillCard({ index, category, items, color }: {
 }
 
 export default function Skills({ label, heading, skills }: SkillsProps) {
+
   return (
     <section id="skills" data-testid="skillsSection" className="border-b border-border" style={{ background: "var(--sage-dim)" }}>
       <div className="max-w-[1100px] mx-auto px-5 sm:px-10 py-14 sm:py-20">
