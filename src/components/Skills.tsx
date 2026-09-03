@@ -1,7 +1,9 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import type { SkillGroup } from "@/types";
 import RevealSection from "./RevealSection";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface SkillsProps {
   label: string;
@@ -18,21 +20,87 @@ const CATEGORY_COLORS = [
   "var(--petrol-d)",
 ];
 
+const BUG_COPY = {
+  en: { label: "Bug detected", line1: "Oops! You found a bug.", line2: "Good testing! 🎉" },
+  es: { label: "Bug detectado", line1: "¡Ups! Encontraste un bug.", line2: "Buen testeo 🎉" },
+};
+
+function BugPopup({ onClose, lang }: { onClose: () => void; lang: "en" | "es" }) {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    requestAnimationFrame(() => setVisible(true));
+    const t = setTimeout(() => {
+      setVisible(false);
+      setTimeout(onClose, 300);
+    }, 3200);
+    return () => clearTimeout(t);
+  }, [onClose]);
+
+  return (
+    <div
+      className="absolute left-0 right-0 z-10 px-4 pt-2"
+      style={{ top: "100%" }}
+    >
+      <div
+        className="flex items-start gap-3 p-4 rounded-[6px] border border-border shadow-lg transition-all duration-300"
+        style={{
+          background: "var(--surface)",
+          opacity: visible ? 1 : 0,
+          transform: visible ? "translateY(0)" : "translateY(-6px)",
+          boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
+        }}
+      >
+        <span style={{ fontSize: "1.3rem", lineHeight: 1, flexShrink: 0 }}>🐛</span>
+        <div className="flex flex-col gap-[3px] flex-1">
+          <span className="font-mono text-[0.62rem] text-petrol uppercase tracking-[0.1em]">
+            {BUG_COPY[lang].label}
+          </span>
+          <span className="font-mono text-[0.7rem] text-text-1 leading-[1.5]">
+            {BUG_COPY[lang].line1}
+          </span>
+          <span className="font-mono text-[0.65rem] text-text-2">
+            {BUG_COPY[lang].line2}
+          </span>
+        </div>
+        <button
+          onClick={(e) => { e.stopPropagation(); setVisible(false); setTimeout(onClose, 300); }}
+          className="font-mono text-[0.65rem] text-text-2 hover:text-text-1 transition-colors flex-shrink-0 cursor-pointer"
+          aria-label="Cerrar"
+        >
+          ×
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function SkillCard({ index, category, items, color }: {
   index: number;
   category: string;
   items: string[];
   color: string;
 }) {
+  const { lang } = useLanguage();
+  const isQA = category.toLowerCase().includes("testing") || category.toLowerCase().includes("qa");
+  const [showEgg, setShowEgg] = useState(false);
+
+  const hoverTitle = lang === "es" ? "🔍 Inspeccioná con cuidado..." : "🔍 Inspect carefully...";
+
   return (
     <div
       data-testid={`skillCategory${index}`}
-      className="bg-surface border border-border rounded-[4px] overflow-hidden"
+      className="bg-surface border border-border rounded-[4px] overflow-visible relative"
       style={{ borderLeftColor: color, borderLeftWidth: 3 }}
     >
       <div
         className="flex items-center gap-2 px-5 py-3 border-b border-border"
-        style={{ background: "var(--surface-2)" }}
+        style={{
+          background: "var(--surface-2)",
+          cursor: isQA ? "pointer" : "default",
+        }}
+        onClick={() => isQA && !showEgg && setShowEgg(true)}
+        title={isQA ? hoverTitle : undefined}
       >
         <span
           className="inline-block w-[6px] h-[6px] rounded-[1px] flex-shrink-0"
@@ -42,6 +110,9 @@ function SkillCard({ index, category, items, color }: {
           {category}
         </span>
       </div>
+
+      {showEgg && <BugPopup onClose={() => setShowEgg(false)} lang={lang as "en" | "es"} />}
+
       <div className="px-5 py-4 flex flex-wrap gap-[0.45rem]">
         {items.map((item, j) => (
           <span

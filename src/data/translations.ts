@@ -118,6 +118,7 @@ const en: Translations = {
       "Technology changes constantly. Tools change, processes change, and new ways of building software keep appearing.",
       "But behind every product, there are people.",
       "That's why I think doing QA also means observing, exploring, asking questions, and thinking like a user — because quality isn't just about finding bugs. It's also about understanding what we're building and helping build it better.",
+      "In the end, behind every product there's a person who will use it — and QA is also about taking care of that experience.",
     ],
   },
   skills: {
@@ -143,7 +144,7 @@ const en: Translations = {
           "Joined as a Trainee and grew into my current role through international projects and progressively broader responsibilities.",
           "Started with test execution and defect tracking; expanded into requirements analysis, scenario design, and test planning.",
           "As I grew professionally, I worked on higher-complexity features and integrations, incorporating automation and a more complete view of applications and their potential risks.",
-          "Currently acting with greater autonomy in coverage strategy and priorities, while supporting fellow QA engineers and collaborating with technical and business teams.",
+          "In my current role, I have a greater involvement in defining priorities and coverage strategies, while supporting fellow QA engineers and collaborating with technical and business teams.",
         ],
       },
     ],
@@ -151,12 +152,12 @@ const en: Translations = {
   training: {
     label: "Learning",
     heading: "Certifications & training",
-    badgeInProgress: "In Progress",
+    badgeInProgress: "In preparation",
     groups: [
       {
         group: "Certification",
         items: [
-          { name: "ISTQB Certified Tester", source: "", inProgress: true },
+          { name: "ISTQB Certified Tester – Foundation Level (CTFL)", source: "", inProgress: true },
         ],
       },
       {
@@ -209,7 +210,7 @@ const en: Translations = {
       },
       {
         name: "Leadership & mentorship",
-        description: "I enjoy sharing what I learn and taking initiative when I see I can contribute something useful.",
+        description: "I share knowledge, support fellow QA engineers, and take initiative when I can contribute.",
       },
     ],
     languages: [
@@ -277,6 +278,7 @@ const es: Translations = {
       "La tecnología cambia constantemente. Las herramientas cambian, los procesos cambian y aparecen nuevas formas de construir software.",
       "Pero detrás de cada producto hay personas.",
       "Por eso creo que hacer QA también implica observar, explorar, preguntar y pensar como usuario — porque la calidad no se trata solamente de encontrar errores. También se trata de entender lo que estamos construyendo y ayudar a construirlo mejor.",
+      "Al final, detrás de cada producto hay una persona que lo va a usar, y QA también consiste en cuidar esa experiencia.",
     ],
   },
   skills: {
@@ -302,7 +304,7 @@ const es: Translations = {
           "Ingresé como Trainee y fui creciendo profesionalmente hasta mi posición actual, participando en proyectos internacionales y asumiendo progresivamente nuevas responsabilidades.",
           "Inicialmente, me enfoqué en la ejecución de pruebas y el seguimiento de defectos. Luego amplié mi participación hacia el análisis de requerimientos, diseño de escenarios y planificación de pruebas.",
           "A medida que fui creciendo profesionalmente, trabajé sobre funcionalidades e integraciones de mayor complejidad, incorporando automatización y una visión más completa de las aplicaciones y sus posibles riesgos.",
-          "En mi posición actual, asumí mayor autonomía en la definición de prioridades y estrategias de cobertura, además de acompañar a otros integrantes de QA y colaborar con equipos técnicos y de negocio.",
+          "En mi posición actual, tengo una mayor participación en la definición de prioridades y estrategias de cobertura, además de acompañar a otros integrantes de QA y colaborar con equipos técnicos y de negocio.",
         ],
       },
     ],
@@ -310,12 +312,12 @@ const es: Translations = {
   training: {
     label: "Formación",
     heading: "Certificaciones y formación",
-    badgeInProgress: "En curso",
+    badgeInProgress: "En preparación",
     groups: [
       {
         group: "Certificación",
         items: [
-          { name: "ISTQB Certified Tester", source: "", inProgress: true },
+          { name: "ISTQB Certified Tester – Foundation Level (CTFL)", source: "", inProgress: true },
         ],
       },
       {
@@ -368,7 +370,7 @@ const es: Translations = {
       },
       {
         name: "Liderazgo y mentoría",
-        description: "Me gusta compartir lo que aprendo y tomar iniciativa cuando veo que puedo aportar algo útil.",
+        description: "Comparto conocimientos, acompaño a otros integrantes de QA y tomo iniciativa cuando puedo aportar.",
       },
     ],
     languages: [

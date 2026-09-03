@@ -2,13 +2,13 @@ import type { Profile } from "@/types";
 
 export const profile: Profile = {
   name: "Maximiliano Farias",
-  title: "QA Tester Semi-Senior",
+  title: "QA Engineer",
   subtitle: "Functional · Manual · Automation Testing",
   location: "Buenos Aires, Argentina",
   email: "maxifarias81@gmail.com",
   linkedin: "https://www.linkedin.com/in/maximilianofarias81",
   summary:
-    "I'm a Semi-Senior QA Tester specializing in quality across multiple projects, with strong experience in Fintech solutions and financial platforms. My work focuses on making sure software products meet client expectations and user needs — from early lifecycle stages through to release. I adapt testing strategies to each project's characteristics, and translate complex business requirements into clear, effective test strategies.",
+    "I'm a QA Engineer specializing in quality across multiple projects, with strong experience in Fintech solutions and financial platforms. My work focuses on making sure software products meet client expectations and user needs — from early lifecycle stages through to release. I adapt testing strategies to each project's characteristics, and translate complex business requirements into clear, effective test strategies.",
   skills: [
     {
       category: "Testing & QA",
@@ -74,7 +74,7 @@ export const profile: Profile = {
     {
       company: "Crombie S.R.L",
       type: "Software Factory",
-      role: "QA Tester Semi-Senior",
+      role: "QA Engineer",
       period: "Dec 2022 — Present",
       bullets: [
         "Joined as a Trainee and grew into my current role through international projects and progressively broader responsibilities.",
@@ -87,7 +87,7 @@ export const profile: Profile = {
   certifications: [
     {
       group: "Certification",
-      items: [{ name: "ISTQB Certified Tester", source: "", inProgress: true }],
+      items: [{ name: "ISTQB Certified Tester – Foundation Level (CTFL)", source: "", inProgress: true }],
     },
     {
       group: "QA Specialization",
