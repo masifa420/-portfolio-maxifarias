@@ -7,12 +7,14 @@ import RevealSection from "./RevealSection";
 import CypressStatusWidget from "./CypressStatusWidget";
 import SprintBoard from "./SprintBoard";
 import QAAnalytics from "./QAAnalytics";
+import APITesting from "./APITesting";
 
 const SECTION_COLORS: Record<string, { bg: string; border: string }> = {
   sprintBoard: { bg: "var(--petrol-dim)", border: "var(--petrol)" },
   testCases:   { bg: "var(--sage-dim)",   border: "var(--sage)"   },
   bugReports:  { bg: "var(--ocre-dim)",   border: "var(--ocre)"   },
   automation:  { bg: "var(--petrol-dim)", border: "var(--petrol)" },
+  apiTesting:  { bg: "var(--sage-dim)",   border: "var(--sage)"   },
   analytics:   { bg: "var(--sage-dim)",   border: "var(--sage)"   },
 };
 
@@ -44,6 +46,13 @@ const SECTION_ICONS: Record<string, React.ReactNode> = {
       <polyline points="8 6 2 12 8 18" />
     </svg>
   ),
+  apiTesting: (
+    <svg width={22} height={22} viewBox="0 0 24 24" fill="none" stroke="var(--sage)" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M4 6h16M4 12h10M4 18h7" />
+      <circle cx="19" cy="17" r="3" />
+      <path d="m21.5 19.5-1.5-1.5" />
+    </svg>
+  ),
   analytics: (
     <svg width={22} height={22} viewBox="0 0 24 24" fill="none" stroke="var(--sage)" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
       <line x1="18" y1="20" x2="18" y2="10" />
@@ -53,7 +62,7 @@ const SECTION_ICONS: Record<string, React.ReactNode> = {
   ),
 };
 
-const SECTION_KEYS = ["sprintBoard", "testCases", "bugReports", "automation", "analytics"] as const;
+const SECTION_KEYS = ["sprintBoard", "testCases", "bugReports", "automation", "apiTesting", "analytics"] as const;
 
 function GherkinLines({ lines }: { lines: GherkinLine[] }) {
   return (
@@ -557,6 +566,8 @@ export default function WorkContent() {
                   </div>
                 ) : key === "automation" ? (
                   <CypressStatusWidget />
+                ) : key === "apiTesting" ? (
+                  <APITesting />
                 ) : key === "analytics" ? (
                   <QAAnalytics />
                 ) : (

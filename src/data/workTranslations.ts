@@ -41,6 +41,7 @@ export type WorkTranslations = {
     testCases: string;
     bugReports: string;
     automation: string;
+    apiTesting: string;
     analytics: string;
   };
   hero: {
@@ -75,6 +76,12 @@ export type WorkTranslations = {
       description: string;
       empty: string;
     };
+    apiTesting: {
+      label: string;
+      heading: string;
+      description: string;
+      empty: string;
+    };
     analytics: {
       label: string;
       heading: string;
@@ -91,6 +98,7 @@ const en: WorkTranslations = {
     testCases: "Test Cases",
     bugReports: "Bug Reports",
     automation: "Automation",
+    apiTesting: "API Testing",
     analytics: "Analytics",
   },
   hero: {
@@ -186,6 +194,12 @@ const en: WorkTranslations = {
       description: "Cypress and Playwright scripts written for real feature coverage — wired to CI.",
       empty: "Examples coming soon.",
     },
+    apiTesting: {
+      label: "API Testing",
+      heading: "Live checks against real APIs.",
+      description: "Status codes, response shape and key field validation against the Jira and GitHub Actions APIs powering this portfolio.",
+      empty: "Examples coming soon.",
+    },
     analytics: {
       label: "Analytics",
       heading: "These were the results.",
@@ -202,6 +216,7 @@ const es: WorkTranslations = {
     testCases: "Casos de prueba",
     bugReports: "Bug Reports",
     automation: "Automatización",
+    apiTesting: "API Testing",
     analytics: "Analítica",
   },
   hero: {
@@ -295,6 +310,12 @@ const es: WorkTranslations = {
       label: "Automatización",
       heading: "Esto automatizamos para poder repetirlo y protegerlo.",
       description: "Scripts de Cypress y Playwright escritos para cobertura real — integrados a CI.",
+      empty: "Ejemplos próximamente.",
+    },
+    apiTesting: {
+      label: "API Testing",
+      heading: "Checks en vivo contra APIs reales.",
+      description: "Validación de status codes, estructura de respuesta y campos clave sobre las APIs de Jira y GitHub Actions que potencian este portfolio.",
       empty: "Ejemplos próximamente.",
     },
     analytics: {
