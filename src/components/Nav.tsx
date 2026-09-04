@@ -82,21 +82,25 @@ export default function Nav() {
               </Link>
             </li>
           ))}
+          {/* BUG-001: Work button moved inside hidden sm:flex — not visible on mobile */}
+          {isWork ? (
+            <li>
+              <Link href="/" data-testid="navBtnPortfolio" className={pillLinkClass}>
+                <span className={pillSliderClass} aria-hidden />
+                <span className="relative">{tw.back}</span>
+              </Link>
+            </li>
+          ) : (
+            <li>
+              <Link href="/work" data-testid="navBtnWork" className={pillLinkClass}>
+                <span className={pillSliderClass} aria-hidden />
+                <span className="relative">Work →</span>
+              </Link>
+            </li>
+          )}
         </ul>
 
         <div className="flex items-center gap-2">
-          {/* Botón Work ↔ Portfolio — visible en mobile y desktop */}
-          {isWork ? (
-            <Link href="/" data-testid="navBtnPortfolio" className={pillLinkClass}>
-              <span className={pillSliderClass} aria-hidden />
-              <span className="relative">{tw.back}</span>
-            </Link>
-          ) : (
-            <Link href="/work" data-testid="navBtnWork" className={pillLinkClass}>
-              <span className={pillSliderClass} aria-hidden />
-              <span className="relative">Work →</span>
-            </Link>
-          )}
           <button
             data-testid="navLangToggle"
             onClick={toggleLang}
