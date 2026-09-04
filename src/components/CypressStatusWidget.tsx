@@ -118,7 +118,7 @@ export default function CypressStatusWidget() {
   const runs = data?.runs ?? [];
   const latest = runs[0];
   const latestRunning = latest?.status !== "completed";
-  const total = runs.filter((r) => r.status === "completed").length;
+  const displayed = runs.slice(0, 3).length;
 
   return (
     <div className="rounded-[6px] border border-border overflow-hidden w-full" style={{ background: "var(--surface)" }}>
@@ -136,8 +136,8 @@ export default function CypressStatusWidget() {
             CI · Cypress E2E
           </span>
         </div>
-        {total > 0 && (
-          <span className="font-mono text-[0.63rem] text-text-2">last {total} runs</span>
+        {displayed > 0 && (
+          <span className="font-mono text-[0.63rem] text-text-2">last {displayed} runs</span>
         )}
       </div>
 
